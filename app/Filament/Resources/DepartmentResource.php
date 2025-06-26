@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use App\Enums\Roles\AdminPermissionEnum;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ToggleColumn;
@@ -97,5 +98,23 @@ class DepartmentResource extends Resource
         $user = Filament::auth()->user();
 
         return $user && $user->hasRole(RoleEnum::ADMIN->value);
+    }
+
+    public static function canCreate(): bool
+    {
+        $user = Filament::auth()->user();
+        return $user?->hasPermissionTo(AdminPermissionEnum::ADD_DEPARTMENT->value) ?? false;
+    }
+
+    public static function canEdit($record): bool
+    {
+        $user = Filament::auth()->user();
+        return $user?->hasPermissionTo(AdminPermissionEnum::EDIT_DEPARTMENT->value) ?? false;
+    }
+
+    public static function canDelete($record): bool
+    {
+        $user = Filament::auth()->user();
+        return $user?->hasPermissionTo(AdminPermissionEnum::DELETE_DEPARTMENT->value) ?? false;
     }
 }

@@ -8,10 +8,12 @@ use App\Models\Category;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use App\Enums\Roles\AdminPermissionEnum;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
@@ -77,15 +79,19 @@ class CategoriesRelationManager extends RelationManager
                     ]),
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                    ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::ADD_CATEGORY->value) ?? false),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::EDIT_CATEGORY->value) ?? false),
+                Tables\Actions\DeleteAction::make()
+                    ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::DELETE_CATEGORY->value) ?? false),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::DELETE_CATEGORY->value) ?? false),
                 ]),
             ]);
     }

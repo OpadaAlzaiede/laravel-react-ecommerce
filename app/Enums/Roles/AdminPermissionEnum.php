@@ -11,6 +11,10 @@ enum AdminPermissionEnum: string
     case EDIT_ADMIN = 'edit-admin';
     case DELETE_ADMIN = 'delete-admin';
 
+    case ADD_DEPARTMENT = 'add-department';
+    case EDIT_DEPARTMENT = 'edit-department';
+    case DELETE_DEPARTMENT = 'delete-department';
+
     case ADD_CATEGORY = 'add-category';
     case EDIT_CATEGORY = 'edit-category';
     case DELETE_CATEGORY = 'delete-category';

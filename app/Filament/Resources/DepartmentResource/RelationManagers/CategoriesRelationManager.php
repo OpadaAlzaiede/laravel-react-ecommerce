@@ -1,62 +1,73 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Resources\DepartmentResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Tables;
+use App\Models\Category;
 use Filament\Forms\Form;
-use App\Models\Department;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use App\Enums\Roles\RoleEnum;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Filters\TernaryFilter;
-use App\Filament\Resources\DepartmentResource\Pages;
-use App\Filament\Resources\DepartmentResource\RelationManagers\CategoriesRelationManager;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Resources\RelationManagers\RelationManager;
 
-class DepartmentResource extends Resource
+class CategoriesRelationManager extends RelationManager
 {
-    protected static ?string $model = Department::class;
+    protected static string $relationship = 'categories';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    public static function form(Form $form): Form
+    public function form(Form $form): Form
     {
+        $department = $this->getOwnerRecord();
+
         return $form
             ->schema([
                 TextInput::make('name')
                     ->live(onBlur: true)
                     ->required()
+                    ->maxLength(255)
                     ->afterStateUpdated(function (string $operation, $state, callable $set) {
                         $set('slug', Str::slug($state));
                     }),
                 TextInput::make('slug')
                     ->required(),
+                Select::make('parent_id')
+                    ->label('Parent Category')
+                    ->options(function () use($department) {
+                        return Category::query()
+                                ->where('department_id', $department->id)
+                                ->pluck('name', 'id')
+                                ->toArray();
+                    })
+                    ->preload()
+                    ->searchable()
+                    ,
                 Checkbox::make('is_active')
                     ->label('Active')
             ]);
     }
 
-    public static function table(Table $table): Table
+    public function table(Table $table): Table
     {
         return $table
+            ->recordTitleAttribute('name')
             ->columns([
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('parent.name')
+                    ->sortable()
+                    ->searchable(),
                 IconColumn::make('is_active')
-                    ->label('Active')
                     ->boolean()
             ])
-            ->defaultSort('created_at', 'desc')
             ->filters([
                 SelectFilter::make('is_active')
                     ->label('Status')
@@ -64,6 +75,9 @@ class DepartmentResource extends Resource
                         true => 'Active',
                         false => 'Inactive',
                     ]),
+            ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -74,28 +88,5 @@ class DepartmentResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            CategoriesRelationManager::class
-        ];
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListDepartments::route('/'),
-            'create' => Pages\CreateDepartment::route('/create'),
-            'edit' => Pages\EditDepartment::route('/{record}/edit'),
-        ];
-    }
-
-    public static function canViewAny(): bool
-    {
-        $user = Filament::auth()->user();
-
-        return $user && $user->hasRole(RoleEnum::ADMIN->value);
     }
 }

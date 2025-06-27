@@ -14,6 +14,7 @@ use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use App\Enums\Roles\AdminPermissionEnum;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
@@ -31,26 +32,28 @@ class CategoriesRelationManager extends RelationManager
 
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->live(onBlur: true)
-                    ->required()
-                    ->maxLength(255)
-                    ->afterStateUpdated(function (string $operation, $state, callable $set) {
-                        $set('slug', Str::slug($state));
-                    }),
-                TextInput::make('slug')
-                    ->required(),
-                Select::make('parent_id')
-                    ->label('Parent Category')
-                    ->options(function () use($department) {
-                        return Category::query()
-                                ->where('department_id', $department->id)
-                                ->pluck('name', 'id')
-                                ->toArray();
-                    })
-                    ->preload()
-                    ->searchable()
-                    ,
+                Grid::make()
+                    ->schema([
+                        TextInput::make('name')
+                            ->live(onBlur: true)
+                            ->required()
+                            ->maxLength(255)
+                            ->afterStateUpdated(function (string $operation, $state, callable $set) {
+                                $set('slug', Str::slug($state));
+                            }),
+                        TextInput::make('slug')
+                            ->required(),
+                        Select::make('parent_id')
+                            ->label('Parent Category')
+                            ->options(function () use($department) {
+                                return Category::query()
+                                        ->where('department_id', $department->id)
+                                        ->pluck('name', 'id')
+                                        ->toArray();
+                            })
+                            ->preload()
+                            ->searchable(),
+                    ]),
                 Checkbox::make('is_active')
                     ->label('Active')
             ]);

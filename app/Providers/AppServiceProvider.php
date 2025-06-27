@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Relation::morphMap([
             'user' => \App\Models\User::class,
+            'product' => \App\Models\Product::class,
         ]);
 
         Vite::prefetch(concurrency: 3);

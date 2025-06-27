@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->boolean('is_active')->default(true);
-            $table->foreignId('department_id')->index()->constrained('departments')->onDelete('cascade');
+            $table->foreignId('department_id')->index()->constrained('departments')->cascadeOnDelete();
             $table->foreignId('parent_id')->index()->nullable()->constrained('categories')->onDelete('set null');
             $table->timestamps();
         });

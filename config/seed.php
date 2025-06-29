@@ -293,5 +293,19 @@ return [
                 ]
             ]
         ]
+    ],
+    'currencies' => [
+        [
+            'name' => 'US Dollar',
+            'symbol' => '$',
+        ],
+        [
+            'name' => 'Euro',
+            'symbol' => '€',
+        ],
+        [
+            'name' => 'Riyal',
+            'symbol' => '﷼',
+        ]
     ]
 ];

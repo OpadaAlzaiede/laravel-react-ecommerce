@@ -13,6 +13,11 @@ class Product extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function registerMediaConversions(?Media $media = null): void
     {
         $this->addMediaConversion('thumb')->width(100);
@@ -33,5 +38,10 @@ class Product extends Model implements HasMedia
     public function variationTypes(): HasMany
     {
         return $this->hasMany(VariationType::class);
+    }
+
+    public function variations(): HasMany
+    {
+        return $this->hasMany(ProductVariation::class);
     }
 }

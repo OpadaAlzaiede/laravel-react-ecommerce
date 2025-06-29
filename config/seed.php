@@ -302,10 +302,6 @@ return [
         [
             'name' => 'Euro',
             'symbol' => '€',
-        ],
-        [
-            'name' => 'Riyal',
-            'symbol' => '﷼',
         ]
     ]
 ];

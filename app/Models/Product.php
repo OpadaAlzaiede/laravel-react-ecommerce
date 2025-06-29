@@ -47,6 +47,11 @@ class Product extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
     public function variationTypes(): HasMany
     {
         return $this->hasMany(VariationType::class);

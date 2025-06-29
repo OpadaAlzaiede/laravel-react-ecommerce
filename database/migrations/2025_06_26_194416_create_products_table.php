@@ -23,6 +23,7 @@ return new class extends Migration
             $table->timestamp('deleted_at')->nullable();
             $table->foreignId('department_id')->index()->constrained('departments');
             $table->foreignId('category_id')->index()->constrained('categories');
+            $table->foreignId('currency_id')->index()->constrained('currencies');
             $table->foreignIdFor(User::class, 'created_by');
             $table->foreignIdFor(User::class, 'updated_by');
             $table->timestamps();

@@ -78,6 +78,15 @@ class ProductResource extends Resource
                             ->preload()
                             ->searchable()
                             ->required(),
+                        Select::make('currency_id')
+                            ->label('Currency')
+                            ->relationship(
+                                name: 'currency',
+                                titleAttribute: 'name',
+                            )
+                            ->preload()
+                            ->searchable()
+                            ->required(),
                         ]),
                 RichEditor::make('description')
                     ->required()
@@ -129,6 +138,8 @@ class ProductResource extends Resource
                     ->searchable(),
                 TextColumn::make('category.name')
                     ->searchable(),
+                TextColumn::make('currency.symbol')
+                    ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
@@ -144,6 +155,9 @@ class ProductResource extends Resource
                 SelectFilter::make('department_id')
                     ->label('Department')
                     ->relationship('department', 'name'),
+                SelectFilter::make('currency_id')
+                    ->label('Currency')
+                    ->relationship('currency', 'name'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

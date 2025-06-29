@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\Products\ProductStatusEnum;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -23,6 +25,16 @@ class Product extends Model implements HasMedia
         $this->addMediaConversion('thumb')->width(100);
         $this->addMediaConversion('small')->width(480);
         $this->addMediaConversion('large')->width(1200);
+    }
+
+    public function scopeVendor(Builder $query): Builder
+    {
+        return $query->where('created_by', auth()->user()->id);
+    }
+
+    public function scopePublished(Builder $query): Builder
+    {
+        return $query->where('status', ProductStatusEnum::PUBLISHED->value);
     }
 
     public function department(): BelongsTo

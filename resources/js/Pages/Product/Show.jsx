@@ -27,12 +27,12 @@ export default function Show({ product, variationOptions }) {
     }, [product, selectedOptions]);
 
     const computedProduct = useMemo(() => {
-        const selectedOptionIds = Object.values(selectedOptions).map(option => option.id).sort();
+        const selectedOptionIds = Object.values(selectedOptions).map(op => op.id).sort();
 
         for(let variation of product.variations) {
             const optionIds = variation.variation_type_option_ids.sort();
 
-            if(arraysAreEqual(optionIds, selectedOptionIds)) {
+            if(arraysAreEqual(selectedOptionIds, optionIds)) {
                 return {
                     'price': variation.price,
                     'quantity': variation.quantity === null ? Number.MAX_VALUE : variation.quantity,
@@ -51,7 +51,7 @@ export default function Show({ product, variationOptions }) {
             const selectedOptionId = variationOptions[type.id];
             chooseOption(
                 type.id,
-                type.options.find(option => option.id === selectedOptionId) || type.options[0],
+                type.options.find(op => op.id == selectedOptionId) || type.options[0],
                 false
             );
         }
@@ -69,16 +69,24 @@ export default function Show({ product, variationOptions }) {
                 ...prevSelectedOptions,
                 [typeId]: option,
             };
-
             if(updateRouter) {
-                router.get(url, {
-                    options: getOptionIdsMap(newOptions),
-                }, {
+                const params = new URLSearchParams();
+                const optionsMap = getOptionIdsMap(newOptions);
+
+                params.delete('options');
+
+                for (const [key, value] of Object.entries(optionsMap)) {
+                    params.append(`options[${key}]`, value);
+                }
+
+                const baseUrl = url.split('?')[0];
+
+                router.get(`${baseUrl}?${params.toString()}`, {}, {
                     preserveScroll: true,
                     preserveState: true,
+                    replace: true,
                 });
             }
-
             return newOptions;
         });
     };
@@ -141,6 +149,7 @@ export default function Show({ product, variationOptions }) {
                                             value={option.id}
                                             checked={selectedOptions[type.id]?.id === option.id}
                                             onChange={() => chooseOption(type.id, option)}
+                                            key={option.id}
                                             className="sr-only"
                                         />
                                         <span>{option.name}</span>
@@ -171,9 +180,8 @@ export default function Show({ product, variationOptions }) {
 
     useEffect(() => {
         const idsMap = Object.fromEntries(
-            Object.entries(selectedOptions).map((typeId, option) => [typeId, option.id])
+            Object.entries(selectedOptions).map(([typeId, option]) => [typeId, option.id])
         )
-
         setData('option_ids', idsMap);
     }, [selectedOptions]);
 

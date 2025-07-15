@@ -96,7 +96,7 @@ export default function Show({ product, variationOptions }) {
     };
 
     const addToCart = () => {
-        post(route('cart.store', product.id), {
+        post(route('cart.store', product.slug), {
             preserveScroll: true,
             preserveState: true,
             onError: (err) => {

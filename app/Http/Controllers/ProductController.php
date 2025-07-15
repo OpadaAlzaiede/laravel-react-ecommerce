@@ -14,7 +14,7 @@ class ProductController extends Controller
     {
         $products = Product::query()
                 ->with(['department', 'currency' , 'user'])
-                ->published()
+                ->forWebsite()
                 ->paginate(12);
 
         return Inertia::render('Home', [

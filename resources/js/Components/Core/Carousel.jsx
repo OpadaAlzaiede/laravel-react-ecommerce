@@ -24,8 +24,8 @@ export default function Carousel({images}) {
                     ))}
                 </div>
                 <div className="carousel w-full">
-                    <div className="carousel-item w-full">
-                        <img src={selectedImage.large} alt="" className="w-full" />
+                    <div className="carousel-item grid min-h-[20px] w-full place-items-center overflow-x-scroll rounded-lg p-6 lg:overflow-visible">
+                        <img src={selectedImage.large} alt="" className="object-cover object-center w-full" />
                     </div>
                 </div>
             </div>

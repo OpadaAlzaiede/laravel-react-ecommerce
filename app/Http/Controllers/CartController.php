@@ -26,14 +26,18 @@ class CartController extends Controller
     {
         $data = $request->validated();
 
-        $this->cartService->addItemToCart($product, $data['quantity'], $data['option_ids']);
+        $this->cartService->addItemToCart(
+            $product,
+            $data['quantity'],
+            $data['option_ids'] ?: []
+        );
 
         return back()->with('success', 'Product added to cart successfully!');
     }
 
     public function update(Request $request, Product $product)
     {
-        $optionIds = $request->input('option_ids');
+        $optionIds = $request->input('option_ids', []);
         $quantity = $request->input('quantity');
 
         $this->cartService->updateItemInCart($product, $quantity, $optionIds);

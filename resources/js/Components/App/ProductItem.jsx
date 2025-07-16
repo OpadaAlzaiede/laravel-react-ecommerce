@@ -1,7 +1,24 @@
 import React from "react";
-import { Link } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 
 export default function ProductItem({ product }) {
+
+
+    const { data, setData, post } = useForm({
+        option_ids: {},
+        quantity: 1,
+    });
+
+    const addToCart = () => {
+        post(route('cart.store', product.slug), {
+            preserveScroll: true,
+            preserveState: true,
+            onError: (err) => {
+                console.log(err);
+            }
+        });
+    };
+
     return (
         <div className="group relative bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
             {/* Product image with hover effect */}
@@ -45,7 +62,7 @@ export default function ProductItem({ product }) {
                     <span className="text-lg font-bold text-gray-900">
                         {product.currency.symbol}{product.price}
                     </span>
-                    <button className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
+                    <button onClick={addToCart} className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105 active:scale-95 shadow-md hover:shadow-lg">
                         Add to Cart
                     </button>
                 </div>

@@ -86,6 +86,7 @@ class CartService
 
                     $imageUrl = null;
 
+
                     foreach($cartItem['option_ids'] as $optionId) {
                         $option = data_get($options, $optionId);
                         if(! $imageUrl) {
@@ -166,12 +167,42 @@ class CartService
                 ->toArray();
     }
 
+    public function moveCartItemsToDatabase($userId): void
+    {
+        $cartItems = $this->getCartItemsFromCookies();
+
+        foreach($cartItems as $itemKey => $cartItem) {
+
+            $existingCartItem = CartItem::where('user_id', $userId)
+                ->where('product_id', $cartItem['product_id'])
+                ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
+                ->first();
+
+            if($existingCartItem) {
+                $existingCartItem->update([
+                    'quantity' => $existingCartItem->quantity + $cartItem['quantity'],
+                    'price' => $cartItem['price']
+                ]);
+            } else {
+                CartItem::create([
+                    'user_id' => $userId,
+                    'product_id' => $cartItem['product_id'],
+                    'quantity' => $cartItem['quantity'],
+                    'price' => $cartItem['price'],
+                    'variation_type_option_ids' => $cartItem['option_ids']
+                ]);
+            }
+        }
+
+        Cookie::queue(self::COOKIE_NAME, '', -1);
+    }
+
     protected function updateItemQuantityInDatabase(int $productId, int $quantity, $optionIds): void
     {
         $userId = Auth::id();
         $cartItem = CartItem::where('user_id', $userId)
                         ->where('product_id', $productId)
-                        ->where('variation_type_option_ids', json_encode($optionIds))
+                        ->whereJsonContains('variation_type_option_ids', $optionIds)
                         ->first();
 
         if($cartItem) {
@@ -198,9 +229,10 @@ class CartService
     {
         $userId = Auth::id();
         ksort($optionIds);
+
         $cartItem = CartItem::where('user_id', $userId)
                             ->where('product_id', $productId)
-                            ->where('variation_type_option_ids', json_encode($optionIds))
+                            ->whereJsonContains('variation_type_option_ids', $optionIds)
                             ->first();
 
         if($cartItem) {
@@ -248,7 +280,7 @@ class CartService
 
         CartItem::where('user_id', $userId)
                 ->where('product_id', $productId)
-                ->where('variation_type_option_ids', json_encode($optionIds))
+                ->whereJsonContains('variation_type_option_ids', $optionIds)
                 ->delete();
     }
 

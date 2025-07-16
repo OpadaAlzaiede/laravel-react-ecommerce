@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\CartService;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class AuthenticatedSessionController extends Controller
@@ -29,7 +30,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): HttpFoundationResponse
+    public function store(LoginRequest $request, CartService $cartService): HttpFoundationResponse
     {
         $request->authenticate();
 
@@ -39,10 +40,13 @@ class AuthenticatedSessionController extends Controller
         $route = "/";
 
         if($user->hasAnyRole([RoleEnum::ADMIN, RoleEnum::VENDOR])) {
+            $cartService->moveCartItemsToDatabase($user->id);
             return Inertia::location(route('filament.admin.pages.dashboard'));
         } else if($user->hasRole(RoleEnum::USER)) {
-            $route = route('dashboard', absolute: false);
+            $route = route('home', absolute: false);
         }
+
+        $cartService->moveCartItemsToDatabase($user->id);
 
         return redirect()->intended($route);
     }

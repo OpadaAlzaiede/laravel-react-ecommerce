@@ -28,7 +28,7 @@ export default function Index({ csrf_token, cartItems, totalQuantity, totalPrice
                                             {cartItem.user.name}
                                         </Link>
                                         <div>
-                                            <form action={route('cart.checkout')} method="POST">
+                                            <form action={route('cart.checkout')} method="post">
                                                 <input type="hidden" name="_token" value={csrf_token} />
                                                 <input type="hidden" name="vendor_id" value={cartItem.user.id} />
                                                 <button className="btn btn-sm btn-ghost">
@@ -50,7 +50,7 @@ export default function Index({ csrf_token, cartItems, totalQuantity, totalPrice
                     <div className="card-body">
                         Subtotal ({totalQuantity} items): &nbsp;
                         <span className="font-bold">{currency}{totalPrice}</span>
-                        <form action={route('cart.checkout')} method="POST">
+                        <form action={route('cart.checkout')} method="post">
                             <input type="hidden" name="_token" value={csrf_token} />
                             <PrimaryButton className="rounded-full">
                                 <CreditCardIcon className={'size-6'} />

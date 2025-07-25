@@ -22,9 +22,9 @@ class Product extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->width(100);
-        $this->addMediaConversion('small')->width(480);
-        $this->addMediaConversion('large')->width(1200);
+        $this->addMediaConversion('thumb')->width(100)->height(232);
+        $this->addMediaConversion('small')->width(480)->height(232);
+        $this->addMediaConversion('large')->width(1200)->height(232);
     }
 
     public function scopeVendor(Builder $query): Builder
@@ -86,5 +86,23 @@ class Product extends Model implements HasMedia
         }
 
         return $this->price;
+    }
+
+    public function getImageForOptions($optionIds = [])
+    {
+        if($optionIds) {
+            $optionIds = array_values($optionIds);
+            sort($optionIds);
+            $options = VariationTypeOption::whereIn('id', $optionIds)->get();
+
+            foreach($options as $option) {
+                $media = $option->getFirstMediaUrl('images', 'small');
+                if($media) {
+                    return $media;
+                }
+            }
+        }
+
+        return $this->getFirstMediaUrl('images', 'small');
     }
 }

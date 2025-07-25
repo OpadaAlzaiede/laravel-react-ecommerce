@@ -7,11 +7,14 @@ use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\CartItem;
 use Stripe\StripeClient;
+use App\Mail\NewOrderMail;
 use Illuminate\Http\Request;
 use UnexpectedValueException;
 use App\Enums\Orders\StatusEnum;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\OrderViewResource;
+use App\Mail\CheckoutCompletedMail;
 use Stripe\Exception\SignatureVerificationException;
 
 class StripeController extends Controller
@@ -81,7 +84,11 @@ class StripeController extends Controller
                     $order->website_commission = ($order->total_price - $order->online_payment_commission) / 100 * $platformFeePercent;
                     $order->vendor_subtotal = $order->total_price - $order->online_payment_commission - $order->website_commission;
                     $order->save();
+
+                    Mail::to($order->vendorUser)->send(new NewOrderMail($order));
                 }
+
+                Mail::to($orders[0]->user)->send(new CheckoutCompletedMail($orders));
                 break;
             case 'checkout.session.completed':
                 $session = $event->data->object;

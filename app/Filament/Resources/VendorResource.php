@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
 use App\Models\Vendor;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -13,16 +11,13 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
 use App\Enums\Users\VendorStatusEnum;
 use Filament\Tables\Columns\TextColumn;
-use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\VendorResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\VendorResource\RelationManagers;
 
 class VendorResource extends Resource
 {
     protected static ?string $model = Vendor::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
     {

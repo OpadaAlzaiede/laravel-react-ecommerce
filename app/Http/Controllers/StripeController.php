@@ -137,4 +137,17 @@ class StripeController extends Controller
 
         return response('Webhook processed successfully', 200);
     }
+
+    public function connect()
+    {
+        if(! auth()->user()->getStripeAccountId()) {
+            auth()->user()->createStripeAccount(['type' => 'express']);
+        }
+
+        if(! auth()->user()->isStripeAccountActive()) {
+            return redirect(auth()->user()->getStripeAccountLink());
+        }
+
+        return back()->with('success', 'You are already connected to Stripe');
+    }
 }

@@ -4,11 +4,15 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Models\Product;
-use App\Models\VariationTypeOption;
+use Stripe\StripeClient;
 use App\Services\CartService;
+use App\Models\VariationTypeOption;
 use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Services\Interfaces\StripeConnect as StripeConnectInterface;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton(CartService::class, function() {
             return new CartService();
+        });
+
+        $this->app->singleton(StripeConnectInterface::class, function () {
+            return new StripeClient(Config::get('stripe_connect.stripe.secret'));
         });
     }
 

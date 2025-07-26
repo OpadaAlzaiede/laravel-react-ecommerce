@@ -1,11 +1,16 @@
 <?php
 
+use App\Enums\Roles\RoleEnum;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\CartController;
+use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\StripeController;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
-use Illuminate\Support\Facades\Route;
 
 // Guest routes...
 Route::get('/', [ProductController::class, 'index'])->name('dashboard');
@@ -31,7 +36,27 @@ Route::middleware('auth')->group(function () {
     Route::middleware(['verified'])->group(function () {
         Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
         Route::get('/stripe/failure', [StripeController::class, 'failure'])->name('stripe.failure');
+        Route::post('/stripe/connect', [StripeController::class, 'connect'])->name('stripe.connect')
+            ->middleware(['role:'.RoleEnum::VENDOR->value]);
+
+        Route::post('become-vendor', [VendorController::class, 'store'])->name('vendor.store');
     });
 });
+
+Route::get('return', function () {
+    $account = Auth::user()->retrieveStripeAccount();
+
+    Auth::user()
+        ->setStripeAccountStatus($account->details_submitted)
+        ->save();
+
+    return Route::has(Config::get('stripe_connect.routes.account.complete'))
+        ? Response::redirectToRoute(Config::get('stripe_connect.routes.account.complete'))
+        : Response::redirectTo('/');
+})->name('stripe-connect.return');
+
+Route::get('refresh', function () {
+    return Response::redirectTo(Auth::user()->getStripeAccountLink());
+})->name('stripe-connect.refresh');
 
 require __DIR__.'/auth.php';

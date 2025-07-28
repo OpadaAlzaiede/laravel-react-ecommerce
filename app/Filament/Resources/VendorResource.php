@@ -42,6 +42,7 @@ class VendorResource extends Resource
                     ->colors(VendorStatusEnum::colors()),
                 TextColumn::make('created_at'),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

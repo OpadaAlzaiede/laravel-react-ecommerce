@@ -3,7 +3,6 @@ import { Link, useForm } from "@inertiajs/react";
 
 export default function ProductItem({ product }) {
 
-
     const { data, setData, post } = useForm({
         option_ids: {},
         quantity: 1,

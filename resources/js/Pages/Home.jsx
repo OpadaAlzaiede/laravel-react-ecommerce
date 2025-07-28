@@ -3,7 +3,6 @@ import { Head, Link } from '@inertiajs/react';
 import ProductItem from '@/Components/App/ProductItem';
 
 export default function Home({ products }) {
-
     return (
         <AuthenticatedLayout>
             <Head title="Welcome" />

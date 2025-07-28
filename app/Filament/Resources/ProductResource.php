@@ -49,10 +49,27 @@ class ProductResource extends Resource
                         TextInput::make('title')
                         ->live(onBlur: true)
                         ->required()
-                        ->afterStateUpdated(function (string $operation, $state, callable $set) {
-                            $set('slug', Str::slug($state));
-                        }),
-                        TextInput::make('slug'),
+                        ->afterStateUpdated(function (string $operation, $state, callable $set, $get, $context) {
+                                $baseSlug = Str::slug($state);
+                                $slug = $baseSlug;
+                                $count = 1;
+
+                                // Skip uniqueness check when editing an existing record with the same slug
+                                $recordId = $context === 'edit' ? $get('id') : null;
+
+                                // Check for existing slugs, excluding the current record if editing
+                                while (Product::where('slug', $slug)
+                                    ->when($recordId, fn($query) => $query->where('id', '!=', $recordId))
+                                    ->exists()
+                                ) {
+                                    $slug = "{$baseSlug}-{$count}";
+                                    $count++;
+                                }
+
+                                $set('slug', $slug);
+                            }),
+                        TextInput::make('slug')
+                            ->readOnly(),
                         Select::make('department_id')
                             ->label('Department')
                             ->relationship('department', 'name')

@@ -21,9 +21,7 @@ class CartService
     {
         if(is_null($optionIds))
         {
-            $optionIds = $product->variationTypes
-                        ->mapWithKeys(fn($variationType) => [$variationType->id => $variationType->options[0]?->id])
-                        ->toArray();
+            $optionIds = $product->getFirstOptionsMap();
         }
 
         $price = $product->getPriceForOptions($optionIds);
@@ -112,7 +110,7 @@ class CartService
                         'quantity' => $cartItem['quantity'],
                         'option_ids' => $cartItem['option_ids'],
                         'options' => $optionInfo,
-                        'image' => $imageUrl ?: $product->getFirstMediaUrl('images', 'small'),
+                        'image' => $imageUrl ?: $product->getFirstImageUrl('images', 'small'),
                         'user' => [
                             'id' => $product->created_by,
                             'name' => $product->user->vendor->store_name,

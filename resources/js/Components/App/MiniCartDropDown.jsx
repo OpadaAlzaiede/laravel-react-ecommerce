@@ -5,7 +5,6 @@ import React from 'react';
 export default function MiniCartDropDown() {
 
     const {totalQuantity, totalPrice, currency, miniCartItems} = usePage().props;
-
     return (
         <div className="dropdown dropdown-end">
             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">

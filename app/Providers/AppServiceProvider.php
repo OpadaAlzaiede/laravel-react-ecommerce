@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use App\Services\Interfaces\StripeConnect as StripeConnectInterface;
-
+use Illuminate\Support\Facades\Schedule;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
             'product' => Product::class,
             'variationTypeOption' => VariationTypeOption::class,
         ]);
+
+        Schedule::command('pay:vendors')->monthlyOn(1, '00:00')->withoutOverlapping();
 
         Vite::prefetch(concurrency: 3);
     }

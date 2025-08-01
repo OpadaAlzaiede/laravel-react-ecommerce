@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -28,5 +29,10 @@ class Order extends Model
     public function vendor(): BelongsTo
     {
         return $this->belongsTo(Vendor::class, 'vendor_user_id', 'user_id');
+    }
+
+    public function scopeForVendor(Builder $query): Builder
+    {
+        return $query->where('vendor_user_id', auth()->user()->id);
     }
 }

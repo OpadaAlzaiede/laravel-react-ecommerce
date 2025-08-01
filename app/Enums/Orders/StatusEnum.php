@@ -21,4 +21,12 @@ enum StatusEnum: string
             self::CANCELLED->value => 'Cancelled'
         ];
     }
+
+    public static function colors(): array
+    {
+        return [
+            'gray' => self::DRAFT->value,
+            'success' => self::PAID->value,
+        ];
+    }
 }

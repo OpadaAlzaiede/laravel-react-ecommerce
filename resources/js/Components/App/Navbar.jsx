@@ -5,6 +5,8 @@ export default function Navbar() {
 
     const {auth, totalQuantity, totalPrice, cartItems} = usePage().props;
     const {user} = auth;
+    const userRole = user?.roles[0];
+
     return (
         <div className="navbar bg-base-100 shadow-sm mx-auto max-w-12xl px-4 py-6 sm:px-2 lg:px-8">
             <div className="flex-1">
@@ -28,6 +30,10 @@ export default function Navbar() {
                             Profile
                         </Link>
                         </li>
+                        {userRole === 'user' &&
+                            <li>
+                                <Link href={route('orders.index')} as="button">My orders</Link>
+                            </li>}
                         <li>
                             <Link href={route('logout')} method={"post"} as="button">Logout</Link>
                         </li>

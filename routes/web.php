@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VendorController;
@@ -40,6 +41,10 @@ Route::middleware('auth')->group(function () {
             ->middleware(['role:'.RoleEnum::VENDOR->value]);
 
         Route::post('become-vendor', [VendorController::class, 'store'])->name('vendor.store');
+
+        Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+
     });
 });
 

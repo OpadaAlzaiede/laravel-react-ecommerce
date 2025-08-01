@@ -60,7 +60,7 @@ export default function Success({orders}) {
                             </div>
                         </div>
                         <div className="flex justify-between mb-3">
-                            <Link href="#" className="btn btn-primary">
+                            <Link href={route('orders.show', order.id)} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400">
                                 View order details
                             </Link>
                             <Link href={route('dashboard')} className="btn">

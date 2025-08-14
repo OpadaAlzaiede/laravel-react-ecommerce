@@ -9,8 +9,17 @@ export default function Navbar() {
 
     return (
         <div className="navbar bg-base-100 shadow-sm mx-auto max-w-12xl px-4 py-6 sm:px-2 lg:px-8">
-            <div className="flex-1">
+            <div className="flex-1 flex items-center gap-6">
                 <Link href="/" className="btn btn-ghost text-xl">Tradely</Link>
+
+                {/* Navigation Links */}
+                <ul className="menu menu-horizontal px-1 gap-4 ml-6 hidden md:flex">
+                    <li><Link href={route('products.index')}>Shop now</Link></li>
+                    <li><Link href={route('vendors.index')}>Our vendors</Link></li>
+                    <li><Link href={route('categories.index')}>Categories</Link></li>
+                    <li><Link href={route('about')}>About</Link></li>
+                    <li><Link href={route('contact')}>Contact</Link></li>
+                </ul>
             </div>
             <div className="flex gap-4">
                 <MiniCartDropDown />

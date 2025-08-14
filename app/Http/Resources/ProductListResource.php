@@ -23,6 +23,7 @@ class ProductListResource extends JsonResource
             'quantity' => $this->quantity,
             'image' => $this->getFirstImageUrl(),
             'user' => UserResource::make($this->whenLoaded('user')),
+            'vendor' => $this->user->vendor,
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
             'department' => DepartmentResource::make($this->whenLoaded('department')),
         ];

@@ -12,6 +12,7 @@ use Filament\Tables\Actions\Action;
 use App\Enums\Users\VendorStatusEnum;
 use Filament\Tables\Columns\TextColumn;
 use App\Filament\Resources\VendorResource\Pages;
+use Filament\Tables\Columns\IconColumn;
 
 class VendorResource extends Resource
 {
@@ -37,6 +38,9 @@ class VendorResource extends Resource
                 TextColumn::make('user.email'),
                 TextColumn::make('store_name'),
                 TextColumn::make('store_address'),
+                IconColumn::make('user.stripe_account_active')
+                    ->label('Stripe account active')
+                    ->boolean(),
                 TextColumn::make('status')
                     ->badge()
                     ->colors(VendorStatusEnum::colors()),
@@ -52,9 +56,14 @@ class VendorResource extends Resource
                 ->color('success')
                 ->icon('heroicon-o-check-circle')
                 ->requiresConfirmation()
-                ->visible(fn (Vendor $record): bool => $record->status === VendorStatusEnum::PENDING->value)
+                ->visible(fn (Vendor $record): bool =>
+                    $record->status === VendorStatusEnum::PENDING->value ||
+                    $record->status === VendorStatusEnum::REJECTED->value
+                )
                 ->action(function (Vendor $record) {
                     $record->update(['status' => VendorStatusEnum::APPROVED->value]);
+                    $record->user->assignRole(RoleEnum::VENDOR);
+                    $record->user->removeRole(RoleEnum::USER);
                 }),
 
             Action::make('reject')
@@ -62,9 +71,14 @@ class VendorResource extends Resource
                 ->color('danger')
                 ->icon('heroicon-o-x-circle')
                 ->requiresConfirmation()
-                ->visible(fn (Vendor $record): bool => $record->status === VendorStatusEnum::PENDING->value)
+                ->visible(fn (Vendor $record): bool =>
+                    $record->status === VendorStatusEnum::PENDING->value ||
+                    $record->status === VendorStatusEnum::APPROVED->value
+                )
                 ->action(function (Vendor $record) {
                     $record->update(['status' => VendorStatusEnum::REJECTED->value]);
+                    $record->user->assignRole(RoleEnum::USER);
+                    $record->user->removeRole(RoleEnum::VENDOR);
                 }),
             ])
             ->bulkActions([

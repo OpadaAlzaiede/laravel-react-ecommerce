@@ -20,6 +20,8 @@ class VendorUserResource extends JsonResource
             'email' => $this->email,
             'store_name' => $this->vendor->store_name,
             'store_address' => $this->vendor->store_address,
+            'products_count' => $this->products_count,
+            'products' => ProductListResource::collection($this->whenLoaded('products')),
         ];
     }
 }

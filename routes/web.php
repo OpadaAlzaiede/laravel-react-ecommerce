@@ -11,11 +11,25 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserVendorController;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 // Guest routes...
-Route::get('/', [ProductController::class, 'index'])->name('dashboard');
+Route::get('/', [HomeController::class, 'home'])->name('dashboard');
+Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+
+Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('categories/{category}', [CategoryController::class, 'show'])->name('categories.show');
+
+Route::get('vendors', [UserVendorController::class, 'index'])->name('vendors.index');
+Route::get('vendors/{vendor}', [UserVendorController::class, 'show'])->name('vendors.show');
+
+Route::get('about', [HomeController::class, 'about'])->name('about');
+Route::get('contact', [HomeController::class, 'contact'])->name('contact');
+
 
 Route::controller(CartController::class)->prefix('cart')->group(function() {
 
@@ -38,7 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
         Route::get('/stripe/failure', [StripeController::class, 'failure'])->name('stripe.failure');
         Route::post('/stripe/connect', [StripeController::class, 'connect'])->name('stripe.connect')
-            ->middleware(['role:'.RoleEnum::VENDOR->value]);
+            ->middleware(['role:'.RoleEnum::USER->value]);
 
         Route::post('become-vendor', [VendorController::class, 'store'])->name('vendor.store');
 

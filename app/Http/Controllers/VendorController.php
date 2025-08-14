@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Roles\RoleEnum;
 use App\Models\Vendor;
 use App\Enums\Users\VendorStatusEnum;
 use App\Http\Requests\Vendor\StoreRequest;
@@ -24,7 +23,5 @@ class VendorController extends Controller
         $vendor->store_name = $request->store_name;
         $vendor->store_address = $request->store_address;
         $vendor->save();
-
-        $user->assignRole(RoleEnum::VENDOR);
     }
 }

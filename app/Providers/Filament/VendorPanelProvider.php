@@ -4,13 +4,14 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Enums\Roles\RoleEnum;
+use App\Filament\Vendor\Resources\EarningChartResource\Widgets\EarningChart;
 use Filament\Support\Colors\Color;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use NunoMaduro\Collision\Adapters\Phpunit\State;
 use Filament\Http\Middleware\AuthenticateSession;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -18,6 +19,9 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\Vendor\Resources\StateResource\Widgets\StateChart;
+use App\Filament\Vendor\Resources\StatsResource\Widgets\StatsOverview;
+use App\Filament\Vendor\Resources\OrderChartResource\Widgets\OrderChart;
 
 class VendorPanelProvider extends PanelProvider
 {
@@ -39,7 +43,9 @@ class VendorPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Vendor/Widgets'), for: 'App\\Filament\\Vendor\\Widgets')
             ->widgets([
-
+                StatsOverview::class,
+                OrderChart::class,
+                EarningChart::class,
             ])
             ->middleware([
                 EncryptCookies::class,

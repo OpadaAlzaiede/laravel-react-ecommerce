@@ -4,12 +4,10 @@ namespace App\Providers\Filament;
 
 use Filament\Pages;
 use Filament\Panel;
-use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Enums\Roles\RoleEnum;
 use Filament\Support\Colors\Color;
 use Illuminate\Database\Eloquent\Model;
-use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Http\Middleware\AuthenticateSession;

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\ProductResource\Pages;
+namespace App\Filament\Vendor\Resources\ProductResource\Pages;
 
 use Filament\Forms\Form;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Pages\EditRecord;
-use App\Filament\Resources\ProductResource;
+use App\Filament\Vendor\Resources\ProductResource;
 use App\Enums\Products\ProductVariationTypeEnum;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 

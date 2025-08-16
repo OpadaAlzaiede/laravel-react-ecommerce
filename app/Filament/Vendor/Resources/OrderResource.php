@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Vendor\Resources;
 
 use App\Models\Order;
 use Filament\Forms\Form;
@@ -11,7 +11,8 @@ use App\Enums\Orders\StatusEnum;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use App\Filament\Resources\OrderResource\Pages;
+use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Vendor\Resources\OrderResource\Pages;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class OrderResource extends Resource
@@ -19,6 +20,13 @@ class OrderResource extends Resource
     protected static ?string $model = Order::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function getEloquentQuery(): Builder
+    {
+        $user = Filament::auth()->user();
+
+        return parent::getEloquentQuery()->forVendor();
+    }
 
     public static function form(Form $form): Form
     {
@@ -34,11 +42,6 @@ class OrderResource extends Resource
 
         return $table
             ->columns([
-                TextColumn::make('total_price'),
-                TextColumn::make('online_payment_commission'),
-                TextColumn::make('website_commission'),
-                TextColumn::make('vendor.store_name')
-                    ->searchable(),
                 TextColumn::make('user.email')
                     ->label('user email'),
                 TextColumn::make('user.name')

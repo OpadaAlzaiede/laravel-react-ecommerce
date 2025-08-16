@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Vendor\Resources;
 
 use Filament\Tables;
 use App\Models\Product;
@@ -20,12 +20,12 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\ProductResource\Pages;
+use App\Filament\Vendor\Resources\ProductResource\Pages;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
-use App\Filament\Resources\ProductResource\Pages\EditProduct;
-use App\Filament\Resources\ProductResource\Pages\ProductImages;
-use App\Filament\Resources\ProductResource\Pages\ProductVariations;
-use App\Filament\Resources\ProductResource\Pages\ProductVariationTypes;
+use App\Filament\Vendor\Resources\ProductResource\Pages\EditProduct;
+use App\Filament\Vendor\Resources\ProductResource\Pages\ProductImages;
+use App\Filament\Vendor\Resources\ProductResource\Pages\ProductVariations;
+use App\Filament\Vendor\Resources\ProductResource\Pages\ProductVariationTypes;
 
 class ProductResource extends Resource
 {

@@ -21,7 +21,7 @@ export default function Navbar() {
                     <li><Link href={route('contact')}>Contact</Link></li>
                 </ul>
             </div>
-            <div className="flex gap-4">
+            <div className="flex gap-4">    
                 <MiniCartDropDown />
                 {user && <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">

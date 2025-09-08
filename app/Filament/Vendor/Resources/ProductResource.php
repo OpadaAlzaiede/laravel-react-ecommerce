@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Resources\Pages\Page;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Checkbox;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use App\Enums\Products\ProductStatusEnum;
@@ -20,6 +21,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Pages\SubNavigationPosition;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Columns\CheckboxColumn;
 use App\Filament\Vendor\Resources\ProductResource\Pages;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use App\Filament\Vendor\Resources\ProductResource\Pages\EditProduct;
@@ -132,6 +134,8 @@ class ProductResource extends Resource
                     ->options(ProductStatusEnum::labels())
                     ->default(ProductStatusEnum::DRAFT->value)
                     ->required(),
+                Checkbox::make('is_featured')
+                    ->default(false),
             ]);
     }
 
@@ -164,6 +168,7 @@ class ProductResource extends Resource
                     ->sortable(),
                 TextColumn::make('quantity')
                     ->sortable(),
+                CheckboxColumn::make('is_featured'),
             ])
             ->filters([
                 SelectFilter::make('status')

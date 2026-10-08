@@ -45,3 +45,39 @@ function something()
 {
     // ..
 }
+
+function createProduct(array $attributes = []): App\Models\Product
+{
+    $department = App\Models\Department::forceCreate([
+        'name' => 'Electronics',
+        'slug' => 'electronics-'.Illuminate\Support\Str::random(6),
+    ]);
+
+    $category = App\Models\Category::forceCreate([
+        'name' => 'Smartphones',
+        'slug' => 'smartphones-'.Illuminate\Support\Str::random(6),
+        'department_id' => $department->id,
+    ]);
+
+    $currency = App\Models\Currency::forceCreate([
+        'name' => 'US Dollar',
+        'slug' => 'us-dollar',
+        'symbol' => '$',
+    ]);
+
+    $vendorId = $attributes['created_by'] ?? App\Models\User::factory()->create()->id;
+
+    return App\Models\Product::forceCreate(array_merge([
+        'title' => 'Test Phone',
+        'slug' => 'test-phone-'.Illuminate\Support\Str::random(6),
+        'description' => '<p>A phone.</p>',
+        'price' => 100,
+        'quantity' => 10,
+        'status' => App\Enums\Products\ProductStatusEnum::PUBLISHED->value,
+        'department_id' => $department->id,
+        'category_id' => $category->id,
+        'currency_id' => $currency->id,
+        'created_by' => $vendorId,
+        'updated_by' => $vendorId,
+    ], $attributes));
+}

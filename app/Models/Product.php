@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Enums\Products\ProductStatusEnum;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -20,6 +22,13 @@ class Product extends Model implements HasMedia
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            set: fn (?string $value) => Str::sanitizeHtml((string) $value),
+        );
     }
 
     public function registerMediaConversions(?Media $media = null): void

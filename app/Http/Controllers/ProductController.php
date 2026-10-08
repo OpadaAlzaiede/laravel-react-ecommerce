@@ -1,54 +1,37 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Product;
-use App\Http\Resources\ProductResource;
+use App\Http\Requests\Product\IndexRequest;
+use App\Http\Requests\Product\ShowRequest;
 use App\Http\Resources\ProductListResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
+use App\Services\ProductService;
+use Inertia\Inertia;
+use Inertia\Response;
 
-class ProductController extends Controller
+final class ProductController extends Controller
 {
+    public function __construct(private readonly ProductService $productService) {}
 
-    public function index(Request $request)
+    public function index(IndexRequest $request): Response
     {
-        $query = Product::query()
-                ->with(['department', 'currency' , 'user', 'user.vendor'])
-                ->when($request->get('search'), function($query) use($request) {
-                    $query->where('title', 'LIKE', '%' . $request->search . '%');
-                })
-                ->when($request->get('vendor'), function($query) use($request) {
-                    $query->whereHas('user.vendor', function ($q) use ($request) {
-                        $q->where('store_name', 'like', '%' . $request->vendor . '%');
-                    });
-                });
+        $filters = $request->toDto();
 
-        // Sort
-        $sort = $request->get('sort', 'latest');
-
-        match ($sort) {
-            'price_low' => $query->orderBy('price', 'asc'),
-            'price_high' => $query->orderBy('price', 'desc'),
-            'oldest' => $query->oldest(),
-            default => $query->latest(),
-        };
-
-        $products = $query->forWebsite()->paginate(12)->withQueryString();
-
-        return inertia('Product/Index', [
-            'products' => ProductListResource::collection($products),
-            'filters' => $request->only(['search', 'vendor', 'sort']),
+        return Inertia::render('Product/Index', [
+            'products' => ProductListResource::collection($this->productService->paginateForWebsite($filters)),
+            'filters' => $filters->toArray(),
         ]);
     }
 
-    public function show(Product $product)
+    public function show(ShowRequest $request, Product $product): Response
     {
-        $product->load('department', 'category', 'currency', 'user.vendor', 'variationTypes', 'variations');
-
         return Inertia::render('Product/Show', [
-            'product' => ProductResource::make($product),
-            'variationOptions' => request('options', []),
+            'product' => ProductResource::make($this->productService->loadForDisplay($product)),
+            'variationOptions' => $request->selectedOptions(),
         ]);
     }
 }

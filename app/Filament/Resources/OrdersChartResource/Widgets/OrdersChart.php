@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\OrdersChartResource\Widgets;
 
+use App\Enums\Orders\StatusEnum;
 use App\Models\Order;
+use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use App\Enums\Orders\StatusEnum;
-use Filament\Widgets\ChartWidget;
 
 class OrdersChart extends ChartWidget
 {
@@ -16,7 +16,7 @@ class OrdersChart extends ChartWidget
     {
         $data = Trend::query(
             Order::query()->where('status', StatusEnum::PAID->value)
-            )
+        )
             ->between(
                 start: now()->startOfYear(),
                 end: now()->endOfYear(),

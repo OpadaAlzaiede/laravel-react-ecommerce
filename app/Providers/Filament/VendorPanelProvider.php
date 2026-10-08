@@ -2,26 +2,24 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\Roles\RoleEnum;
+use App\Filament\Vendor\Resources\EarningChartResource\Widgets\EarningChart;
+use App\Filament\Vendor\Resources\OrderChartResource\Widgets\OrderChart;
+use App\Filament\Vendor\Resources\StatsResource\Widgets\StatsOverview;
+use Filament\Http\Middleware\Authenticate;
+use Filament\Http\Middleware\AuthenticateSession;
+use Filament\Http\Middleware\DisableBladeIconComponents;
+use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
-use App\Enums\Roles\RoleEnum;
-use App\Filament\Vendor\Resources\EarningChartResource\Widgets\EarningChart;
 use Filament\Support\Colors\Color;
-use Filament\Http\Middleware\Authenticate;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Cookie\Middleware\EncryptCookies;
-use NunoMaduro\Collision\Adapters\Phpunit\State;
-use Filament\Http\Middleware\AuthenticateSession;
-use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Http\Middleware\DisableBladeIconComponents;
-use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use App\Filament\Vendor\Resources\StateResource\Widgets\StateChart;
-use App\Filament\Vendor\Resources\StatsResource\Widgets\StatsOverview;
-use App\Filament\Vendor\Resources\OrderChartResource\Widgets\OrderChart;
+use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class VendorPanelProvider extends PanelProvider
 {

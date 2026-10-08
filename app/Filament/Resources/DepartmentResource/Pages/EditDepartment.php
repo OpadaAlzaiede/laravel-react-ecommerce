@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources\DepartmentResource\Pages;
 
-use Filament\Actions;
-use Filament\Notifications\Notification;
-use Filament\Resources\Pages\EditRecord;
 use App\Filament\Resources\DepartmentResource;
+use Filament\Actions;
+use Filament\Resources\Pages\EditRecord;
 
 class EditDepartment extends EditRecord
 {

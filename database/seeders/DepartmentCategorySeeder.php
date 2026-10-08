@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DepartmentCategorySeeder extends Seeder
 {
@@ -34,7 +34,7 @@ class DepartmentCategorySeeder extends Seeder
                     'updated_at' => now(),
                 ]);
 
-                if (!empty($categoryData['sub_categories'])) {
+                if (! empty($categoryData['sub_categories'])) {
                     foreach ($categoryData['sub_categories'] as $subCategoryData) {
                         DB::table('categories')->insert([
                             'name' => $subCategoryData['name'],

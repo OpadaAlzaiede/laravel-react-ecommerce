@@ -2,22 +2,22 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
-use Filament\Forms\Form;
-use App\Models\Department;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
-use App\Enums\Roles\RoleEnum;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Filament\Forms\Components\Checkbox;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
 use App\Enums\Roles\AdminPermissionEnum;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Filters\SelectFilter;
+use App\Enums\Roles\RoleEnum;
 use App\Filament\Resources\DepartmentResource\Pages;
 use App\Filament\Resources\DepartmentResource\RelationManagers\CategoriesRelationManager;
+use App\Models\Department;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class DepartmentResource extends Resource
 {
@@ -38,7 +38,7 @@ class DepartmentResource extends Resource
                 TextInput::make('slug')
                     ->required(),
                 Checkbox::make('is_active')
-                    ->label('Active')
+                    ->label('Active'),
             ]);
     }
 
@@ -51,7 +51,7 @@ class DepartmentResource extends Resource
                     ->searchable(),
                 IconColumn::make('is_active')
                     ->label('Active')
-                    ->boolean()
+                    ->boolean(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
@@ -76,7 +76,7 @@ class DepartmentResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CategoriesRelationManager::class
+            CategoriesRelationManager::class,
         ];
     }
 
@@ -99,18 +99,21 @@ class DepartmentResource extends Resource
     public static function canCreate(): bool
     {
         $user = Filament::auth()->user();
+
         return $user?->hasPermissionTo(AdminPermissionEnum::ADD_DEPARTMENT->value) ?? false;
     }
 
     public static function canEdit($record): bool
     {
         $user = Filament::auth()->user();
+
         return $user?->hasPermissionTo(AdminPermissionEnum::EDIT_DEPARTMENT->value) ?? false;
     }
 
     public static function canDelete($record): bool
     {
         $user = Filament::auth()->user();
+
         return $user?->hasPermissionTo(AdminPermissionEnum::DELETE_DEPARTMENT->value) ?? false;
     }
 }

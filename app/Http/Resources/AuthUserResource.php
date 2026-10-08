@@ -22,7 +22,7 @@ class AuthUserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'email_verified_at' => $this->email_verified_at,
-            'permissions' => $this->getAllPermissions()->map(function($permission) {
+            'permissions' => $this->getAllPermissions()->map(function ($permission) {
                 return $permission->name;
             }),
             'roles' => $this->getRoleNames(),
@@ -33,7 +33,7 @@ class AuthUserResource extends JsonResource
                 'store_name' => $this->vendor->store_name,
                 'store_address' => $this->vendor->store_address,
                 'cover_image' => $this->vendor->cover_image,
-            ]
+            ],
         ];
     }
 }

@@ -3,7 +3,6 @@
 use App\Enums\Products\ProductVariationTypeEnum;
 use App\Enums\Roles\RoleEnum;
 use App\Filament\Vendor\Resources\ProductResource\Pages\ProductVariations;
-use App\Models\Product;
 use App\Models\ProductVariation;
 use App\Models\User;
 use Filament\Facades\Filament;

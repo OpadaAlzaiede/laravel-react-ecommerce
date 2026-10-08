@@ -25,26 +25,26 @@ class RoleSeeder extends Seeder
         $vendorPermissions = [];
         $userPermissions = [];
 
-        foreach(UserPermissionEnum::cases() as $permission) {
+        foreach (UserPermissionEnum::cases() as $permission) {
             $userPermissions[] = Permission::create(['name' => $permission->value]);
         }
 
-        foreach(VendorPermissionEnum::cases() as $permission) {
+        foreach (VendorPermissionEnum::cases() as $permission) {
             $vendorPermissions[] = Permission::create(['name' => $permission->value]);
         }
 
-        foreach(AdminPermissionEnum::cases() as $permission) {
+        foreach (AdminPermissionEnum::cases() as $permission) {
             $adminPermissions[] = Permission::create(['name' => $permission->value]);
         }
 
         $adminRole->syncPermissions([
             ...$adminPermissions,
             ...$vendorPermissions,
-            ...$userPermissions
+            ...$userPermissions,
         ]);
         $vendorRole->syncPermissions([
             ...$vendorPermissions,
-            ...$userPermissions
+            ...$userPermissions,
         ]);
         $userRole->syncPermissions($userPermissions);
     }

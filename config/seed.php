@@ -12,8 +12,8 @@ return [
                         ['name' => 'Desktops'],
                         ['name' => 'Monitors'],
                         ['name' => 'Keyboards & Mice'],
-                        ['name' => 'Tablets']
-                    ]
+                        ['name' => 'Tablets'],
+                    ],
                 ],
                 [
                     'name' => 'Smartphones & Accessories',
@@ -21,16 +21,16 @@ return [
                         ['name' => 'Smartphones'],
                         ['name' => 'Phone Cases'],
                         ['name' => 'Chargers & Cables'],
-                        ['name' => 'Screen Protectors']
-                    ]
+                        ['name' => 'Screen Protectors'],
+                    ],
                 ],
                 [
                     'name' => 'Audio',
                     'sub_categories' => [
                         ['name' => 'Headphones'],
                         ['name' => 'Speakers'],
-                        ['name' => 'Earbuds']
-                    ]
+                        ['name' => 'Earbuds'],
+                    ],
                 ],
                 [
                     'name' => 'Gaming',
@@ -38,8 +38,8 @@ return [
                         ['name' => 'Consoles'],
                         ['name' => 'Games'],
                         ['name' => 'Controllers'],
-                        ['name' => 'VR Headsets']
-                    ]
+                        ['name' => 'VR Headsets'],
+                    ],
                 ],
                 [
                     'name' => 'Cameras & Camcorders',
@@ -47,10 +47,10 @@ return [
                         ['name' => 'DSLR Cameras'],
                         ['name' => 'Action Cameras'],
                         ['name' => 'Lenses'],
-                        ['name' => 'Tripods']
-                    ]
-                ]
-            ]
+                        ['name' => 'Tripods'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -63,7 +63,7 @@ return [
                         ['name' => 'Dresses'],
                         ['name' => 'Bottoms'],
                         ['name' => 'Shoes'],
-                    ]
+                    ],
                 ],
                 [
                     'name' => 'Men',
@@ -72,14 +72,14 @@ return [
                         ['name' => 'Jeans'],
                         ['name' => 'Suits'],
                         ['name' => 'Footwear'],
-                        ['name' => 'Watches']
-                    ]
+                        ['name' => 'Watches'],
+                    ],
                 ],
                 [
                     'name' => 'Kids',
                     'sub_categories' => [
                         ['name' => 'Clothing'],
-                    ]
+                    ],
                 ],
                 [
                     'name' => 'Jewelry',
@@ -87,10 +87,10 @@ return [
                         ['name' => 'Necklaces'],
                         ['name' => 'Rings'],
                         ['name' => 'Earrings'],
-                        ['name' => 'Bracelets']
-                    ]
-                ]
-            ]
+                        ['name' => 'Bracelets'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -102,8 +102,8 @@ return [
                         ['name' => 'Cookware'],
                         ['name' => 'Cutlery'],
                         ['name' => 'Kitchen Appliances'],
-                        ['name' => 'Food Storage']
-                    ]
+                        ['name' => 'Food Storage'],
+                    ],
                 ],
                 [
                     'name' => 'Furniture',
@@ -111,8 +111,8 @@ return [
                         ['name' => 'Living Room'],
                         ['name' => 'Bedroom'],
                         ['name' => 'Office'],
-                        ['name' => 'Outdoor']
-                    ]
+                        ['name' => 'Outdoor'],
+                    ],
                 ],
                 [
                     'name' => 'Garden & Outdoor',
@@ -120,18 +120,18 @@ return [
                         ['name' => 'Plants'],
                         ['name' => 'Gardening Tools'],
                         ['name' => 'Patio Furniture'],
-                        ['name' => 'Grills']
-                    ]
+                        ['name' => 'Grills'],
+                    ],
                 ],
                 [
                     'name' => 'Tools & Equipment',
                     'sub_categories' => [
                         ['name' => 'Power Tools'],
                         ['name' => 'Hand Tools'],
-                        ['name' => 'Measuring Tools']
-                    ]
-                ]
-            ]
+                        ['name' => 'Measuring Tools'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -143,18 +143,18 @@ return [
                         ['name' => 'Fiction'],
                         ['name' => 'Non-Fiction'],
                         ['name' => 'Children Books'],
-                        ['name' => 'Textbooks']
-                    ]
+                        ['name' => 'Textbooks'],
+                    ],
                 ],
                 [
                     'name' => 'Audiobooks',
                     'sub_categories' => [
                         ['name' => 'Business'],
                         ['name' => 'Self-Help'],
-                        ['name' => 'Biographies']
-                    ]
-                ]
-            ]
+                        ['name' => 'Biographies'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -165,8 +165,8 @@ return [
                     'sub_categories' => [
                         ['name' => 'Vitamins & Supplements'],
                         ['name' => 'First Aid'],
-                        ['name' => 'Fitness Equipment']
-                    ]
+                        ['name' => 'Fitness Equipment'],
+                    ],
                 ],
                 [
                     'name' => 'Beauty',
@@ -174,10 +174,10 @@ return [
                         ['name' => 'Skincare'],
                         ['name' => 'Makeup'],
                         ['name' => 'Haircare'],
-                        ['name' => 'Fragrances']
-                    ]
-                ]
-            ]
+                        ['name' => 'Fragrances'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -189,8 +189,8 @@ return [
                         ['name' => 'Cycling'],
                         ['name' => 'Running'],
                         ['name' => 'Swimming'],
-                        ['name' => 'Team Sports']
-                    ]
+                        ['name' => 'Team Sports'],
+                    ],
                 ],
                 [
                     'name' => 'Outdoor Recreation',
@@ -198,10 +198,10 @@ return [
                         ['name' => 'Hiking'],
                         ['name' => 'Camping'],
                         ['name' => 'Fishing'],
-                        ['name' => 'Climbing']
-                    ]
-                ]
-            ]
+                        ['name' => 'Climbing'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -213,26 +213,26 @@ return [
                         ['name' => 'Action Figures'],
                         ['name' => 'Building Blocks'],
                         ['name' => 'Stuffed Animals'],
-                        ['name' => 'Educational Toys']
-                    ]
+                        ['name' => 'Educational Toys'],
+                    ],
                 ],
                 [
                     'name' => 'Board Games',
                     'sub_categories' => [
                         ['name' => 'Family Games'],
                         ['name' => 'Strategy Games'],
-                        ['name' => 'Party Games']
-                    ]
+                        ['name' => 'Party Games'],
+                    ],
                 ],
                 [
                     'name' => 'Video Games',
                     'sub_categories' => [
                         ['name' => 'PS5'],
                         ['name' => 'Xbox Series X'],
-                        ['name' => 'Nintendo Switch']
-                    ]
-                ]
-            ]
+                        ['name' => 'Nintendo Switch'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -243,26 +243,26 @@ return [
                     'sub_categories' => [
                         ['name' => 'Engine Parts'],
                         ['name' => 'Lights'],
-                        ['name' => 'Suspension']
-                    ]
+                        ['name' => 'Suspension'],
+                    ],
                 ],
                 [
                     'name' => 'Accessories',
                     'sub_categories' => [
                         ['name' => 'Interior Accessories'],
                         ['name' => 'Exterior Accessories'],
-                        ['name' => 'Car Electronics']
-                    ]
+                        ['name' => 'Car Electronics'],
+                    ],
                 ],
                 [
                     'name' => 'Maintenance',
                     'sub_categories' => [
                         ['name' => 'Oils & Fluids'],
                         ['name' => 'Cleaning Supplies'],
-                        ['name' => 'Tools & Kits']
-                    ]
-                ]
-            ]
+                        ['name' => 'Tools & Kits'],
+                    ],
+                ],
+            ],
         ],
 
         [
@@ -272,27 +272,27 @@ return [
                     'name' => 'Fresh Produce',
                     'sub_categories' => [
                         ['name' => 'Fruits'],
-                        ['name' => 'Vegetables']
-                    ]
+                        ['name' => 'Vegetables'],
+                    ],
                 ],
                 [
                     'name' => 'Pantry Essentials',
                     'sub_categories' => [
                         ['name' => 'Canned Goods'],
                         ['name' => 'Spices & Herbs'],
-                        ['name' => 'Pasta & Rice']
-                    ]
+                        ['name' => 'Pasta & Rice'],
+                    ],
                 ],
                 [
                     'name' => 'Beverages',
                     'sub_categories' => [
                         ['name' => 'Soft Drinks'],
                         ['name' => 'Juices'],
-                        ['name' => 'Tea & Coffee']
-                    ]
-                ]
-            ]
-        ]
+                        ['name' => 'Tea & Coffee'],
+                    ],
+                ],
+            ],
+        ],
     ],
     'currencies' => [
         [
@@ -302,6 +302,6 @@ return [
         [
             'name' => 'Euro',
             'symbol' => '€',
-        ]
-    ]
+        ],
+    ],
 ];

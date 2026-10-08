@@ -2,25 +2,21 @@
 
 namespace App\Filament\Resources\DepartmentResource\RelationManagers;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Enums\Roles\AdminPermissionEnum;
 use App\Models\Category;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
 use Filament\Facades\Filament;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use App\Enums\Roles\AdminPermissionEnum;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\TextInput;
-use Filament\Notifications\Notification;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables\Table;
+use Illuminate\Support\Str;
 
 class CategoriesRelationManager extends RelationManager
 {
@@ -45,17 +41,17 @@ class CategoriesRelationManager extends RelationManager
                             ->required(),
                         Select::make('parent_id')
                             ->label('Parent Category')
-                            ->options(function () use($department) {
+                            ->options(function () use ($department) {
                                 return Category::query()
-                                        ->where('department_id', $department->id)
-                                        ->pluck('name', 'id')
-                                        ->toArray();
+                                    ->where('department_id', $department->id)
+                                    ->pluck('name', 'id')
+                                    ->toArray();
                             })
                             ->preload()
                             ->searchable(),
                     ]),
                 Checkbox::make('is_active')
-                    ->label('Active')
+                    ->label('Active'),
             ]);
     }
 
@@ -71,7 +67,7 @@ class CategoriesRelationManager extends RelationManager
                     ->sortable()
                     ->searchable(),
                 IconColumn::make('is_active')
-                    ->boolean()
+                    ->boolean(),
             ])
             ->filters([
                 SelectFilter::make('is_active')
@@ -83,18 +79,18 @@ class CategoriesRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                    ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::ADD_CATEGORY->value) ?? false),
+                    ->visible(fn (): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::ADD_CATEGORY->value) ?? false),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()
-                    ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::EDIT_CATEGORY->value) ?? false),
+                    ->visible(fn (): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::EDIT_CATEGORY->value) ?? false),
                 Tables\Actions\DeleteAction::make()
-                    ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::DELETE_CATEGORY->value) ?? false),
+                    ->visible(fn (): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::DELETE_CATEGORY->value) ?? false),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->visible(fn(): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::DELETE_CATEGORY->value) ?? false),
+                        ->visible(fn (): bool => Filament::auth()->user()?->hasPermissionTo(AdminPermissionEnum::DELETE_CATEGORY->value) ?? false),
                 ]),
             ]);
     }

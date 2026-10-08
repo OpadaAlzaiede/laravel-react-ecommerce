@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\Enums\Products\ProductStatusEnum;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
 use Spatie\MediaLibrary\HasMedia;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use App\Enums\Products\ProductStatusEnum;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -100,10 +100,10 @@ class Product extends Model implements HasMedia
         $optionIds = array_values($optionIds);
         sort($optionIds);
 
-        foreach($this->variations as $variation) {
+        foreach ($this->variations as $variation) {
             $a = $variation->variation_type_option_ids;
             sort($a);
-            if($optionIds == $a) {
+            if ($optionIds == $a) {
                 return $variation->price !== null ? $variation->price : $this->price;
             }
         }
@@ -115,7 +115,7 @@ class Product extends Model implements HasMedia
     {
         $firstOption = $this->getFirstOptionsMap();
 
-        if($firstOption) {
+        if ($firstOption) {
             return $this->getPriceForOptions($firstOption);
         }
 
@@ -124,10 +124,10 @@ class Product extends Model implements HasMedia
 
     public function getFirstImageUrl($collectionName = 'images', $conversion = 'small'): string
     {
-        if($this->options->count() > 0) {
-            foreach($this->options as $option) {
+        if ($this->options->count() > 0) {
+            foreach ($this->options as $option) {
                 $imageUrl = $option->getFirstMediaUrl($collectionName, $conversion);
-                if($imageUrl) {
+                if ($imageUrl) {
                     return $imageUrl;
                 }
             }
@@ -138,14 +138,14 @@ class Product extends Model implements HasMedia
 
     public function getImageForOptions($optionIds = [])
     {
-        if($optionIds) {
+        if ($optionIds) {
             $optionIds = array_values($optionIds);
             sort($optionIds);
             $options = VariationTypeOption::whereIn('id', $optionIds)->get();
 
-            foreach($options as $option) {
+            foreach ($options as $option) {
                 $media = $option->getFirstMediaUrl('images', 'small');
-                if($media) {
+                if ($media) {
                     return $media;
                 }
             }
@@ -156,10 +156,10 @@ class Product extends Model implements HasMedia
 
     public function getImages(): MediaCollection
     {
-        if($this->options->count() > 0) {
-            foreach($this->options as $option) {
+        if ($this->options->count() > 0) {
+            foreach ($this->options as $option) {
                 $images = $option->getMedia('images');
-                if($images) {
+                if ($images) {
                     return $images;
                 }
             }
@@ -171,7 +171,7 @@ class Product extends Model implements HasMedia
     public function getFirstOptionsMap(): array
     {
         return $this->variationTypes
-                ->mapWithKeys(fn($type) => [$type->id => $type->options[0]?->id])
-                ->toArray();
+            ->mapWithKeys(fn ($type) => [$type->id => $type->options[0]?->id])
+            ->toArray();
     }
 }

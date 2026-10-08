@@ -2,16 +2,15 @@
 
 namespace App\Traits;
 
-
+use App\Enums\Stripe\LinkType;
+use App\Services\Interfaces\StripeConnect;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 use Stripe\Account;
 use Stripe\Balance;
-use Stripe\Transfer;
 use Stripe\StripeClient;
-use App\Enums\Stripe\LinkType;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Config;
-use App\Services\Interfaces\StripeConnect;
+use Stripe\Transfer;
 
 trait Payable
 {

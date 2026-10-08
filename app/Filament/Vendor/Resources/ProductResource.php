@@ -2,32 +2,32 @@
 
 namespace App\Filament\Vendor\Resources;
 
-use Filament\Tables;
-use App\Models\Product;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Illuminate\Support\Str;
-use App\Enums\Roles\RoleEnum;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Filament\Resources\Pages\Page;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Checkbox;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use App\Enums\Products\ProductStatusEnum;
-use Filament\Forms\Components\RichEditor;
-use Filament\Pages\SubNavigationPosition;
-use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Columns\CheckboxColumn;
+use App\Enums\Roles\RoleEnum;
 use App\Filament\Vendor\Resources\ProductResource\Pages;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use App\Filament\Vendor\Resources\ProductResource\Pages\EditProduct;
 use App\Filament\Vendor\Resources\ProductResource\Pages\ProductImages;
 use App\Filament\Vendor\Resources\ProductResource\Pages\ProductVariations;
 use App\Filament\Vendor\Resources\ProductResource\Pages\ProductVariationTypes;
+use App\Models\Product;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Pages\SubNavigationPosition;
+use Filament\Resources\Pages\Page;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\CheckboxColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class ProductResource extends Resource
 {
@@ -49,9 +49,9 @@ class ProductResource extends Resource
                 Grid::make()
                     ->schema([
                         TextInput::make('title')
-                        ->live(onBlur: true)
-                        ->required()
-                        ->afterStateUpdated(function (string $operation, $state, callable $set, $get, $context) {
+                            ->live(onBlur: true)
+                            ->required()
+                            ->afterStateUpdated(function (string $operation, $state, callable $set, $get, $context) {
                                 $baseSlug = Str::slug($state);
                                 $slug = $baseSlug;
                                 $count = 1;
@@ -61,7 +61,7 @@ class ProductResource extends Resource
 
                                 // Check for existing slugs, excluding the current record if editing
                                 while (Product::where('slug', $slug)
-                                    ->when($recordId, fn($query) => $query->where('id', '!=', $recordId))
+                                    ->when($recordId, fn ($query) => $query->where('id', '!=', $recordId))
                                     ->exists()
                                 ) {
                                     $slug = "{$baseSlug}-{$count}";
@@ -79,7 +79,7 @@ class ProductResource extends Resource
                             ->searchable()
                             ->required()
                             ->reactive()
-                            ->afterStateUpdated(function(callable $set) {
+                            ->afterStateUpdated(function (callable $set) {
                                 $set('category_id', null);
                             }),
                         Select::make('category_id')
@@ -87,7 +87,7 @@ class ProductResource extends Resource
                             ->relationship(
                                 name: 'category',
                                 titleAttribute: 'name',
-                                modifyQueryUsing: function(Builder $query, callable $get) {
+                                modifyQueryUsing: function (Builder $query, callable $get) {
                                     $departmentId = $get('department_id');
                                     if ($departmentId) {
                                         $query->where('department_id', $departmentId);
@@ -106,7 +106,7 @@ class ProductResource extends Resource
                             ->preload()
                             ->searchable()
                             ->required(),
-                        ]),
+                    ]),
                 RichEditor::make('description')
                     ->required()
                     ->columnSpan(2)
@@ -123,7 +123,7 @@ class ProductResource extends Resource
                         'strike',
                         'underline',
                         'undo',
-                        'table'
+                        'table',
                     ]),
                 TextInput::make('price')
                     ->required()
@@ -213,11 +213,11 @@ class ProductResource extends Resource
     public static function getRecordSubNavigation(Page $page): array
     {
         return $page->generateNavigationItems([
-                EditProduct::class,
-                ProductImages::class,
-                ProductVariationTypes::class,
-                ProductVariations::class,
-            ]);
+            EditProduct::class,
+            ProductImages::class,
+            ProductVariationTypes::class,
+            ProductVariations::class,
+        ]);
     }
 
     public static function canViewAny(): bool

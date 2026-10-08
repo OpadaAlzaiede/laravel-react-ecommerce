@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\Users\VendorStatusEnum;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vendor extends Model
@@ -16,14 +16,14 @@ class Vendor extends Model
         'store_address',
         'status',
         'user_id',
-        'cover_image'
+        'cover_image',
     ];
 
     public function scopeEligibleForPayout(Builder $query): Builder
     {
         return $query->where('status', VendorStatusEnum::APPROVED)
-                ->join('users', 'users.id', '=', 'vendors.user_id')
-                ->where('users.stripe_account_active', true);
+            ->join('users', 'users.id', '=', 'vendors.user_id')
+            ->where('users.stripe_account_active', true);
     }
 
     public function user(): BelongsTo

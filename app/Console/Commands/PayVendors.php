@@ -12,12 +12,9 @@ use Illuminate\Support\Facades\DB;
 
 class PayVendors extends Command
 {
-
     protected $signature = 'pay:vendors';
 
-
     protected $description = 'Perform vendors payouts';
-
 
     public function handle()
     {
@@ -25,7 +22,7 @@ class PayVendors extends Command
 
         $vendors = Vendor::eligibleForPayout()->get();
 
-        foreach($vendors as $vendor) {
+        foreach ($vendors as $vendor) {
             $this->processPayout($vendor);
         }
 
@@ -34,8 +31,9 @@ class PayVendors extends Command
         return Command::SUCCESS;
     }
 
-    protected function processPayout($vendor) {
-        $this->info('Processing payout for vendor:[ID: '.$vendor->id.'] - ' .$vendor->store_name);
+    protected function processPayout($vendor)
+    {
+        $this->info('Processing payout for vendor:[ID: '.$vendor->id.'] - '.$vendor->store_name);
 
         try {
             DB::beginTransaction();
@@ -45,13 +43,13 @@ class PayVendors extends Command
             $until = Carbon::now()->subMonthNoOverflow()->startOfMonth();
 
             $vendorSubTotal = Order::query()
-                        ->where('vendor_user_id', $vendor->id)
-                        ->where('status', StatusEnum::PAID->value)
-                        ->whereBetween('created_at', [$startingFrom, $until])
-                        ->sum('vendor_subtotal');
+                ->where('vendor_user_id', $vendor->id)
+                ->where('status', StatusEnum::PAID->value)
+                ->whereBetween('created_at', [$startingFrom, $until])
+                ->sum('vendor_subtotal');
 
-            if($vendorSubTotal) {
-                $this->info('Payout made with total of: [' . $vendorSubTotal * 100 . ']');
+            if ($vendorSubTotal) {
+                $this->info('Payout made with total of: ['.$vendorSubTotal * 100 .']');
                 Payout::create([
                     'vendor_id' => $vendor->id,
                     'amount' => $vendorSubTotal,
@@ -59,12 +57,12 @@ class PayVendors extends Command
                     'until' => $until,
                 ]);
                 $vendor->user->transfer((int) ($vendorSubTotal), config('app.currency'));
-            }else {
+            } else {
                 $this->info('No orders to process.');
             }
 
             DB::commit();
-        }catch(\Throwable $e) {
+        } catch (\Throwable $e) {
             DB::rollBack();
             $this->error($e->getMessage());
         }

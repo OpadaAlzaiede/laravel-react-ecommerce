@@ -3,7 +3,6 @@
 namespace App\Filament\Vendor\Resources\ProductResource\Pages;
 
 use App\Filament\Vendor\Resources\ProductResource;
-use Filament\Actions;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
@@ -30,7 +29,7 @@ class ProductImages extends EditRecord
                     ->reorderable()
                     ->appendFiles()
                     ->preserveFilenames()
-                    ->columnSpan(2)
+                    ->columnSpan(2),
             ]);
     }
 }

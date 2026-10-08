@@ -2,21 +2,21 @@
 
 namespace App\Providers;
 
-use App\Models\User;
-use App\Models\Product;
-use Stripe\StripeClient;
-use App\Services\CartService;
 use App\Contracts\Payments\CheckoutGateway;
-use App\Services\Payments\StripeCheckoutGateway;
 use App\Contracts\Payments\WebhookGateway;
-use App\Services\Payments\StripeWebhookGateway;
+use App\Models\Product;
+use App\Models\User;
 use App\Models\VariationTypeOption;
-use Illuminate\Support\Facades\Vite;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use App\Services\CartService;
 use App\Services\Interfaces\StripeConnect as StripeConnectInterface;
+use App\Services\Payments\StripeCheckoutGateway;
+use App\Services\Payments\StripeWebhookGateway;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schedule;
+use Illuminate\Support\Facades\Vite;
+use Illuminate\Support\ServiceProvider;
+use Stripe\StripeClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(CartService::class, function() {
-            return new CartService();
+        $this->app->singleton(CartService::class, function () {
+            return new CartService;
         });
 
         $this->app->singleton(StripeConnectInterface::class, function () {

@@ -2,17 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Tables;
+use App\Enums\Roles\RoleEnum;
+use App\Filament\Resources\CurrencyResource\Pages;
 use App\Models\Currency;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
-use App\Enums\Roles\RoleEnum;
-use Filament\Facades\Filament;
-use Filament\Resources\Resource;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use App\Filament\Resources\CurrencyResource\Pages;
 
 class CurrencyResource extends Resource
 {
@@ -44,7 +44,7 @@ class CurrencyResource extends Resource
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                TextColumn::make('symbol')
+                TextColumn::make('symbol'),
             ])
             ->filters([
                 //

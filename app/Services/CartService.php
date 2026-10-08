@@ -3,19 +3,21 @@
 namespace App\Services;
 
 use App\DTOs\Cart\CartItemDto;
-use App\Models\Product;
 use App\Models\CartItem;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 use App\Models\VariationTypeOption;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class CartService
 {
     private ?array $cachedCartItems = null;
+
     protected const COOKIE_NAME = 'cartItems';
+
     protected const COOKIE_LIFETIME = 60 * 24 * 365;
 
     public function addItemToCart(Product $product, CartItemDto $item): void
@@ -23,7 +25,7 @@ class CartService
         $optionIds = $item->optionIds ?: $product->getFirstOptionsMap();
         $price = $product->getPriceForOptions($optionIds);
 
-        if(Auth::check()) {
+        if (Auth::check()) {
             $this->saveItemToDatabase($product->id, $item->quantity, $price, $optionIds);
         } else {
             $this->saveItemToCookies($product->id, $item->quantity, $price, $optionIds);
@@ -32,7 +34,7 @@ class CartService
 
     public function updateItemInCart(Product $product, CartItemDto $item): void
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $this->updateItemQuantityInDatabase($product->id, $item->quantity, $item->optionIds);
         } else {
             $this->updateItemQuantityInCookies($product->id, $item->quantity, $item->optionIds);
@@ -41,7 +43,7 @@ class CartService
 
     public function removeItemFromCart(Product $product, CartItemDto $item): void
     {
-        if(Auth::check()) {
+        if (Auth::check()) {
             $this->removeItemFromDatabase($product->id, $item->optionIds);
         } else {
             $this->removeItemFromCookies($product->id, $item->optionIds);
@@ -52,26 +54,28 @@ class CartService
     {
         try {
 
-            if(is_null($this->cachedCartItems)) {
+            if (is_null($this->cachedCartItems)) {
 
-                if(Auth::check()) {
+                if (Auth::check()) {
                     $cartItems = $this->getCartItemsFromDatabase();
                 } else {
                     $cartItems = $this->getCartItemsFromCookies();
                 }
 
-                $productIds = collect($cartItems)->map(fn($item) => $item['product_id']);
+                $productIds = collect($cartItems)->map(fn ($item) => $item['product_id']);
                 $products = Product::with('user.vendor', 'currency')
-                            ->whereIn('id', $productIds)
-                            ->forWebsite()
-                            ->get()
-                            ->keyBy('id');
+                    ->whereIn('id', $productIds)
+                    ->forWebsite()
+                    ->get()
+                    ->keyBy('id');
 
                 $cartItemData = [];
 
-                foreach($cartItems as $key => $cartItem) {
+                foreach ($cartItems as $key => $cartItem) {
                     $product = data_get($products, $cartItem['product_id']);
-                    if(! $product) continue;
+                    if (! $product) {
+                        continue;
+                    }
 
                     $optionInfo = [];
                     $options = VariationTypeOption::with('variationType')
@@ -81,10 +85,9 @@ class CartService
 
                     $imageUrl = null;
 
-
-                    foreach($cartItem['option_ids'] as $optionId) {
+                    foreach ($cartItem['option_ids'] as $optionId) {
                         $option = data_get($options, $optionId);
-                        if(! $imageUrl) {
+                        if (! $imageUrl) {
                             $imageUrl = $option->getFirstMediaUrl('images', 'small');
                         }
                         $optionInfo[] = [
@@ -93,7 +96,7 @@ class CartService
                             'type' => [
                                 'id' => $option->variationType->id,
                                 'name' => $option->variationType->name,
-                            ]
+                            ],
                         ];
                     }
 
@@ -111,7 +114,7 @@ class CartService
                         'user' => [
                             'id' => $product->created_by,
                             'name' => $product->user->vendor->store_name,
-                        ]
+                        ],
                     ];
                 }
 
@@ -119,8 +122,8 @@ class CartService
             }
 
             return $this->cachedCartItems;
-        } catch(\Exception $e) {
-            Log::error($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+        } catch (\Exception $e) {
+            Log::error($e->getMessage().PHP_EOL.$e->getTraceAsString());
         }
 
         return [];
@@ -130,7 +133,7 @@ class CartService
     {
         $totalQuantity = 0;
 
-        foreach($this->getCartItems() as $cartItem) {
+        foreach ($this->getCartItems() as $cartItem) {
             $totalQuantity += $cartItem['quantity'];
         }
 
@@ -141,7 +144,7 @@ class CartService
     {
         $totalPrice = 0;
 
-        foreach($this->getCartItems() as $cartItem) {
+        foreach ($this->getCartItems() as $cartItem) {
             $totalPrice += $cartItem['price'] * $cartItem['quantity'];
         }
 
@@ -152,31 +155,31 @@ class CartService
     {
         $cartItems = $this->getCartItems();
 
-        return collect($cartItems)->groupBy(fn($item) => $item['user']['id'])
-                ->map(fn($items, $userId) => [
-                    'user' => $items->first()['user'],
-                    'items' => $items->toArray(),
-                    'total_quantity' => $items->sum('quantity'),
-                    'total_price' => $items->sum(fn($item) => $item['price'] * $item['quantity'])
-                ])
-                ->toArray();
+        return collect($cartItems)->groupBy(fn ($item) => $item['user']['id'])
+            ->map(fn ($items, $userId) => [
+                'user' => $items->first()['user'],
+                'items' => $items->toArray(),
+                'total_quantity' => $items->sum('quantity'),
+                'total_price' => $items->sum(fn ($item) => $item['price'] * $item['quantity']),
+            ])
+            ->toArray();
     }
 
     public function moveCartItemsToDatabase($userId): void
     {
         $cartItems = $this->getCartItemsFromCookies();
 
-        foreach($cartItems as $itemKey => $cartItem) {
+        foreach ($cartItems as $itemKey => $cartItem) {
 
             $existingCartItem = CartItem::where('user_id', $userId)
                 ->where('product_id', $cartItem['product_id'])
                 ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
                 ->first();
 
-            if($existingCartItem) {
+            if ($existingCartItem) {
                 $existingCartItem->update([
                     'quantity' => $existingCartItem->quantity + $cartItem['quantity'],
-                    'price' => $cartItem['price']
+                    'price' => $cartItem['price'],
                 ]);
             } else {
                 CartItem::create([
@@ -184,7 +187,7 @@ class CartService
                     'product_id' => $cartItem['product_id'],
                     'quantity' => $cartItem['quantity'],
                     'price' => $cartItem['price'],
-                    'variation_type_option_ids' => $cartItem['option_ids']
+                    'variation_type_option_ids' => $cartItem['option_ids'],
                 ]);
             }
         }
@@ -196,11 +199,11 @@ class CartService
     {
         $userId = Auth::id();
         $cartItem = CartItem::where('user_id', $userId)
-                        ->where('product_id', $productId)
-                        ->whereJsonContains('variation_type_option_ids', $optionIds)
-                        ->first();
+            ->where('product_id', $productId)
+            ->whereJsonContains('variation_type_option_ids', $optionIds)
+            ->first();
 
-        if($cartItem) {
+        if ($cartItem) {
             $cartItem->update([
                 'quantity' => $quantity,
             ]);
@@ -211,9 +214,9 @@ class CartService
     {
         $cartItems = $this->getCartItemsFromCookies();
         ksort($optionIds);
-        $itemKey = $productId . '_' . json_encode($optionIds);
+        $itemKey = $productId.'_'.json_encode($optionIds);
 
-        if(isset($cartItems[$itemKey])) {
+        if (isset($cartItems[$itemKey])) {
             $cartItems[$itemKey]['quantity'] = $quantity;
         }
 
@@ -226,13 +229,13 @@ class CartService
         ksort($optionIds);
 
         $cartItem = CartItem::where('user_id', $userId)
-                            ->where('product_id', $productId)
-                            ->whereJsonContains('variation_type_option_ids', $optionIds)
-                            ->first();
+            ->where('product_id', $productId)
+            ->whereJsonContains('variation_type_option_ids', $optionIds)
+            ->first();
 
-        if($cartItem) {
+        if ($cartItem) {
             $cartItem->update([
-                'quantity' => DB::raw('quantity + ' . $quantity)
+                'quantity' => DB::raw('quantity + '.$quantity),
             ]);
         } else {
             CartItem::create([
@@ -240,7 +243,7 @@ class CartService
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $price,
-                'variation_type_option_ids' => $optionIds
+                'variation_type_option_ids' => $optionIds,
             ]);
         }
     }
@@ -250,9 +253,9 @@ class CartService
         $cartItems = $this->getCartItemsFromCookies();
         ksort($optionIds);
 
-        $itemKey = $productId . '_' . json_encode($optionIds);
+        $itemKey = $productId.'_'.json_encode($optionIds);
 
-        if(isset($cartItems[$itemKey])) {
+        if (isset($cartItems[$itemKey])) {
             $cartItems[$itemKey]['quantity'] += $quantity;
             $cartItems[$itemKey]['price'] = $price;
         } else {
@@ -261,7 +264,7 @@ class CartService
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $price,
-                'option_ids' => $optionIds
+                'option_ids' => $optionIds,
             ];
         }
 
@@ -274,16 +277,16 @@ class CartService
         ksort($optionIds);
 
         CartItem::where('user_id', $userId)
-                ->where('product_id', $productId)
-                ->whereJsonContains('variation_type_option_ids', $optionIds)
-                ->delete();
+            ->where('product_id', $productId)
+            ->whereJsonContains('variation_type_option_ids', $optionIds)
+            ->delete();
     }
 
     protected function removeItemFromCookies(int $productId, $optionIds): void
     {
         $cartItems = $this->getCartItemsFromCookies();
         ksort($optionIds);
-        $cartKey = $productId . '_' . json_encode($optionIds, JSON_NUMERIC_CHECK);
+        $cartKey = $productId.'_'.json_encode($optionIds, JSON_NUMERIC_CHECK);
 
         unset($cartItems[$cartKey]);
 
@@ -295,16 +298,16 @@ class CartService
         $userId = Auth::id();
 
         return CartItem::where('user_id', $userId)->get()
-                    ->map(function($cartItem) {
-                        return [
-                            'id' => $cartItem->id,
-                            'product_id' => $cartItem->product_id,
-                            'quantity' => $cartItem->quantity,
-                            'price' => $cartItem->price,
-                            'option_ids' => $cartItem->variation_type_option_ids,
-                        ];
-                    })
-                    ->toArray();
+            ->map(function ($cartItem) {
+                return [
+                    'id' => $cartItem->id,
+                    'product_id' => $cartItem->product_id,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $cartItem->price,
+                    'option_ids' => $cartItem->variation_type_option_ids,
+                ];
+            })
+            ->toArray();
     }
 
     private function getCartItemsFromCookies()

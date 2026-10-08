@@ -2,14 +2,14 @@
 
 namespace App\Filament\Vendor\Resources\ProductResource\Pages;
 
-use Filament\Forms\Form;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Repeater;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Pages\EditRecord;
-use App\Filament\Vendor\Resources\ProductResource;
 use App\Enums\Products\ProductVariationTypeEnum;
+use App\Filament\Vendor\Resources\ProductResource;
+use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Pages\EditRecord;
 
 class ProductVariationTypes extends EditRecord
 {
@@ -56,7 +56,7 @@ class ProductVariationTypes extends EditRecord
                                     ->preserveFilenames()
                                     ->columnSpan(2),
                             ]),
-                    ])
+                    ]),
             ]);
     }
 }

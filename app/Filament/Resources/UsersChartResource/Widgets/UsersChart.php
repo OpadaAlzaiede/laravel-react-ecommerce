@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\UsersChartResource\Widgets;
 
+use App\Enums\Users\VendorStatusEnum;
 use App\Models\User;
+use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
 use Flowframe\Trend\TrendValue;
-use Filament\Widgets\ChartWidget;
-use App\Enums\Users\VendorStatusEnum;
 
 class UsersChart extends ChartWidget
 {
@@ -16,9 +16,9 @@ class UsersChart extends ChartWidget
     {
         $data = Trend::query(
             User::query()
-                ->whereHas('roles', fn($query) => $query->where('name', \App\Enums\Roles\RoleEnum::USER->value))
-                ->whereDoesntHave('vendor', fn($query) => $query->where('status', VendorStatusEnum::APPROVED->value))
-            )
+                ->whereHas('roles', fn ($query) => $query->where('name', \App\Enums\Roles\RoleEnum::USER->value))
+                ->whereDoesntHave('vendor', fn ($query) => $query->where('status', VendorStatusEnum::APPROVED->value))
+        )
             ->between(
                 start: now()->startOfYear(),
                 end: now()->endOfYear(),

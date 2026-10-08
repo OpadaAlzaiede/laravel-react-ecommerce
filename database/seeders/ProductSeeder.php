@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Product;
-use App\Models\Category;
-use App\Models\Currency;
-use Illuminate\Support\Arr;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
-use Spatie\MediaLibrary\Conversions\FileManipulator;
-use Spatie\MediaLibrary\Conversions\ConversionCollection;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Enums\Products\ProductStatusEnum;
 use App\Enums\Products\ProductVariationTypeEnum;
+use App\Models\Category;
+use App\Models\Currency;
+use App\Models\Product;
+use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
+use Spatie\MediaLibrary\Conversions\ConversionCollection;
+use Spatie\MediaLibrary\Conversions\FileManipulator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ProductSeeder extends Seeder
 {
@@ -40,10 +40,9 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        app()->instance(FileManipulator::class, new class extends FileManipulator {
-            public function createDerivedFiles(Media $media, array $onlyConversionNames = [], bool $onlyMissing = false, bool $withResponsiveImages = false, bool $queueAll = false): void
-            {
-            }
+        app()->instance(FileManipulator::class, new class extends FileManipulator
+        {
+            public function createDerivedFiles(Media $media, array $onlyConversionNames = [], bool $onlyMissing = false, bool $withResponsiveImages = false, bool $queueAll = false): void {}
         });
 
         $products = json_decode(file_get_contents(self::DATA_PATH.'/products.json'), true);

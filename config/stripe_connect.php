@@ -11,11 +11,11 @@ return [
             'refresh' => 'stripe-connect.refresh',
             'return' => 'stripe-connect.return',
             'complete' => 'home',
-        ]
+        ],
     ],
 
     'payable' => [
         'account_id_column' => 'stripe_account_id',
         'account_status_column' => 'stripe_account_active',
-    ]
+    ],
 ];

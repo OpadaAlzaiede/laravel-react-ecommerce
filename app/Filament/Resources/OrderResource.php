@@ -2,16 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use App\Models\Order;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use App\Enums\Roles\RoleEnum;
-use Filament\Facades\Filament;
 use App\Enums\Orders\StatusEnum;
+use App\Filament\Resources\OrderResource\Pages;
+use App\Models\Order;
+use Filament\Facades\Filament;
+use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
-use App\Filament\Resources\OrderResource\Pages;
+use Filament\Tables\Table;
 use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
 
 class OrderResource extends Resource

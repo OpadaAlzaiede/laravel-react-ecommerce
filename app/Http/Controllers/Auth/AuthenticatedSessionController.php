@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Inertia\Inertia;
-use Inertia\Response;
-use Illuminate\Http\Request;
 use App\Enums\Roles\RoleEnum;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Route;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Services\CartService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as HttpFoundationResponse;
 
 class AuthenticatedSessionController extends Controller
@@ -37,16 +37,15 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = auth()->user();
-        $route = "/";
+        $route = '/';
 
-        if($user->hasRole(RoleEnum::ADMIN)) {
+        if ($user->hasRole(RoleEnum::ADMIN)) {
             $cartService->moveCartItemsToDatabase($user->id);
+
             return Inertia::location(route('filament.admin.pages.dashboard'));
-        }
-        else if($user->hasRole(RoleEnum::VENDOR)) {
+        } elseif ($user->hasRole(RoleEnum::VENDOR)) {
             return Inertia::location(route('filament.vendor.pages.dashboard'));
-        }
-        else if($user->hasRole(RoleEnum::USER)) {
+        } elseif ($user->hasRole(RoleEnum::USER)) {
             $route = route('dashboard', absolute: false);
         }
 

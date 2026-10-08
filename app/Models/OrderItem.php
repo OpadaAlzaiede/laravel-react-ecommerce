@@ -12,7 +12,7 @@ class OrderItem extends Model
     public $timestamps = false;
 
     protected $casts = [
-        'variation_type_option_ids' => 'json'
+        'variation_type_option_ids' => 'json',
     ];
 
     public function order(): BelongsTo

@@ -10,7 +10,6 @@ enum StatusEnum: string
     case DELIVERED = 'delivered';
     case CANCELLED = 'cancelled';
 
-
     public static function labels()
     {
         return [
@@ -18,7 +17,7 @@ enum StatusEnum: string
             self::PAID->value => 'Paid',
             self::SHIPPED->value => 'Shipped',
             self::DELIVERED->value => 'Delivered',
-            self::CANCELLED->value => 'Cancelled'
+            self::CANCELLED->value => 'Cancelled',
         ];
     }
 

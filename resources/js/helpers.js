@@ -21,8 +21,14 @@ export const productRoute = (product) => {
 
 const defaultProductFilters = { search: '', vendor: '', sort: 'latest' };
 
+export const productFilterValue = (filters, key) => {
+    const isFilterObject = filters && !Array.isArray(filters) && Object.hasOwn(filters, key);
+
+    return (isFilterObject && filters[key]) || defaultProductFilters[key];
+}
+
 export const productFiltersChanged = (current, serverFilters = {}) => {
     return Object.keys(defaultProductFilters).some(
-        (key) => (current[key] || defaultProductFilters[key]) !== (serverFilters?.[key] || defaultProductFilters[key])
+        (key) => (current[key] || defaultProductFilters[key]) !== productFilterValue(serverFilters, key)
     );
 }

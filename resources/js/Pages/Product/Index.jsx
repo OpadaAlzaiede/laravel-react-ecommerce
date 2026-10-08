@@ -2,12 +2,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import ProductCard from '@/Components/App/ProductCard';
 import { useEffect, useState } from 'react';
-import { productFiltersChanged } from '@/helpers';
+import { productFiltersChanged, productFilterValue } from '@/helpers';
 
 export default function Index({ products, filters }) {
-    const [search, setSearch] = useState(filters?.search || '');
-    const [vendor, setVendor] = useState(filters?.vendor || '');
-    const [sort, setSort] = useState(filters?.sort || 'latest');
+    const [search, setSearch] = useState(productFilterValue(filters, 'search'));
+    const [vendor, setVendor] = useState(productFilterValue(filters, 'vendor'));
+    const [sort, setSort] = useState(productFilterValue(filters, 'sort'));
 
     // Sync filters with backend
     useEffect(() => {

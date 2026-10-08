@@ -1,11 +1,11 @@
 <x-mail::message>
 # New contact message
 
-**From:** {{ $senderName }} ({{ $senderEmail }})
+**From:** {{ $contact->senderName }} ({{ $contact->senderEmail }})
 
-**Subject:** {{ $messageSubject }}
+**Subject:** {{ $contact->subject }}
 
 <x-mail::panel>
-{{ $body }}
+{{ $contact->body }}
 </x-mail::panel>
 </x-mail::message>

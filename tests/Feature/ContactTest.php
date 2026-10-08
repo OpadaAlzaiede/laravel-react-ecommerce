@@ -1,5 +1,6 @@
 <?php
 
+use App\DTOs\Contact\ContactMessageDto;
 use App\Mail\ContactMessageMail;
 use Illuminate\Support\Facades\Mail;
 
@@ -19,8 +20,8 @@ test('the contact form sends the message to the store inbox', function () {
     Mail::assertSent(ContactMessageMail::class, function (ContactMessageMail $mail) {
         return $mail->hasTo(config('mail.from.address'))
             && $mail->hasReplyTo('jane@example.com')
-            && $mail->messageSubject === 'Order question'
-            && $mail->body === 'Where is my order?';
+            && $mail->contact->subject === 'Order question'
+            && $mail->contact->body === 'Where is my order?';
     });
 });
 
@@ -35,9 +36,15 @@ test('the contact form validates its fields', function () {
 });
 
 test('the contact message email renders', function () {
-    $mail = new ContactMessageMail('Jane Doe', 'jane@example.com', 'Order question', 'Where is my order?');
+    $mail = new ContactMessageMail(new ContactMessageDto('Jane Doe', 'jane@example.com', 'Order question', 'Where is my order?'));
 
     $mail->assertSeeInHtml('Jane Doe')
         ->assertSeeInHtml('Order question')
         ->assertSeeInHtml('Where is my order?');
+});
+
+test('the contact page renders', function () {
+    $this->get(route('contact'))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page->component('Contact'));
 });

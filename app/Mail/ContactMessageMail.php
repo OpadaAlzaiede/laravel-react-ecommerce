@@ -1,31 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Mail;
 
+use App\DTOs\Contact\ContactMessageDto;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class ContactMessageMail extends Mailable
+final class ContactMessageMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
 
-    public function __construct(
-        public string $senderName,
-        public string $senderEmail,
-        public string $messageSubject,
-        public string $body,
-    ) {
-    }
+    public function __construct(public readonly ContactMessageDto $contact) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            replyTo: [new Address($this->senderEmail, $this->senderName)],
-            subject: 'Contact: '.$this->messageSubject,
+            replyTo: [new Address($this->contact->senderEmail, $this->contact->senderName)],
+            subject: 'Contact: '.$this->contact->subject,
         );
     }
 

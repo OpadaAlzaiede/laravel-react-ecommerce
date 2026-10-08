@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\StripeController;
@@ -28,8 +29,8 @@ Route::get('vendors', [UserVendorController::class, 'index'])->name('vendors.ind
 Route::get('vendors/{vendor}', [UserVendorController::class, 'show'])->name('vendors.show');
 
 Route::get('about', [HomeController::class, 'about'])->name('about');
-Route::get('contact', [HomeController::class, 'contact'])->name('contact');
-Route::post('contact', [HomeController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
+Route::get('contact', [ContactController::class, 'show'])->name('contact');
+Route::post('contact', [ContactController::class, 'send'])->middleware('throttle:5,1')->name('contact.send');
 
 
 Route::controller(CartController::class)->prefix('cart')->group(function() {

@@ -1,24 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Vendor;
 
+use App\DTOs\Vendors\VendorDetailsDto;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+final class StoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
     /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, array<int, mixed>>
      */
     public function rules(): array
     {
@@ -28,11 +26,21 @@ class StoreRequest extends FormRequest
         ];
     }
 
-
+    /**
+     * @return array<string, string>
+     */
     public function messages(): array
     {
         return [
             'store_name.regex' => 'The store name must be alphanumeric and dashes only.',
         ];
+    }
+
+    public function toDto(): VendorDetailsDto
+    {
+        return new VendorDetailsDto(
+            storeName: $this->validated('store_name'),
+            storeAddress: $this->validated('store_address'),
+        );
     }
 }

@@ -1,32 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\Vendor;
-use App\Enums\Users\VendorStatusEnum;
 use App\Http\Requests\Vendor\StoreRequest;
+use App\Services\VendorService;
+use Illuminate\Http\RedirectResponse;
 
-class VendorController extends Controller
+final class VendorController extends Controller
 {
-    public function profile(Vendor $vendor)
+    public function __construct(private readonly VendorService $vendorService) {}
+
+    public function store(StoreRequest $request): RedirectResponse
     {
-
-    }
-
-    public function store(StoreRequest $request)
-    {
-        $user = auth()->user();
-        $vendor = $user->vendor ?: new Vendor();
-
-        $vendor->user_id = $user->id;
-        $vendor->store_name = $request->store_name;
-        $vendor->store_address = $request->store_address;
-
-        if ($vendor->status !== VendorStatusEnum::APPROVED->value) {
-            $vendor->status = VendorStatusEnum::PENDING->value;
-        }
-
-        $vendor->save();
+        $vendor = $this->vendorService->saveDetails($request->user(), $request->toDto());
 
         return back()->with('success', $vendor->wasRecentlyCreated
             ? 'Your vendor request has been submitted.'

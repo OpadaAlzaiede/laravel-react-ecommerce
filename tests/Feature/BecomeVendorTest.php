@@ -52,3 +52,24 @@ test('a rejected vendor who reapplies goes back to pending', function () {
 
     expect(Vendor::find($user->id)->status)->toBe(VendorStatusEnum::PENDING->value);
 });
+
+test('a store name must be lowercase with dashes and unique', function () {
+    $owner = User::factory()->create();
+    Vendor::create([
+        'user_id' => $owner->id,
+        'status' => VendorStatusEnum::APPROVED->value,
+        'store_name' => 'taken-store',
+    ]);
+
+    $user = User::factory()->create();
+
+    $this->actingAs($user)
+        ->post(route('vendor.store'), ['store_name' => 'My Store!'])
+        ->assertSessionHasErrors(['store_name' => 'The store name must be alphanumeric and dashes only.']);
+
+    $this->actingAs($user)
+        ->post(route('vendor.store'), ['store_name' => 'taken-store'])
+        ->assertSessionHasErrors('store_name');
+
+    expect(Vendor::find($user->id))->toBeNull();
+});

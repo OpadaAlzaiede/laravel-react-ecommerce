@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -9,7 +11,17 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
-    protected $fillable = ['total_price', 'status', 'stripe_session_id', 'user_id', 'online_payment_commission', 'website_commission', 'vendor_subtotal', 'payment_intent'];
+    protected $fillable = [
+        'total_price',
+        'status',
+        'stripe_session_id',
+        'user_id',
+        'vendor_user_id',
+        'online_payment_commission',
+        'website_commission',
+        'vendor_subtotal',
+        'payment_intent',
+    ];
 
     public function orderItem(): HasMany
     {
@@ -33,6 +45,6 @@ class Order extends Model
 
     public function scopeForVendor(Builder $query): Builder
     {
-        return $query->where('vendor_user_id', auth()->user()->id);
+        return $query->where('vendor_user_id', auth()->id());
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +15,11 @@ class VariationTypeOption extends Model implements HasMedia
     use InteractsWithMedia;
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'variation_type_id',
+        'name',
+    ];
 
     public function registerMediaConversions(?Media $media = null): void
     {

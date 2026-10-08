@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models;
+declare(strict_types=1);
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+namespace App\Models;
 
 use App\Enums\Roles\RoleEnum;
 use App\Traits\Payable;
@@ -52,6 +52,7 @@ class User extends Authenticatable implements FilamentUser, MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'stripe_account_active' => 'boolean',
         ];
     }
 

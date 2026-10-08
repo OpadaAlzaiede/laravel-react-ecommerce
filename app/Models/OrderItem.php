@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -7,9 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
-    protected $fillable = ['order_id', 'product_id', 'price', 'quantity', 'variation_type_option_ids'];
-
     public $timestamps = false;
+
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'price',
+        'quantity',
+        'variation_type_option_ids',
+    ];
 
     protected $casts = [
         'variation_type_option_ids' => 'json',

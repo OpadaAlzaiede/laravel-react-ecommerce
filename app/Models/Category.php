@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -8,7 +10,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    public function getRouteKeyName()
+    protected $fillable = [
+        'name',
+        'slug',
+        'is_active',
+        'department_id',
+        'parent_id',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+    ];
+
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }

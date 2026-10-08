@@ -32,8 +32,10 @@ class OrderController extends Controller
         ]);
     }
 
-    public function show(Order $order)
+    public function show(Request $request, Order $order)
     {
+        abort_unless($order->user()->is($request->user()), 403);
+
         $order->load(['orderItem', 'vendorUser']);
 
         return Inertia::render('Order/Show', [

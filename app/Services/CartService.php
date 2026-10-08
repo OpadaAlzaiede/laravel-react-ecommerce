@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\DTOs\Cart\CartItemDto;
 use App\Models\Product;
 use App\Models\CartItem;
 use Illuminate\Support\Str;
@@ -17,37 +18,33 @@ class CartService
     protected const COOKIE_NAME = 'cartItems';
     protected const COOKIE_LIFETIME = 60 * 24 * 365;
 
-    public function addItemToCart(Product $product, int $quantity = 1, $optionIds = null)
+    public function addItemToCart(Product $product, CartItemDto $item): void
     {
-        if(empty($optionIds))
-        {
-            $optionIds = $product->getFirstOptionsMap();
-        }
-
+        $optionIds = $item->optionIds ?: $product->getFirstOptionsMap();
         $price = $product->getPriceForOptions($optionIds);
 
         if(Auth::check()) {
-            $this->saveItemToDatabase($product->id, $quantity, $price, $optionIds);
+            $this->saveItemToDatabase($product->id, $item->quantity, $price, $optionIds);
         } else {
-            $this->saveItemToCookies($product->id, $quantity, $price, $optionIds);
+            $this->saveItemToCookies($product->id, $item->quantity, $price, $optionIds);
         }
     }
 
-    public function updateItemInCart(Product $product, int $quantity = 1, $optionIds = null)
+    public function updateItemInCart(Product $product, CartItemDto $item): void
     {
         if(Auth::check()) {
-            $this->updateItemQuantityInDatabase($product->id, $quantity, $optionIds);
+            $this->updateItemQuantityInDatabase($product->id, $item->quantity, $item->optionIds);
         } else {
-            $this->updateItemQuantityInCookies($product->id, $quantity, $optionIds);
+            $this->updateItemQuantityInCookies($product->id, $item->quantity, $item->optionIds);
         }
     }
 
-    public function removeItemFromCart(Product $product, $optionIds = null)
+    public function removeItemFromCart(Product $product, CartItemDto $item): void
     {
         if(Auth::check()) {
-            $this->removeItemFromDatabase($product->id, $optionIds);
+            $this->removeItemFromDatabase($product->id, $item->optionIds);
         } else {
-            $this->removeItemFromCookies($product->id, $optionIds);
+            $this->removeItemFromCookies($product->id, $item->optionIds);
         }
     }
 

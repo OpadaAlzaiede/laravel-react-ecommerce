@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Orders\StatusEnum;
+use App\Http\Requests\Cart\DestroyRequest;
 use App\Http\Requests\Cart\StoreRequest;
+use App\Http\Requests\Cart\UpdateRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Services\CartService;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -31,33 +34,23 @@ class CartController extends Controller
         ]);
     }
 
-    public function store(StoreRequest $request, Product $product)
+    public function store(StoreRequest $request, Product $product): RedirectResponse
     {
-        $data = $request->validated();
-
-        $this->cartService->addItemToCart(
-            $product,
-            $data['quantity'],
-            $data['option_ids'] ?? null
-        );
+        $this->cartService->addItemToCart($product, $request->toDto());
 
         return back()->with('success', 'Product added to cart successfully!');
     }
 
-    public function update(Request $request, Product $product)
+    public function update(UpdateRequest $request, Product $product): RedirectResponse
     {
-        $optionIds = $request->input('option_ids', []);
-        $quantity = $request->input('quantity');
-
-        $this->cartService->updateItemInCart($product, $quantity, $optionIds);
+        $this->cartService->updateItemInCart($product, $request->toDto());
 
         return back()->with('success', 'Quantity updated successfully!');
     }
 
-    public function destroy(Request $request, Product $product)
+    public function destroy(DestroyRequest $request, Product $product): RedirectResponse
     {
-        $optionIds = $request->input('option_ids');
-        $this->cartService->removeItemFromCart($product, $optionIds);
+        $this->cartService->removeItemFromCart($product, $request->toDto());
 
         return back()->with('success', 'Product removed from cart successfully!');
     }

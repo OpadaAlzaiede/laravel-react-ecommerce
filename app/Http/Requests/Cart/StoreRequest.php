@@ -1,33 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Cart;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class StoreRequest extends FormRequest
+final class StoreRequest extends CartItemRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, array<int, string>>
      */
     public function rules(): array
     {
-        request()->mergeIfMissing([
-            'quantity' => 1,
-        ]);
-
         return [
-            'option_ids' => ['nullable', 'array'],
+            ...parent::rules(),
             'quantity' => ['required', 'integer', 'min:1'],
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->mergeIfMissing([
+            'quantity' => 1,
+        ]);
     }
 }

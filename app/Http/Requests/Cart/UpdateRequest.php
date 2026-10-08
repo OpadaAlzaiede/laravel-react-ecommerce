@@ -1,28 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\Cart;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateRequest extends FormRequest
+final class UpdateRequest extends CartItemRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, array<int, string>>
      */
     public function rules(): array
     {
         return [
-            'quantity' => ['integer', 'min:1'],
+            ...parent::rules(),
+            'quantity' => ['required', 'integer', 'min:1'],
         ];
     }
 }

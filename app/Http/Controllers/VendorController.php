@@ -19,9 +19,17 @@ class VendorController extends Controller
         $vendor = $user->vendor ?: new Vendor();
 
         $vendor->user_id = $user->id;
-        $vendor->status = VendorStatusEnum::PENDING->value;
         $vendor->store_name = $request->store_name;
         $vendor->store_address = $request->store_address;
+
+        if ($vendor->status !== VendorStatusEnum::APPROVED->value) {
+            $vendor->status = VendorStatusEnum::PENDING->value;
+        }
+
         $vendor->save();
+
+        return back()->with('success', $vendor->wasRecentlyCreated
+            ? 'Your vendor request has been submitted.'
+            : 'Your vendor details have been updated.');
     }
 }

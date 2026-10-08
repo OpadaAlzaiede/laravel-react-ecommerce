@@ -1,45 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use Inertia\Inertia;
-use App\Models\Order;
-use Illuminate\Http\Request;
+use App\Http\Requests\Order\IndexRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\OrderViewResource;
+use App\Models\Order;
+use App\Services\OrderService;
+use Inertia\Inertia;
+use Inertia\Response;
 
-class OrderController extends Controller
+final class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function __construct(private readonly OrderService $orderService) {}
+
+    public function index(IndexRequest $request): Response
     {
-        $orders = Order::query()
-            ->select(['id', 'total_price', 'status', 'created_at', 'vendor_user_id', 'user_id'])
-            ->with(['user', 'vendorUser'])
-            ->where('user_id', auth()->user()->id)
-            ->when($request->get('status'), function($query) use ($request) {
-                $query->where('status', $request->query('status'));
-            })
-            ->when($request->get('start_date') && $request->get('end_date'), function($query) use ($request) {
-                $query->whereBetween('created_at', [$request->query('start_date'), $request->query('end_date')]);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate()
-            ->withQueryString();
+        $filters = $request->toDto();
 
         return Inertia::render('Order/Index', [
-            'orders' => OrderResource::collection($orders),
-            'filters' => $request->only(['status', 'start_date', 'end_date']),
+            'orders' => OrderResource::collection($this->orderService->paginateForCustomer($request->user(), $filters)),
+            'filters' => $filters->toArray(),
         ]);
     }
 
-    public function show(Request $request, Order $order)
+    public function show(Order $order): Response
     {
-        abort_unless($order->user()->is($request->user()), 403);
-
-        $order->load(['orderItem', 'vendorUser']);
-
         return Inertia::render('Order/Show', [
-            'order' => OrderViewResource::make($order),
+            'order' => OrderViewResource::make($this->orderService->loadForDisplay($order)),
         ]);
     }
 }

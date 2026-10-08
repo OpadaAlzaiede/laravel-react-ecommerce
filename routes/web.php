@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::post('become-vendor', [VendorController::class, 'store'])->name('vendor.store');
 
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->can('view', 'order')->name('orders.show');
 
     });
 });

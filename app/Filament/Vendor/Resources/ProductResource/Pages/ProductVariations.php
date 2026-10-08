@@ -93,7 +93,11 @@ class ProductVariations extends EditRecord
         $variations = $data['variations'];
         unset($data['variations']);
 
-        $variations = collect($variations)->map(function($variation) {
+        $ownVariationIds = $record->variations()->pluck('id');
+
+        $variations = collect($variations)
+        ->filter(fn($variation) => is_null($variation['id']) || $ownVariationIds->contains($variation['id']))
+        ->map(function($variation) {
             return [
                 'id' => $variation['id'],
                 'variation_type_option_ids' => json_encode($variation['variation_type_option_ids']),

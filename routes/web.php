@@ -29,6 +29,7 @@ Route::get('vendors/{vendor}', [UserVendorController::class, 'show'])->name('ven
 
 Route::get('about', [HomeController::class, 'about'])->name('about');
 Route::get('contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('contact', [HomeController::class, 'sendContact'])->middleware('throttle:5,1')->name('contact.send');
 
 
 Route::controller(CartController::class)->prefix('cart')->group(function() {

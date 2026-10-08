@@ -1,61 +1,41 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Inertia\Inertia;
-use App\Models\Product;
-use App\Models\Category;
-use App\Enums\Roles\RoleEnum;
-use App\Mail\ContactMessageMail;
-use Illuminate\Support\Facades\Mail;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Contact\SendRequest;
-use App\Http\Resources\VendorUserResource;
 use App\Http\Resources\ProductListResource;
+use App\Http\Resources\VendorUserResource;
+use App\Mail\ContactMessageMail;
+use App\Services\HomeService;
+use Illuminate\Support\Facades\Mail;
+use Inertia\Inertia;
+use Inertia\Response;
 
-class HomeController extends Controller
+final class HomeController extends Controller
 {
-    public function home()
+    public function __construct(private readonly HomeService $homeService) {}
+
+    public function home(): Response
     {
-        $newProducts = Product::query()
-            ->with(['department', 'currency' , 'user', 'user.vendor'])
-            ->forWebsite()
-            ->orderBy('created_at', 'desc')
-            ->limit(4)
-            ->get();
-
-        $products = Product::query()
-                ->with(['department', 'currency' , 'user', 'user.vendor'])
-                ->forWebsite()
-                ->paginate(12);
-
-        $featuredProducts = Product::query()
-            ->with(['department', 'currency' , 'user', 'user.vendor'])
-            ->forWebsite()
-            ->where('is_featured', true)
-            ->limit(10)
-            ->get();
-
-        $categories = Category::withCount('products')->orderBy('products_count', 'desc')->limit(8)->get();
-
-        $vendors = User::with('vendor')->whereHas('roles', fn($query) => $query->where('name', RoleEnum::VENDOR->value))->get();
+        $homePage = $this->homeService->getHomePage();
 
         return Inertia::render('Home', [
-            'products' => ProductListResource::collection($products),
-            'newProducts' => ProductListResource::collection($newProducts),
-            'featuredProducts' => ProductListResource::collection($featuredProducts),
-            'categories' => $categories,
-            'vendors' => VendorUserResource::collection($vendors),
+            'products' => ProductListResource::collection($homePage->products),
+            'newProducts' => ProductListResource::collection($homePage->newProducts),
+            'featuredProducts' => ProductListResource::collection($homePage->featuredProducts),
+            'categories' => $homePage->categories,
+            'vendors' => VendorUserResource::collection($homePage->vendors),
         ]);
     }
 
-    public function about()
+    public function about(): Response
     {
         return Inertia::render('About');
     }
 
-    public function contact()
+    public function contact(): Response
     {
         return Inertia::render('Contact');
     }

@@ -18,3 +18,11 @@ export const productRoute = (product) => {
 
     return route('products.show', product.slug) + '?' + params.toString();
 }
+
+const defaultProductFilters = { search: '', vendor: '', sort: 'latest' };
+
+export const productFiltersChanged = (current, serverFilters = {}) => {
+    return Object.keys(defaultProductFilters).some(
+        (key) => (current[key] || defaultProductFilters[key]) !== (serverFilters?.[key] || defaultProductFilters[key])
+    );
+}

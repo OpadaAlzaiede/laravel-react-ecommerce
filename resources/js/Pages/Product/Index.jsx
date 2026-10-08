@@ -2,14 +2,19 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import ProductCard from '@/Components/App/ProductCard';
 import { useEffect, useState } from 'react';
+import { productFiltersChanged } from '@/helpers';
 
 export default function Index({ products, filters }) {
     const [search, setSearch] = useState(filters?.search || '');
     const [vendor, setVendor] = useState(filters?.vendor || '');
-    const [sort, setSort] = useState('latest');
+    const [sort, setSort] = useState(filters?.sort || 'latest');
 
     // Sync filters with backend
     useEffect(() => {
+        if (!productFiltersChanged({ search, vendor, sort }, filters)) {
+            return;
+        }
+
         const debounce = setTimeout(() => {
             router.get(
 

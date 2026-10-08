@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use App\DTOs\Cart\CartItemDto;
@@ -12,18 +14,21 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
-class CartService
+final class CartService
 {
+    private const COOKIE_NAME = 'cartItems';
+
+    private const COOKIE_LIFETIME = 60 * 24 * 365;
+
+    /**
+     * @var array<int, array<string, mixed>>|null
+     */
     private ?array $cachedCartItems = null;
-
-    protected const COOKIE_NAME = 'cartItems';
-
-    protected const COOKIE_LIFETIME = 60 * 24 * 365;
 
     public function addItemToCart(Product $product, CartItemDto $item): void
     {
         $optionIds = $item->optionIds ?: $product->getFirstOptionsMap();
-        $price = $product->getPriceForOptions($optionIds);
+        $price = (float) $product->getPriceForOptions($optionIds);
 
         if (Auth::check()) {
             $this->saveItemToDatabase($product->id, $item->quantity, $price, $optionIds);
@@ -50,6 +55,9 @@ class CartService
         }
     }
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     public function getCartItems(): array
     {
         try {
@@ -71,7 +79,7 @@ class CartService
 
                 $cartItemData = [];
 
-                foreach ($cartItems as $key => $cartItem) {
+                foreach ($cartItems as $cartItem) {
                     $product = data_get($products, $cartItem['product_id']);
                     if (! $product) {
                         continue;
@@ -151,7 +159,10 @@ class CartService
         return $totalPrice;
     }
 
-    public function getCartItemsGrouped()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function getCartItemsGrouped(): array
     {
         $cartItems = $this->getCartItems();
 
@@ -165,12 +176,11 @@ class CartService
             ->toArray();
     }
 
-    public function moveCartItemsToDatabase($userId): void
+    public function moveCartItemsToDatabase(int $userId): void
     {
         $cartItems = $this->getCartItemsFromCookies();
 
-        foreach ($cartItems as $itemKey => $cartItem) {
-
+        foreach ($cartItems as $cartItem) {
             $existingCartItem = CartItem::where('user_id', $userId)
                 ->where('product_id', $cartItem['product_id'])
                 ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
@@ -195,7 +205,10 @@ class CartService
         Cookie::queue(self::COOKIE_NAME, '', -1);
     }
 
-    protected function updateItemQuantityInDatabase(int $productId, int $quantity, $optionIds): void
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function updateItemQuantityInDatabase(int $productId, int $quantity, array $optionIds): void
     {
         $userId = Auth::id();
         $cartItem = CartItem::where('user_id', $userId)
@@ -210,7 +223,10 @@ class CartService
         }
     }
 
-    protected function updateItemQuantityInCookies(int $productId, int $quantity, $optionIds): void
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function updateItemQuantityInCookies(int $productId, int $quantity, array $optionIds): void
     {
         $cartItems = $this->getCartItemsFromCookies();
         ksort($optionIds);
@@ -223,7 +239,10 @@ class CartService
         Cookie::queue(self::COOKIE_NAME, json_encode($cartItems), self::COOKIE_LIFETIME);
     }
 
-    protected function saveItemToDatabase(int $productId, int $quantity, float $price, $optionIds): void
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function saveItemToDatabase(int $productId, int $quantity, float $price, array $optionIds): void
     {
         $userId = Auth::id();
         ksort($optionIds);
@@ -248,7 +267,10 @@ class CartService
         }
     }
 
-    protected function saveItemToCookies(int $productId, int $quantity, float $price, $optionIds): void
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function saveItemToCookies(int $productId, int $quantity, float $price, array $optionIds): void
     {
         $cartItems = $this->getCartItemsFromCookies();
         ksort($optionIds);
@@ -260,7 +282,7 @@ class CartService
             $cartItems[$itemKey]['price'] = $price;
         } else {
             $cartItems[$itemKey] = [
-                'id' => Str::uuid(),
+                'id' => (string) Str::uuid(),
                 'product_id' => $productId,
                 'quantity' => $quantity,
                 'price' => $price,
@@ -271,7 +293,10 @@ class CartService
         Cookie::queue(self::COOKIE_NAME, json_encode($cartItems), self::COOKIE_LIFETIME);
     }
 
-    protected function removeItemFromDatabase(int $productId, $optionIds): void
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function removeItemFromDatabase(int $productId, array $optionIds): void
     {
         $userId = Auth::id();
         ksort($optionIds);
@@ -282,7 +307,10 @@ class CartService
             ->delete();
     }
 
-    protected function removeItemFromCookies(int $productId, $optionIds): void
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function removeItemFromCookies(int $productId, array $optionIds): void
     {
         $cartItems = $this->getCartItemsFromCookies();
         ksort($optionIds);
@@ -293,12 +321,15 @@ class CartService
         Cookie::queue(self::COOKIE_NAME, json_encode($cartItems), self::COOKIE_LIFETIME);
     }
 
-    protected function getCartItemsFromDatabase()
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function getCartItemsFromDatabase(): array
     {
         $userId = Auth::id();
 
         return CartItem::where('user_id', $userId)->get()
-            ->map(function ($cartItem) {
+            ->map(static function (CartItem $cartItem): array {
                 return [
                     'id' => $cartItem->id,
                     'product_id' => $cartItem->product_id,
@@ -310,8 +341,11 @@ class CartService
             ->toArray();
     }
 
-    private function getCartItemsFromCookies()
+    /**
+     * @return array<string, array<string, mixed>>
+     */
+    private function getCartItemsFromCookies(): array
     {
-        return json_decode(Cookie::get(self::COOKIE_NAME, '[]'), true);
+        return json_decode((string) Cookie::get(self::COOKIE_NAME, '[]'), true) ?: [];
     }
 }

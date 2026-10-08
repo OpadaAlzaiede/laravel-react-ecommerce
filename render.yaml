@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: laravel-react-ecommerce
+    runtime: docker
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: Tradely
+      - key: VITE_APP_NAME
+        value: Tradely
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY # paste the output of: php artisan key:generate --show
+        sync: false
+      - key: APP_URL # e.g. https://laravel-react-ecommerce.onrender.com
+        sync: false
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: DEMO_RESET_ON_BOOT
+        value: "true"
+
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: MYSQL_SSL_CA_PEM # contents of the provider's CA certificate (Aiven: ca.pem)
+        sync: false
+
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: MAIL_MAILER
+        value: log
+      - key: FILESYSTEM_DISK
+        value: public
+
+      - key: STRIPE_KEY # test-mode keys only
+        sync: false
+      - key: STRIPE_SECRET
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false

@@ -1,38 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\Vendor\ShowRequest;
 use App\Http\Resources\VendorUserResource;
+use App\Models\User;
+use App\Services\VendorDirectoryService;
 use Inertia\Inertia;
+use Inertia\Response;
 
-class UserVendorController extends Controller
+final class UserVendorController extends Controller
 {
-    public function index(Request $request)
-    {
-        $vendors = User::query()
-                    ->with(['vendor'])
-                    ->withCount('products')
-                    ->whereHas('vendor')
-                    ->orderBy('products_count', 'desc')
-                    ->paginate(12);
+    public function __construct(private readonly VendorDirectoryService $vendorDirectoryService) {}
 
+    public function index(): Response
+    {
         return Inertia::render('Vendor/Index', [
-            'vendors' => VendorUserResource::collection($vendors),
-            'filters' => $request->only(['search']),
+            'vendors' => VendorUserResource::collection($this->vendorDirectoryService->paginateByProductCount()),
         ]);
     }
 
-    public function show(Request $request, User $vendor)
+    public function show(ShowRequest $request, User $vendor): Response
     {
-        $vendor->load(['vendor', 'products' => function($query) use($request) {
-            $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
-        },'products.category', 'products.currency']);
+        $filters = $request->toDto();
 
         return Inertia::render('Vendor/Show', [
-            'vendor' => VendorUserResource::make($vendor),
-            'filters' => $request->only(['search']),
+            'vendor' => VendorUserResource::make($this->vendorDirectoryService->loadWithProducts($vendor, $filters)),
+            'filters' => $filters->toArray(),
         ]);
     }
 }

@@ -1,36 +1,34 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\ShowRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Services\CategoryService;
 use Inertia\Inertia;
+use Inertia\Response;
 
-class CategoryController extends Controller
+final class CategoryController extends Controller
 {
+    public function __construct(private readonly CategoryService $categoryService) {}
 
-    public function index(Request $request)
+    public function index(): Response
     {
-        $categories = Category::query()
-            ->withCount('products')
-            ->orderBy('products_count', 'DESC')
-            ->paginate(12);
-
-        return inertia('Category/Index', [
-            'categories' => CategoryResource::collection($categories),
+        return Inertia::render('Category/Index', [
+            'categories' => CategoryResource::collection($this->categoryService->paginateByProductCount()),
         ]);
     }
 
-    public function show(Request $request, Category $category)
+    public function show(ShowRequest $request, Category $category): Response
     {
-        $category->load(['products' => function($query) use($request) {
-            $query->where('title', 'LIKE', '%' . $request->get('search') . '%');
-        }, 'products.user.vendor', 'products.currency']);
+        $filters = $request->toDto();
 
         return Inertia::render('Category/Show', [
-            'category' => CategoryResource::make($category),
-            'filters' => $request->only(['search']),
+            'category' => CategoryResource::make($this->categoryService->loadWithProducts($category, $filters)),
+            'filters' => $filters->toArray(),
         ]);
     }
 }

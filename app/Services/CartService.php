@@ -19,7 +19,7 @@ class CartService
 
     public function addItemToCart(Product $product, int $quantity = 1, $optionIds = null)
     {
-        if(is_null($optionIds))
+        if(empty($optionIds))
         {
             $optionIds = $product->getFirstOptionsMap();
         }

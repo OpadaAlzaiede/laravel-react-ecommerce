@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Product;
 use Stripe\StripeClient;
 use App\Services\CartService;
+use App\Contracts\Payments\CheckoutGateway;
+use App\Services\Payments\StripeCheckoutGateway;
 use App\Models\VariationTypeOption;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Facades\Config;
@@ -27,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(StripeConnectInterface::class, function () {
             return new StripeClient(Config::get('stripe_connect.stripe.secret'));
+        });
+
+        $this->app->singleton(CheckoutGateway::class, function () {
+            return new StripeCheckoutGateway(new StripeClient(['api_key' => Config::get('app.stripe_secret_key')]));
         });
     }
 

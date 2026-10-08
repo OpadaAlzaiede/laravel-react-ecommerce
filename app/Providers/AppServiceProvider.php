@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(StripeConnectInterface::class, function () {
-            return new StripeClient(Config::get('stripe_connect.stripe.secret'));
+            return new StripeClient(['api_key' => Config::get('stripe_connect.stripe.secret')]);
         });
 
         $this->app->singleton(CheckoutGateway::class, function () {

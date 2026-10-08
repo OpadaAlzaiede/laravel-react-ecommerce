@@ -8,7 +8,6 @@ use App\Http\Requests\Stripe\CheckoutSuccessRequest;
 use App\Http\Resources\OrderViewResource;
 use App\Services\OrderService;
 use App\Services\StripeWebhookService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
@@ -55,18 +54,5 @@ final class StripeController extends Controller
         $this->webhookService->handle($event);
 
         return response('Webhook processed successfully', 200);
-    }
-
-    public function connect(): RedirectResponse
-    {
-        if (! auth()->user()->getStripeAccountId()) {
-            auth()->user()->createStripeAccount(['type' => 'express']);
-        }
-
-        if (! auth()->user()->isStripeAccountActive()) {
-            return redirect(auth()->user()->getStripeAccountLink());
-        }
-
-        return back()->with('success', 'You are already connected to Stripe');
     }
 }

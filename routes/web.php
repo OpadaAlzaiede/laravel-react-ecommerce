@@ -1,13 +1,11 @@
 <?php
 
 use App\Enums\Roles\RoleEnum;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
-use Illuminate\Support\Facades\Response;
+use App\Http\Controllers\StripeConnectController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
@@ -50,10 +48,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('return', [StripeConnectController::class, 'returnFromOnboarding'])->name('stripe-connect.return');
+    Route::get('refresh', [StripeConnectController::class, 'refreshOnboarding'])->name('stripe-connect.refresh');
+
     Route::middleware(['verified'])->group(function () {
         Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
         Route::get('/stripe/failure', [StripeController::class, 'failure'])->name('stripe.failure');
-        Route::post('/stripe/connect', [StripeController::class, 'connect'])->name('stripe.connect')
+        Route::post('/stripe/connect', [StripeConnectController::class, 'connect'])->name('stripe.connect')
             ->middleware(['role:'.RoleEnum::USER->value]);
 
         Route::post('become-vendor', [VendorController::class, 'store'])->name('vendor.store');
@@ -63,21 +64,5 @@ Route::middleware('auth')->group(function () {
 
     });
 });
-
-Route::get('return', function () {
-    $account = Auth::user()->retrieveStripeAccount();
-
-    Auth::user()
-        ->setStripeAccountStatus($account->details_submitted)
-        ->save();
-
-    return Route::has(Config::get('stripe_connect.routes.account.complete'))
-        ? Response::redirectToRoute(Config::get('stripe_connect.routes.account.complete'))
-        : Response::redirectTo('/');
-})->name('stripe-connect.return');
-
-Route::get('refresh', function () {
-    return Response::redirectTo(Auth::user()->getStripeAccountLink());
-})->name('stripe-connect.refresh');
 
 require __DIR__.'/auth.php';

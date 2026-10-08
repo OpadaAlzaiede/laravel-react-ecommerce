@@ -21,11 +21,11 @@ class UserSeeder extends Seeder
         ]);
 
         $vendor1 = User::factory()->create([
-            'name' => 'Vendor1',
+            'name' => 'Daniel Carter',
             'email' => 'vendor1@tradely.com',
         ]);
         $vendor2 = User::factory()->create([
-            'name' => 'Vendor2',
+            'name' => 'Sophia Reyes',
             'email' => 'vendor2@tradely.com',
         ]);
 
@@ -49,14 +49,14 @@ class UserSeeder extends Seeder
         Vendor::create([
             'user_id' => $vendor1->id,
             'status' => VendorStatusEnum::APPROVED,
-            'store_name' => 'Vendor1 Store',
+            'store_name' => 'Nova Tech & Home',
             'store_address' => fake()->address(),
         ]);
         $vendor2->assignRole(RoleEnum::VENDOR->value);
         Vendor::create([
             'user_id' => $vendor2->id,
             'status' => VendorStatusEnum::APPROVED,
-            'store_name' => 'Vendor2 Store',
+            'store_name' => 'Maison Market',
             'store_address' => fake()->address(),
         ]);
         $user1->assignRole(RoleEnum::USER->value);

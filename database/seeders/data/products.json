@@ -1,0 +1,1481 @@
+[
+    {
+        "title": "iPhone 13 Pro",
+        "slug": "iphone-13-pro",
+        "category": "Smartphones",
+        "vendor": "electronics",
+        "featured": true,
+        "price": 1099.99,
+        "quantity": 56,
+        "description": "<p>The iPhone 13 Pro is a cutting-edge smartphone with a powerful camera system, high-performance chip, and stunning display. It offers advanced features for users who demand top-notch technology.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 12.63 × 5.28 × 14.29 cm</li><li><strong>Weight:</strong> 8 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "iphone-13-pro/1.webp",
+            "iphone-13-pro/2.webp",
+            "iphone-13-pro/3.webp"
+        ],
+        "variation": {
+            "name": "Storage",
+            "options": [
+                {
+                    "name": "128GB",
+                    "price_delta": 0
+                },
+                {
+                    "name": "256GB",
+                    "price_delta": 100
+                },
+                {
+                    "name": "512GB",
+                    "price_delta": 300
+                }
+            ]
+        }
+    },
+    {
+        "title": "Samsung Galaxy S10",
+        "slug": "samsung-galaxy-s10",
+        "category": "Smartphones",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 699.99,
+        "quantity": 19,
+        "description": "<p>The Samsung Galaxy S10 is a flagship device featuring a dynamic AMOLED display, versatile camera system, and powerful performance. It represents innovation and excellence in smartphone technology.</p><ul><li><strong>Brand:</strong> Samsung</li><li><strong>Dimensions:</strong> 27.41 × 15.26 × 27.02 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> No warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "samsung-galaxy-s10/1.webp",
+            "samsung-galaxy-s10/2.webp",
+            "samsung-galaxy-s10/3.webp"
+        ],
+        "variation": {
+            "name": "Storage",
+            "options": [
+                {
+                    "name": "128GB",
+                    "price_delta": 0
+                },
+                {
+                    "name": "256GB",
+                    "price_delta": 100
+                },
+                {
+                    "name": "512GB",
+                    "price_delta": 300
+                }
+            ]
+        }
+    },
+    {
+        "title": "Oppo F19 Pro Plus",
+        "slug": "oppo-f19-pro-plus",
+        "category": "Smartphones",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 399.99,
+        "quantity": 78,
+        "description": "<p>The Oppo F19 Pro Plus is a feature-rich smartphone with a focus on camera capabilities. It boasts advanced photography features and a powerful performance for a premium user experience.</p><ul><li><strong>Brand:</strong> Oppo</li><li><strong>Dimensions:</strong> 6.78 × 25.17 × 8.4 cm</li><li><strong>Weight:</strong> 6 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "oppo-f19-pro-plus/1.webp",
+            "oppo-f19-pro-plus/2.webp",
+            "oppo-f19-pro-plus/3.webp"
+        ],
+        "variation": {
+            "name": "Storage",
+            "options": [
+                {
+                    "name": "128GB",
+                    "price_delta": 0
+                },
+                {
+                    "name": "256GB",
+                    "price_delta": 100
+                },
+                {
+                    "name": "512GB",
+                    "price_delta": 300
+                }
+            ]
+        }
+    },
+    {
+        "title": "Realme XT",
+        "slug": "realme-xt",
+        "category": "Smartphones",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 349.99,
+        "quantity": 80,
+        "description": "<p>The Realme XT is a feature-rich smartphone with a focus on camera technology. It comes equipped with advanced camera sensors, delivering high-quality photos and videos for photography enthusiasts.</p><ul><li><strong>Brand:</strong> Realme</li><li><strong>Dimensions:</strong> 24.98 × 26.73 × 6.5 cm</li><li><strong>Weight:</strong> 3 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "realme-xt/1.webp",
+            "realme-xt/2.webp",
+            "realme-xt/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Vivo X21",
+        "slug": "vivo-x21",
+        "category": "Smartphones",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 499.99,
+        "quantity": 12,
+        "description": "<p>The Vivo X21 is a premium smartphone with a focus on cutting-edge technology. It features an in-display fingerprint sensor, a high-resolution display, and advanced camera capabilities.</p><ul><li><strong>Brand:</strong> Vivo</li><li><strong>Dimensions:</strong> 22.49 × 21.62 × 27.88 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "vivo-x21/1.webp",
+            "vivo-x21/2.webp",
+            "vivo-x21/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple MacBook Pro 14 Inch Space Grey",
+        "slug": "apple-macbook-pro-14-inch-space-grey",
+        "category": "Laptops",
+        "vendor": "electronics",
+        "featured": true,
+        "price": 1999.99,
+        "quantity": 24,
+        "description": "<p>The MacBook Pro 14 Inch in Space Grey is a powerful and sleek laptop, featuring Apple's M1 Pro chip for exceptional performance and a stunning Retina display.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 20.03 × 9.54 × 14.82 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "apple-macbook-pro-14-inch-space-grey/1.webp",
+            "apple-macbook-pro-14-inch-space-grey/2.webp",
+            "apple-macbook-pro-14-inch-space-grey/3.webp"
+        ],
+        "variation": {
+            "name": "Memory",
+            "options": [
+                {
+                    "name": "16GB",
+                    "price_delta": 0
+                },
+                {
+                    "name": "32GB",
+                    "price_delta": 400
+                }
+            ]
+        }
+    },
+    {
+        "title": "Asus Zenbook Pro Dual Screen Laptop",
+        "slug": "asus-zenbook-pro-dual-screen-laptop",
+        "category": "Laptops",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 1799.99,
+        "quantity": 45,
+        "description": "<p>The Asus Zenbook Pro Dual Screen Laptop is a high-performance device with dual screens, providing productivity and versatility for creative professionals.</p><ul><li><strong>Brand:</strong> Asus</li><li><strong>Dimensions:</strong> 16.6 × 11.49 × 10.89 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "asus-zenbook-pro-dual-screen-laptop/1.webp",
+            "asus-zenbook-pro-dual-screen-laptop/2.webp",
+            "asus-zenbook-pro-dual-screen-laptop/3.webp"
+        ],
+        "variation": {
+            "name": "Memory",
+            "options": [
+                {
+                    "name": "16GB",
+                    "price_delta": 0
+                },
+                {
+                    "name": "32GB",
+                    "price_delta": 400
+                }
+            ]
+        }
+    },
+    {
+        "title": "Huawei Matebook X Pro",
+        "slug": "huawei-matebook-x-pro",
+        "category": "Laptops",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 1399.99,
+        "quantity": 75,
+        "description": "<p>The Huawei Matebook X Pro is a slim and stylish laptop with a high-resolution touchscreen display, offering a premium experience for users on the go.</p><ul><li><strong>Brand:</strong> Huawei</li><li><strong>Dimensions:</strong> 18.21 × 22.83 × 17.26 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> No warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "huawei-matebook-x-pro/1.webp",
+            "huawei-matebook-x-pro/2.webp",
+            "huawei-matebook-x-pro/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "New DELL XPS 13 9300 Laptop",
+        "slug": "new-dell-xps-13-9300-laptop",
+        "category": "Laptops",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 1499.99,
+        "quantity": 74,
+        "description": "<p>The New DELL XPS 13 9300 Laptop is a compact and powerful device, featuring a virtually borderless InfinityEdge display and high-end performance for various tasks.</p><ul><li><strong>Brand:</strong> Dell</li><li><strong>Dimensions:</strong> 13.76 × 29 × 21.42 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "new-dell-xps-13-9300-laptop/1.webp",
+            "new-dell-xps-13-9300-laptop/2.webp",
+            "new-dell-xps-13-9300-laptop/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Lenovo Yoga 920",
+        "slug": "lenovo-yoga-920",
+        "category": "Laptops",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 1099.99,
+        "quantity": 40,
+        "description": "<p>The Lenovo Yoga 920 is a 2-in-1 convertible laptop with a flexible hinge, allowing you to use it as a laptop or tablet, offering versatility and portability.</p><ul><li><strong>Brand:</strong> Lenovo</li><li><strong>Dimensions:</strong> 20.84 × 22.68 × 17.39 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "lenovo-yoga-920/1.webp",
+            "lenovo-yoga-920/2.webp",
+            "lenovo-yoga-920/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "iPad Mini 2021 Starlight",
+        "slug": "ipad-mini-2021-starlight",
+        "category": "Tablets",
+        "vendor": "electronics",
+        "featured": true,
+        "price": 499.99,
+        "quantity": 47,
+        "description": "<p>The iPad Mini 2021 in Starlight is a compact and powerful tablet from Apple. Featuring a stunning Retina display, powerful A-series chip, and a sleek design, it offers a premium tablet experience.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 17.03 × 5.34 × 29.62 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "ipad-mini-2021-starlight/1.webp",
+            "ipad-mini-2021-starlight/2.webp",
+            "ipad-mini-2021-starlight/3.webp"
+        ],
+        "variation": {
+            "name": "Storage",
+            "options": [
+                {
+                    "name": "128GB",
+                    "price_delta": 0
+                },
+                {
+                    "name": "256GB",
+                    "price_delta": 100
+                },
+                {
+                    "name": "512GB",
+                    "price_delta": 300
+                }
+            ]
+        }
+    },
+    {
+        "title": "Samsung Galaxy Tab S8 Plus Grey",
+        "slug": "samsung-galaxy-tab-s8-plus-grey",
+        "category": "Tablets",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 599.99,
+        "quantity": 62,
+        "description": "<p>The Samsung Galaxy Tab S8 Plus in Grey is a high-performance Android tablet by Samsung. With a large AMOLED display, powerful processor, and S Pen support, it's ideal for productivity and entertainment.</p><ul><li><strong>Brand:</strong> Samsung</li><li><strong>Dimensions:</strong> 6.11 × 25.85 × 26.85 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 3 months warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "samsung-galaxy-tab-s8-plus-grey/1.webp",
+            "samsung-galaxy-tab-s8-plus-grey/2.webp",
+            "samsung-galaxy-tab-s8-plus-grey/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple Airpods",
+        "slug": "apple-airpods",
+        "category": "Earbuds",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 129.99,
+        "quantity": 67,
+        "description": "<p>The Apple Airpods offer a seamless wireless audio experience. With easy pairing, high-quality sound, and Siri integration, they are perfect for on-the-go listening.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 25.79 × 18.38 × 11.53 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "apple-airpods/1.webp",
+            "apple-airpods/2.webp",
+            "apple-airpods/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Beats Flex Wireless Earphones",
+        "slug": "beats-flex-wireless-earphones",
+        "category": "Earbuds",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 49.99,
+        "quantity": 50,
+        "description": "<p>The Beats Flex Wireless Earphones offer a comfortable and versatile audio experience. With magnetic earbuds and up to 12 hours of battery life, they are ideal for everyday use.</p><ul><li><strong>Brand:</strong> Beats</li><li><strong>Dimensions:</strong> 17.86 × 25.74 × 23.09 cm</li><li><strong>Weight:</strong> 8 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "beats-flex-wireless-earphones/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple AirPods Max Silver",
+        "slug": "apple-airpods-max-silver",
+        "category": "Headphones",
+        "vendor": "electronics",
+        "featured": true,
+        "price": 549.99,
+        "quantity": 59,
+        "description": "<p>The Apple AirPods Max in Silver are premium over-ear headphones with high-fidelity audio, adaptive EQ, and active noise cancellation. Experience immersive sound in style.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 24.88 × 14.9 × 27.54 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> No warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "apple-airpods-max-silver/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple HomePod Mini Cosmic Grey",
+        "slug": "apple-homepod-mini-cosmic-grey",
+        "category": "Speakers",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 99.99,
+        "quantity": 27,
+        "description": "<p>The Apple HomePod Mini in Cosmic Grey is a compact smart speaker that delivers impressive audio and integrates seamlessly with the Apple ecosystem for a smart home experience.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 16.02 × 29.2 × 19.81 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> 3 months warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "apple-homepod-mini-cosmic-grey/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Amazon Echo Plus",
+        "slug": "amazon-echo-plus",
+        "category": "Speakers",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 99.99,
+        "quantity": 61,
+        "description": "<p>The Amazon Echo Plus is a smart speaker with built-in Alexa voice control. It features premium sound quality and serves as a hub for controlling smart home devices.</p><ul><li><strong>Brand:</strong> Amazon</li><li><strong>Dimensions:</strong> 12.68 × 15.24 × 27.46 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "amazon-echo-plus/1.webp",
+            "amazon-echo-plus/2.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple MagSafe Battery Pack",
+        "slug": "apple-magsafe-battery-pack",
+        "category": "Chargers & Cables",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 99.99,
+        "quantity": 12,
+        "description": "<p>The Apple MagSafe Battery Pack is a portable and convenient way to add extra battery life to your MagSafe-compatible iPhone. Attach it magnetically for a secure connection.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 15.4 × 11.89 × 19.67 cm</li><li><strong>Weight:</strong> 6 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "apple-magsafe-battery-pack/1.webp",
+            "apple-magsafe-battery-pack/2.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple iPhone Charger",
+        "slug": "apple-iphone-charger",
+        "category": "Chargers & Cables",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 19.99,
+        "quantity": 31,
+        "description": "<p>The Apple iPhone Charger is a high-quality charger designed for fast and efficient charging of your iPhone. Ensure your device stays powered up and ready to go.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 13.63 × 26.25 × 5.95 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "apple-iphone-charger/1.webp",
+            "apple-iphone-charger/2.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "iPhone 12 Silicone Case with MagSafe Plum",
+        "slug": "iphone-12-silicone-case-with-magsafe-plum",
+        "category": "Phone Cases",
+        "vendor": "electronics",
+        "featured": false,
+        "price": 29.99,
+        "quantity": 69,
+        "description": "<p>The iPhone 12 Silicone Case with MagSafe in Plum is a stylish and protective case designed for the iPhone 12. It features MagSafe technology for easy attachment of accessories.</p><ul><li><strong>Brand:</strong> Apple</li><li><strong>Dimensions:</strong> 12.49 × 11.29 × 23.52 cm</li><li><strong>Weight:</strong> 7 kg</li><li><strong>Warranty:</strong> 3 months warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "iphone-12-silicone-case-with-magsafe-plum/1.webp",
+            "iphone-12-silicone-case-with-magsafe-plum/2.webp",
+            "iphone-12-silicone-case-with-magsafe-plum/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Blue & Black Check Shirt",
+        "slug": "blue-and-black-check-shirt",
+        "category": "Shirts",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 29.99,
+        "quantity": 38,
+        "description": "<p>The Blue &amp; Black Check Shirt is a stylish and comfortable men's shirt featuring a classic check pattern. Made from high-quality fabric, it's suitable for both casual and semi-formal occasions.</p><ul><li><strong>Brand:</strong> Fashion Trends</li><li><strong>Dimensions:</strong> 27.49 × 23.73 × 28.61 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "blue-and-black-check-shirt/1.webp",
+            "blue-and-black-check-shirt/2.webp",
+            "blue-and-black-check-shirt/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "S",
+                    "price_delta": 0
+                },
+                {
+                    "name": "M",
+                    "price_delta": 0
+                },
+                {
+                    "name": "L",
+                    "price_delta": 0
+                },
+                {
+                    "name": "XL",
+                    "price_delta": 5
+                }
+            ]
+        }
+    },
+    {
+        "title": "Man Plaid Shirt",
+        "slug": "man-plaid-shirt",
+        "category": "Shirts",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 34.99,
+        "quantity": 82,
+        "description": "<p>The Man Plaid Shirt is a timeless and versatile men's shirt with a classic plaid pattern. Its comfortable fit and casual style make it a wardrobe essential for various occasions.</p><ul><li><strong>Brand:</strong> Classic Wear</li><li><strong>Dimensions:</strong> 9.34 × 5.97 × 10.85 cm</li><li><strong>Weight:</strong> 3 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "man-plaid-shirt/1.webp",
+            "man-plaid-shirt/2.webp",
+            "man-plaid-shirt/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "S",
+                    "price_delta": 0
+                },
+                {
+                    "name": "M",
+                    "price_delta": 0
+                },
+                {
+                    "name": "L",
+                    "price_delta": 0
+                },
+                {
+                    "name": "XL",
+                    "price_delta": 5
+                }
+            ]
+        }
+    },
+    {
+        "title": "Men Check Shirt",
+        "slug": "men-check-shirt",
+        "category": "Shirts",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 27.99,
+        "quantity": 95,
+        "description": "<p>The Men Check Shirt is a classic and versatile shirt featuring a stylish check pattern. Suitable for various occasions, it adds a smart and polished touch to your wardrobe.</p><ul><li><strong>Brand:</strong> Urban Chic</li><li><strong>Dimensions:</strong> 23.48 × 7.03 × 27.33 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> No warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "men-check-shirt/1.webp",
+            "men-check-shirt/2.webp",
+            "men-check-shirt/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "S",
+                    "price_delta": 0
+                },
+                {
+                    "name": "M",
+                    "price_delta": 0
+                },
+                {
+                    "name": "L",
+                    "price_delta": 0
+                },
+                {
+                    "name": "XL",
+                    "price_delta": 5
+                }
+            ]
+        }
+    },
+    {
+        "title": "Nike Air Jordan 1 Red And Black",
+        "slug": "nike-air-jordan-1-red-and-black",
+        "category": "Footwear",
+        "vendor": "fashion",
+        "featured": true,
+        "price": 149.99,
+        "quantity": 12,
+        "description": "<p>The Nike Air Jordan 1 in Red and Black is an iconic basketball sneaker known for its stylish design and high-performance features, making it a favorite among sneaker enthusiasts and athletes.</p><ul><li><strong>Brand:</strong> Nike</li><li><strong>Dimensions:</strong> 17.44 × 9.52 × 27 cm</li><li><strong>Weight:</strong> 3 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "nike-air-jordan-1-red-and-black/1.webp",
+            "nike-air-jordan-1-red-and-black/2.webp",
+            "nike-air-jordan-1-red-and-black/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "40",
+                    "price_delta": 0
+                },
+                {
+                    "name": "41",
+                    "price_delta": 0
+                },
+                {
+                    "name": "42",
+                    "price_delta": 0
+                },
+                {
+                    "name": "43",
+                    "price_delta": 0
+                },
+                {
+                    "name": "44",
+                    "price_delta": 0
+                }
+            ]
+        }
+    },
+    {
+        "title": "Puma Future Rider Trainers",
+        "slug": "puma-future-rider-trainers",
+        "category": "Footwear",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 89.99,
+        "quantity": 90,
+        "description": "<p>The Puma Future Rider Trainers offer a blend of retro style and modern comfort. Perfect for casual wear, these trainers provide a fashionable and comfortable option for everyday use.</p><ul><li><strong>Brand:</strong> Puma</li><li><strong>Dimensions:</strong> 17.45 × 15.58 × 23.13 cm</li><li><strong>Weight:</strong> 6 kg</li><li><strong>Warranty:</strong> 5 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "puma-future-rider-trainers/1.webp",
+            "puma-future-rider-trainers/2.webp",
+            "puma-future-rider-trainers/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "40",
+                    "price_delta": 0
+                },
+                {
+                    "name": "41",
+                    "price_delta": 0
+                },
+                {
+                    "name": "42",
+                    "price_delta": 0
+                },
+                {
+                    "name": "43",
+                    "price_delta": 0
+                },
+                {
+                    "name": "44",
+                    "price_delta": 0
+                }
+            ]
+        }
+    },
+    {
+        "title": "Rolex Submariner Watch",
+        "slug": "rolex-submariner-watch",
+        "category": "Watches",
+        "vendor": "fashion",
+        "featured": true,
+        "price": 13999.99,
+        "quantity": 55,
+        "description": "<p>The Rolex Submariner is a legendary dive watch with a rich history. Known for its durability and water resistance, it's a symbol of adventure and exploration.</p><ul><li><strong>Brand:</strong> Rolex</li><li><strong>Dimensions:</strong> 17.69 × 12.48 × 8.75 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 5 year warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "rolex-submariner-watch/1.webp",
+            "rolex-submariner-watch/2.webp",
+            "rolex-submariner-watch/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Longines Master Collection",
+        "slug": "longines-master-collection",
+        "category": "Watches",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 1499.99,
+        "quantity": 100,
+        "description": "<p>The Longines Master Collection is an elegant and refined watch known for its precision and craftsmanship. With a timeless design, it's a symbol of luxury and sophistication.</p><ul><li><strong>Brand:</strong> Longines</li><li><strong>Dimensions:</strong> 15.39 × 10.06 × 20.32 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "longines-master-collection/1.webp",
+            "longines-master-collection/2.webp",
+            "longines-master-collection/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Brown Leather Belt Watch",
+        "slug": "brown-leather-belt-watch",
+        "category": "Watches",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 89.99,
+        "quantity": 32,
+        "description": "<p>The Brown Leather Belt Watch is a stylish timepiece with a classic design. Featuring a genuine leather strap and a sleek dial, it adds a touch of sophistication to your look.</p><ul><li><strong>Brand:</strong> Fashion Timepieces</li><li><strong>Dimensions:</strong> 16.65 × 6.15 × 20.18 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "brown-leather-belt-watch/1.webp",
+            "brown-leather-belt-watch/2.webp",
+            "brown-leather-belt-watch/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Black Women's Gown",
+        "slug": "black-womens-gown",
+        "category": "Dresses",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 129.99,
+        "quantity": 25,
+        "description": "<p>The Black Women's Gown is an elegant and timeless evening gown. With a sleek black design, it's perfect for formal events and special occasions, exuding sophistication and style.</p><ul><li><strong>Dimensions:</strong> 7.86 × 9.02 × 25.82 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "black-womens-gown/1.webp",
+            "black-womens-gown/2.webp",
+            "black-womens-gown/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "S",
+                    "price_delta": 0
+                },
+                {
+                    "name": "M",
+                    "price_delta": 0
+                },
+                {
+                    "name": "L",
+                    "price_delta": 0
+                },
+                {
+                    "name": "XL",
+                    "price_delta": 5
+                }
+            ]
+        }
+    },
+    {
+        "title": "Dress Pea",
+        "slug": "dress-pea",
+        "category": "Dresses",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 49.99,
+        "quantity": 12,
+        "description": "<p>The Dress Pea is a stylish and comfortable dress with a pea pattern. Perfect for casual outings, it adds a playful and fun element to your wardrobe, making it a great choice for day-to-day wear.</p><ul><li><strong>Dimensions:</strong> 28.51 × 20.99 × 12.58 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "dress-pea/1.webp",
+            "dress-pea/2.webp",
+            "dress-pea/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "S",
+                    "price_delta": 0
+                },
+                {
+                    "name": "M",
+                    "price_delta": 0
+                },
+                {
+                    "name": "L",
+                    "price_delta": 0
+                },
+                {
+                    "name": "XL",
+                    "price_delta": 5
+                }
+            ]
+        }
+    },
+    {
+        "title": "Girl Summer Dress",
+        "slug": "girl-summer-dress",
+        "category": "Clothing",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 19.99,
+        "quantity": 43,
+        "description": "<p>The Girl Summer Dress is a cute and breezy dress designed for warm weather. With playful patterns and lightweight fabric, it's perfect for keeping cool and stylish during the summer.</p><ul><li><strong>Dimensions:</strong> 26.19 × 20.65 × 10.1 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "girl-summer-dress/1.webp",
+            "girl-summer-dress/2.webp",
+            "girl-summer-dress/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Blue Frock",
+        "slug": "blue-frock",
+        "category": "Clothing",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 29.99,
+        "quantity": 52,
+        "description": "<p>The Blue Frock is a charming and stylish dress for various occasions. With a vibrant blue color and a comfortable design, it adds a touch of elegance to your wardrobe.</p><ul><li><strong>Dimensions:</strong> 24.25 × 5.91 × 8.79 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "blue-frock/1.webp",
+            "blue-frock/2.webp",
+            "blue-frock/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Calvin Klein Heel Shoes",
+        "slug": "calvin-klein-heel-shoes",
+        "category": "Shoes",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 79.99,
+        "quantity": 93,
+        "description": "<p>Calvin Klein Heel Shoes are elegant and sophisticated, designed for formal occasions. With a classic design and high-quality materials, they complement your stylish ensemble.</p><ul><li><strong>Brand:</strong> Calvin Klein</li><li><strong>Dimensions:</strong> 29.12 × 20.94 × 20.65 cm</li><li><strong>Weight:</strong> 6 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "calvin-klein-heel-shoes/1.webp",
+            "calvin-klein-heel-shoes/2.webp",
+            "calvin-klein-heel-shoes/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "36",
+                    "price_delta": 0
+                },
+                {
+                    "name": "37",
+                    "price_delta": 0
+                },
+                {
+                    "name": "38",
+                    "price_delta": 0
+                },
+                {
+                    "name": "39",
+                    "price_delta": 0
+                },
+                {
+                    "name": "40",
+                    "price_delta": 0
+                }
+            ]
+        }
+    },
+    {
+        "title": "Golden Shoes Woman",
+        "slug": "golden-shoes-woman",
+        "category": "Shoes",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 49.99,
+        "quantity": 88,
+        "description": "<p>The Golden Shoes for Women are a glamorous choice for special occasions. Featuring a golden hue and stylish design, they add a touch of luxury to your outfit.</p><ul><li><strong>Brand:</strong> Fashion Diva</li><li><strong>Dimensions:</strong> 16.38 × 20.06 × 8.8 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "golden-shoes-woman/1.webp",
+            "golden-shoes-woman/2.webp",
+            "golden-shoes-woman/3.webp"
+        ],
+        "variation": {
+            "name": "Size",
+            "options": [
+                {
+                    "name": "36",
+                    "price_delta": 0
+                },
+                {
+                    "name": "37",
+                    "price_delta": 0
+                },
+                {
+                    "name": "38",
+                    "price_delta": 0
+                },
+                {
+                    "name": "39",
+                    "price_delta": 0
+                },
+                {
+                    "name": "40",
+                    "price_delta": 0
+                }
+            ]
+        }
+    },
+    {
+        "title": "Green Crystal Earring",
+        "slug": "green-crystal-earring",
+        "category": "Earrings",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 29.99,
+        "quantity": 54,
+        "description": "<p>The Green Crystal Earring is a dazzling accessory that features a vibrant green crystal. With a classic design, it adds a touch of elegance to your ensemble, perfect for formal or special occasions.</p><ul><li><strong>Dimensions:</strong> 14.61 × 22.92 × 12.52 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> 5 year warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "green-crystal-earring/1.webp",
+            "green-crystal-earring/2.webp",
+            "green-crystal-earring/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Tropical Earring",
+        "slug": "tropical-earring",
+        "category": "Earrings",
+        "vendor": "fashion",
+        "featured": false,
+        "price": 19.99,
+        "quantity": 12,
+        "description": "<p>The Tropical Earring is a fun and playful accessory inspired by tropical elements. Featuring vibrant colors and a lively design, it's perfect for adding a touch of summer to your look.</p><ul><li><strong>Dimensions:</strong> 14.99 × 15.76 × 16.09 cm</li><li><strong>Weight:</strong> 3 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "tropical-earring/1.webp",
+            "tropical-earring/2.webp",
+            "tropical-earring/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Annibale Colombo Sofa",
+        "slug": "annibale-colombo-sofa",
+        "category": "Living Room",
+        "vendor": "home",
+        "featured": true,
+        "price": 2499.99,
+        "quantity": 60,
+        "description": "<p>The Annibale Colombo Sofa is a sophisticated and comfortable seating option, featuring exquisite design and premium upholstery for your living room.</p><ul><li><strong>Brand:</strong> Annibale Colombo</li><li><strong>Dimensions:</strong> 12.75 × 20.55 × 19.06 cm</li><li><strong>Weight:</strong> 6 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "annibale-colombo-sofa/1.webp",
+            "annibale-colombo-sofa/2.webp",
+            "annibale-colombo-sofa/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Annibale Colombo Bed",
+        "slug": "annibale-colombo-bed",
+        "category": "Bedroom",
+        "vendor": "home",
+        "featured": false,
+        "price": 1899.99,
+        "quantity": 88,
+        "description": "<p>The Annibale Colombo Bed is a luxurious and elegant bed frame, crafted with high-quality materials for a comfortable and stylish bedroom.</p><ul><li><strong>Brand:</strong> Annibale Colombo</li><li><strong>Dimensions:</strong> 28.16 × 25.36 × 17.28 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "annibale-colombo-bed/1.webp",
+            "annibale-colombo-bed/2.webp",
+            "annibale-colombo-bed/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Bedside Table African Cherry",
+        "slug": "bedside-table-african-cherry",
+        "category": "Bedroom",
+        "vendor": "home",
+        "featured": false,
+        "price": 299.99,
+        "quantity": 64,
+        "description": "<p>The Bedside Table in African Cherry is a stylish and functional addition to your bedroom, providing convenient storage space and a touch of elegance.</p><ul><li><strong>Brand:</strong> Furniture Co.</li><li><strong>Dimensions:</strong> 13.47 × 24.99 × 27.35 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> 5 year warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "bedside-table-african-cherry/1.webp",
+            "bedside-table-african-cherry/2.webp",
+            "bedside-table-african-cherry/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Knoll Saarinen Executive Conference Chair",
+        "slug": "knoll-saarinen-executive-conference-chair",
+        "category": "Office",
+        "vendor": "home",
+        "featured": false,
+        "price": 499.99,
+        "quantity": 26,
+        "description": "<p>The Knoll Saarinen Executive Conference Chair is a modern and ergonomic chair, perfect for your office or conference room with its timeless design.</p><ul><li><strong>Brand:</strong> Knoll</li><li><strong>Dimensions:</strong> 13.81 × 7.5 × 5.62 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "knoll-saarinen-executive-conference-chair/1.webp",
+            "knoll-saarinen-executive-conference-chair/2.webp",
+            "knoll-saarinen-executive-conference-chair/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Boxed Blender",
+        "slug": "boxed-blender",
+        "category": "Kitchen Appliances",
+        "vendor": "home",
+        "featured": false,
+        "price": 39.99,
+        "quantity": 12,
+        "description": "<p>The Boxed Blender is a powerful and compact blender perfect for smoothies, shakes, and more. Its convenient design and multiple functions make it a versatile kitchen appliance.</p><ul><li><strong>Dimensions:</strong> 9.05 × 19.45 × 17.59 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 5 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "boxed-blender/1.webp",
+            "boxed-blender/2.webp",
+            "boxed-blender/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Microwave Oven",
+        "slug": "microwave-oven",
+        "category": "Kitchen Appliances",
+        "vendor": "home",
+        "featured": false,
+        "price": 89.99,
+        "quantity": 59,
+        "description": "<p>The Microwave Oven is a versatile kitchen appliance for quick and efficient cooking, reheating, and defrosting. Its compact size makes it suitable for various kitchen setups.</p><ul><li><strong>Dimensions:</strong> 16.31 × 27.45 × 13.05 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "microwave-oven/1.webp",
+            "microwave-oven/2.webp",
+            "microwave-oven/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Electric Stove",
+        "slug": "electric-stove",
+        "category": "Kitchen Appliances",
+        "vendor": "home",
+        "featured": false,
+        "price": 49.99,
+        "quantity": 21,
+        "description": "<p>The Electric Stove provides a portable and efficient cooking solution. Ideal for small kitchens or as an additional cooking surface for various culinary needs.</p><ul><li><strong>Dimensions:</strong> 24.17 × 22.55 × 27.49 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "electric-stove/1.webp",
+            "electric-stove/2.webp",
+            "electric-stove/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Carbon Steel Wok",
+        "slug": "carbon-steel-wok",
+        "category": "Cookware",
+        "vendor": "home",
+        "featured": false,
+        "price": 29.99,
+        "quantity": 40,
+        "description": "<p>The Carbon Steel Wok is a versatile cooking pan suitable for stir-frying, sautéing, and deep frying. Its sturdy construction ensures even heat distribution for delicious meals.</p><ul><li><strong>Dimensions:</strong> 27.69 × 7.54 × 10.11 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "carbon-steel-wok/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Silver Pot With Glass Cap",
+        "slug": "silver-pot-with-glass-cap",
+        "category": "Cookware",
+        "vendor": "home",
+        "featured": false,
+        "price": 39.99,
+        "quantity": 40,
+        "description": "<p>The Silver Pot with Glass Cap is a stylish and functional cookware item for boiling, simmering, and preparing delicious meals. Its glass cap allows you to monitor cooking progress.</p><ul><li><strong>Dimensions:</strong> 21.03 × 11.7 × 6.69 cm</li><li><strong>Weight:</strong> 7 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "silver-pot-with-glass-cap/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Knife",
+        "slug": "knife",
+        "category": "Cutlery",
+        "vendor": "home",
+        "featured": false,
+        "price": 14.99,
+        "quantity": 12,
+        "description": "<p>The Knife is an essential kitchen tool for chopping, slicing, and dicing. Its sharp blade and ergonomic handle make it a reliable choice for food preparation.</p><ul><li><strong>Dimensions:</strong> 25.19 × 18.52 × 20.5 cm</li><li><strong>Weight:</strong> 3 kg</li><li><strong>Warranty:</strong> 1 month warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "knife/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Lunch Box",
+        "slug": "lunch-box",
+        "category": "Food Storage",
+        "vendor": "home",
+        "featured": false,
+        "price": 12.99,
+        "quantity": 94,
+        "description": "<p>The Lunch Box is a convenient and portable container for packing and carrying your meals. With compartments for different foods, it's perfect for on-the-go dining.</p><ul><li><strong>Dimensions:</strong> 12.45 × 19.08 × 8.24 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 5 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "lunch-box/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Plant Pot",
+        "slug": "plant-pot",
+        "category": "Plants",
+        "vendor": "home",
+        "featured": false,
+        "price": 14.99,
+        "quantity": 59,
+        "description": "<p>The Plant Pot is a stylish container for your favorite plants. With a sleek design, it complements your indoor or outdoor garden, adding a modern touch to your plant display.</p><ul><li><strong>Dimensions:</strong> 9.83 × 20.28 × 13.49 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "plant-pot/1.webp",
+            "plant-pot/2.webp",
+            "plant-pot/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "House Showpiece Plant",
+        "slug": "house-showpiece-plant",
+        "category": "Plants",
+        "vendor": "home",
+        "featured": false,
+        "price": 39.99,
+        "quantity": 28,
+        "description": "<p>The House Showpiece Plant is an artificial plant that brings a touch of nature to your home without the need for maintenance. It adds greenery and style to any space.</p><ul><li><strong>Dimensions:</strong> 8.55 × 14.62 × 17.25 cm</li><li><strong>Weight:</strong> 8 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "house-showpiece-plant/1.webp",
+            "house-showpiece-plant/2.webp",
+            "house-showpiece-plant/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Chanel Coco Noir Eau De",
+        "slug": "chanel-coco-noir-eau-de",
+        "category": "Fragrances",
+        "vendor": "beauty",
+        "featured": true,
+        "price": 129.99,
+        "quantity": 58,
+        "description": "<p>Coco Noir by Chanel is an elegant and mysterious fragrance, featuring notes of grapefruit, rose, and sandalwood. Perfect for evening occasions.</p><ul><li><strong>Brand:</strong> Chanel</li><li><strong>Dimensions:</strong> 24.5 × 25.7 × 25.98 cm</li><li><strong>Weight:</strong> 7 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "chanel-coco-noir-eau-de/1.webp",
+            "chanel-coco-noir-eau-de/2.webp",
+            "chanel-coco-noir-eau-de/3.webp"
+        ],
+        "variation": {
+            "name": "Volume",
+            "options": [
+                {
+                    "name": "50ml",
+                    "price_delta": 0
+                },
+                {
+                    "name": "100ml",
+                    "price_delta": 45
+                }
+            ]
+        }
+    },
+    {
+        "title": "Dior J'adore",
+        "slug": "dior-jadore",
+        "category": "Fragrances",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 89.99,
+        "quantity": 98,
+        "description": "<p>J'adore by Dior is a luxurious and floral fragrance, known for its blend of ylang-ylang, rose, and jasmine. It embodies femininity and sophistication.</p><ul><li><strong>Brand:</strong> Dior</li><li><strong>Dimensions:</strong> 27.67 × 28.28 × 11.83 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "dior-jadore/1.webp",
+            "dior-jadore/2.webp",
+            "dior-jadore/3.webp"
+        ],
+        "variation": {
+            "name": "Volume",
+            "options": [
+                {
+                    "name": "50ml",
+                    "price_delta": 0
+                },
+                {
+                    "name": "100ml",
+                    "price_delta": 45
+                }
+            ]
+        }
+    },
+    {
+        "title": "Gucci Bloom Eau de",
+        "slug": "gucci-bloom-eau-de",
+        "category": "Fragrances",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 79.99,
+        "quantity": 91,
+        "description": "<p>Gucci Bloom by Gucci is a floral and captivating fragrance, with notes of tuberose, jasmine, and Rangoon creeper. It's a modern and romantic scent.</p><ul><li><strong>Brand:</strong> Gucci</li><li><strong>Dimensions:</strong> 20.92 × 21.68 × 11.2 cm</li><li><strong>Weight:</strong> 7 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "gucci-bloom-eau-de/1.webp",
+            "gucci-bloom-eau-de/2.webp",
+            "gucci-bloom-eau-de/3.webp"
+        ],
+        "variation": {
+            "name": "Volume",
+            "options": [
+                {
+                    "name": "50ml",
+                    "price_delta": 0
+                },
+                {
+                    "name": "100ml",
+                    "price_delta": 45
+                }
+            ]
+        }
+    },
+    {
+        "title": "Calvin Klein CK One",
+        "slug": "calvin-klein-ck-one",
+        "category": "Fragrances",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 49.99,
+        "quantity": 29,
+        "description": "<p>CK One by Calvin Klein is a classic unisex fragrance, known for its fresh and clean scent. It's a versatile fragrance suitable for everyday wear.</p><ul><li><strong>Brand:</strong> Calvin Klein</li><li><strong>Dimensions:</strong> 29.36 × 27.76 × 20.72 cm</li><li><strong>Weight:</strong> 7 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "calvin-klein-ck-one/1.webp",
+            "calvin-klein-ck-one/2.webp",
+            "calvin-klein-ck-one/3.webp"
+        ],
+        "variation": {
+            "name": "Volume",
+            "options": [
+                {
+                    "name": "50ml",
+                    "price_delta": 0
+                },
+                {
+                    "name": "100ml",
+                    "price_delta": 45
+                }
+            ]
+        }
+    },
+    {
+        "title": "Olay Ultra Moisture Shea Butter Body Wash",
+        "slug": "olay-ultra-moisture-shea-butter-body-wash",
+        "category": "Skincare",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 12.99,
+        "quantity": 34,
+        "description": "<p>Olay Ultra Moisture Shea Butter Body Wash is a luxurious body wash that hydrates and nourishes your skin with the moisturizing power of shea butter. Enjoy a rich lather and silky-smooth skin.</p><ul><li><strong>Brand:</strong> Olay</li><li><strong>Dimensions:</strong> 25.23 × 28.33 × 11.89 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "olay-ultra-moisture-shea-butter-body-wash/1.webp",
+            "olay-ultra-moisture-shea-butter-body-wash/2.webp",
+            "olay-ultra-moisture-shea-butter-body-wash/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Vaseline Men Body and Face Lotion",
+        "slug": "vaseline-men-body-and-face-lotion",
+        "category": "Skincare",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 9.99,
+        "quantity": 95,
+        "description": "<p>Vaseline Men Body and Face Lotion is a specially formulated lotion designed to provide long-lasting moisture to men's skin. It absorbs quickly and helps keep the skin hydrated and healthy.</p><ul><li><strong>Brand:</strong> Vaseline</li><li><strong>Dimensions:</strong> 21.83 × 17.38 × 24.76 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "vaseline-men-body-and-face-lotion/1.webp",
+            "vaseline-men-body-and-face-lotion/2.webp",
+            "vaseline-men-body-and-face-lotion/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Eyeshadow Palette with Mirror",
+        "slug": "eyeshadow-palette-with-mirror",
+        "category": "Makeup",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 19.99,
+        "quantity": 34,
+        "description": "<p>The Eyeshadow Palette with Mirror offers a versatile range of eyeshadow shades for creating stunning eye looks. With a built-in mirror, it's convenient for on-the-go makeup application.</p><ul><li><strong>Brand:</strong> Glamour Beauty</li><li><strong>Dimensions:</strong> 9.26 × 22.47 × 27.67 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "eyeshadow-palette-with-mirror/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Red Lipstick",
+        "slug": "red-lipstick",
+        "category": "Makeup",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 12.99,
+        "quantity": 91,
+        "description": "<p>The Red Lipstick is a classic and bold choice for adding a pop of color to your lips. With a creamy and pigmented formula, it provides a vibrant and long-lasting finish.</p><ul><li><strong>Brand:</strong> Chic Cosmetics</li><li><strong>Dimensions:</strong> 18.11 × 28.38 × 22.17 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "red-lipstick/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Essence Mascara Lash Princess",
+        "slug": "essence-mascara-lash-princess",
+        "category": "Makeup",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 9.99,
+        "quantity": 99,
+        "description": "<p>The Essence Mascara Lash Princess is a popular mascara known for its volumizing and lengthening effects. Achieve dramatic lashes with this long-lasting and cruelty-free formula.</p><ul><li><strong>Brand:</strong> Essence</li><li><strong>Dimensions:</strong> 15.14 × 13.08 × 22.99 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "essence-mascara-lash-princess/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Protein Powder",
+        "slug": "protein-powder",
+        "category": "Vitamins & Supplements",
+        "vendor": "beauty",
+        "featured": false,
+        "price": 19.99,
+        "quantity": 80,
+        "description": "<p>Nutrient-packed protein powder, ideal for supplementing your diet with essential proteins.</p><ul><li><strong>Dimensions:</strong> 9.01 × 12.53 × 22.35 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 1 month</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "protein-powder/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Basketball",
+        "slug": "basketball",
+        "category": "Team Sports",
+        "vendor": "sports",
+        "featured": false,
+        "price": 14.99,
+        "quantity": 75,
+        "description": "<p>The Basketball is a standard ball used in basketball games. It is designed for dribbling, shooting, and passing in the game of basketball, suitable for both indoor and outdoor play.</p><ul><li><strong>Dimensions:</strong> 27.86 × 10.64 × 18.75 cm</li><li><strong>Weight:</strong> 7 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "basketball/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Football",
+        "slug": "football",
+        "category": "Team Sports",
+        "vendor": "sports",
+        "featured": false,
+        "price": 17.99,
+        "quantity": 96,
+        "description": "<p>The Football, also known as a soccer ball, is the standard ball used in the sport of football (soccer). It is designed for kicking and passing in the game.</p><ul><li><strong>Dimensions:</strong> 28.93 × 23.01 × 11.71 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "football/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Volleyball",
+        "slug": "volleyball",
+        "category": "Team Sports",
+        "vendor": "sports",
+        "featured": false,
+        "price": 11.99,
+        "quantity": 12,
+        "description": "<p>The Volleyball is a standard ball used in the sport of volleyball. It is designed for passing, setting, and spiking over the net during volleyball matches.</p><ul><li><strong>Dimensions:</strong> 17.01 × 20.05 × 9.94 cm</li><li><strong>Weight:</strong> 3 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "volleyball/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Baseball Glove",
+        "slug": "baseball-glove",
+        "category": "Team Sports",
+        "vendor": "sports",
+        "featured": false,
+        "price": 24.99,
+        "quantity": 22,
+        "description": "<p>The Baseball Glove is a protective glove worn by baseball players. It is designed to catch and field the baseball, providing players with comfort and control during the game.</p><ul><li><strong>Dimensions:</strong> 23.84 × 11.12 × 5.85 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "baseball-glove/1.webp",
+            "baseball-glove/2.webp",
+            "baseball-glove/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Cricket Helmet",
+        "slug": "cricket-helmet",
+        "category": "Team Sports",
+        "vendor": "sports",
+        "featured": false,
+        "price": 44.99,
+        "quantity": 12,
+        "description": "<p>The Cricket Helmet is a protective headgear worn by cricket players, especially batsmen and wicketkeepers. It provides protection against fast bowling and bouncers.</p><ul><li><strong>Dimensions:</strong> 6.34 × 6.25 × 21.68 cm</li><li><strong>Weight:</strong> 10 kg</li><li><strong>Warranty:</strong> Lifetime warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 60 days return policy</li></ul>",
+        "images": [
+            "cricket-helmet/1.webp",
+            "cricket-helmet/2.webp",
+            "cricket-helmet/3.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Strawberry",
+        "slug": "strawberry",
+        "category": "Fruits",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 3.99,
+        "quantity": 46,
+        "description": "<p>Sweet and succulent strawberries, great for snacking, desserts, or blending into smoothies.</p><ul><li><strong>Dimensions:</strong> 28.18 × 21.25 × 28.54 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 1 week warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "strawberry/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Kiwi",
+        "slug": "kiwi",
+        "category": "Fruits",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 2.49,
+        "quantity": 99,
+        "description": "<p>Nutrient-rich kiwi, perfect for snacking or adding a tropical twist to your dishes.</p><ul><li><strong>Dimensions:</strong> 19.4 × 18.67 × 17.13 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "kiwi/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Apple",
+        "slug": "apple",
+        "category": "Fruits",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 1.99,
+        "quantity": 12,
+        "description": "<p>Fresh and crisp apples, perfect for snacking or incorporating into various recipes.</p><ul><li><strong>Dimensions:</strong> 13.66 × 11.01 × 9.73 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "apple/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Cucumber",
+        "slug": "cucumber",
+        "category": "Vegetables",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 1.49,
+        "quantity": 84,
+        "description": "<p>Crisp and hydrating cucumbers, ideal for salads, snacks, or as a refreshing side.</p><ul><li><strong>Dimensions:</strong> 12.8 × 28.38 × 21.34 cm</li><li><strong>Weight:</strong> 4 kg</li><li><strong>Warranty:</strong> 2 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "cucumber/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Potatoes",
+        "slug": "potatoes",
+        "category": "Vegetables",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 2.29,
+        "quantity": 13,
+        "description": "<p>Versatile and starchy potatoes, great for roasting, mashing, or as a side dish.</p><ul><li><strong>Dimensions:</strong> 22.65 × 9.83 × 21.75 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 3 year warranty</li><li><strong>Shipping:</strong> Ships in 3-5 business days</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "potatoes/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Green Bell Pepper",
+        "slug": "green-bell-pepper",
+        "category": "Vegetables",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 1.29,
+        "quantity": 33,
+        "description": "<p>Fresh and vibrant green bell pepper, perfect for adding color and flavor to your dishes.</p><ul><li><strong>Dimensions:</strong> 15.33 × 26.65 × 14.44 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> 1 month warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "green-bell-pepper/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Rice",
+        "slug": "rice",
+        "category": "Pasta & Rice",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 5.99,
+        "quantity": 59,
+        "description": "<p>High-quality rice, a staple for various cuisines and a versatile base for many dishes.</p><ul><li><strong>Dimensions:</strong> 17.21 × 9.88 × 17.16 cm</li><li><strong>Weight:</strong> 5 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships overnight</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "rice/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Nescafe Coffee",
+        "slug": "nescafe-coffee",
+        "category": "Tea & Coffee",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 7.99,
+        "quantity": 57,
+        "description": "<p>Quality coffee from Nescafe, available in various blends for a rich and satisfying cup.</p><ul><li><strong>Dimensions:</strong> 20.54 × 29.49 × 29.2 cm</li><li><strong>Weight:</strong> 6 kg</li><li><strong>Warranty:</strong> 1 year warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 30 days return policy</li></ul>",
+        "images": [
+            "nescafe-coffee/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Juice",
+        "slug": "juice",
+        "category": "Juices",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 3.99,
+        "quantity": 50,
+        "description": "<p>Refreshing fruit juice, packed with vitamins and great for staying hydrated.</p><ul><li><strong>Dimensions:</strong> 18.56 × 21.46 × 28.02 cm</li><li><strong>Weight:</strong> 1 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships in 1 week</li><li><strong>Returns:</strong> No return policy</li></ul>",
+        "images": [
+            "juice/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Soft Drinks",
+        "slug": "soft-drinks",
+        "category": "Soft Drinks",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 1.99,
+        "quantity": 53,
+        "description": "<p>Assorted soft drinks in various flavors, perfect for refreshing beverages.</p><ul><li><strong>Dimensions:</strong> 19.75 × 6.79 × 9.33 cm</li><li><strong>Weight:</strong> 9 kg</li><li><strong>Warranty:</strong> 6 months warranty</li><li><strong>Shipping:</strong> Ships in 2 weeks</li><li><strong>Returns:</strong> 7 days return policy</li></ul>",
+        "images": [
+            "soft-drinks/1.webp"
+        ],
+        "variation": null
+    },
+    {
+        "title": "Honey Jar",
+        "slug": "honey-jar",
+        "category": "Pantry Essentials",
+        "vendor": "grocery",
+        "featured": false,
+        "price": 6.99,
+        "quantity": 34,
+        "description": "<p>Pure and natural honey in a convenient jar, perfect for sweetening beverages or drizzling over food.</p><ul><li><strong>Dimensions:</strong> 9.28 × 21.72 × 17.74 cm</li><li><strong>Weight:</strong> 2 kg</li><li><strong>Warranty:</strong> 1 month warranty</li><li><strong>Shipping:</strong> Ships in 1-2 business days</li><li><strong>Returns:</strong> 90 days return policy</li></ul>",
+        "images": [
+            "honey-jar/1.webp"
+        ],
+        "variation": null
+    }
+]

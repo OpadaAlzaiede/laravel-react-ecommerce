@@ -65,6 +65,7 @@ beforeEach(function () {
     $this->phone = createProduct(['title' => 'Galaxy Phone', 'price' => 100, 'created_by' => $this->techVendor->id]);
     $type = $this->phone->variationTypes()->create(['name' => 'Storage', 'type' => ProductVariationTypeEnum::RADIO->value]);
     $option = $type->options()->create(['name' => '128GB']);
+    $this->phoneVariation = $this->phone->variations()->create(['variation_type_option_ids' => [$option->id], 'quantity' => 10, 'price' => 120]);
 
     $this->shirt = createProduct(['title' => 'Plaid Shirt', 'price' => 25.5, 'created_by' => $this->fashionVendor->id]);
 
@@ -92,6 +93,34 @@ test('checking out creates a draft order per vendor and redirects to stripe', fu
         ->and($phoneLine['price_data']['unit_amount'])->toEqual(12000)
         ->and($phoneLine['price_data']['product_data']['description'])->toBe('Storage: 128GB')
         ->and($phoneLine['quantity'])->toBe(2);
+});
+
+test('checkout charges the current price, not the price when the item was added', function () {
+    $this->phoneVariation->update(['price' => 150]);
+    $this->shirt->update(['price' => 30]);
+
+    $this->actingAs($this->customer)
+        ->post(route('cart.checkout'))
+        ->assertRedirect('https://checkout.stripe.test/cs_test_123');
+
+    $lineItems = collect($this->gateway->calls[0]['lineItems'])->keyBy('price_data.product_data.name');
+
+    expect($lineItems['Galaxy Phone']['price_data']['unit_amount'])->toEqual(15000)
+        ->and($lineItems['Plaid Shirt']['price_data']['unit_amount'])->toEqual(3000)
+        ->and((float) Order::where('vendor_user_id', $this->techVendor->id)->value('total_price'))->toBe(300.0)
+        ->and((float) OrderItem::where('product_id', $this->shirt->id)->value('price'))->toBe(30.0);
+});
+
+test('the cart page shows the current price', function () {
+    $this->shirt->update(['price' => 30]);
+
+    $this->actingAs($this->customer)
+        ->get(route('cart.index'))
+        ->assertOk()
+        ->assertInertia(fn ($page) => $page
+            ->where("cartItems.{$this->fashionVendor->id}.items.0.price", fn ($price) => (float) $price === 30.0)
+            ->where("cartItems.{$this->fashionVendor->id}.total_price", fn ($total) => (float) $total === 30.0)
+        );
 });
 
 test('checking out a single vendor only creates that vendors order', function () {

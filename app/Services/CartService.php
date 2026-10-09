@@ -71,7 +71,7 @@ final class CartService
                 }
 
                 $productIds = collect($cartItems)->map(fn ($item) => $item['product_id']);
-                $products = Product::with('user.vendor', 'currency')
+                $products = Product::with('user.vendor', 'currency', 'variations')
                     ->whereIn('id', $productIds)
                     ->forWebsite()
                     ->get()
@@ -113,7 +113,7 @@ final class CartService
                         'product_id' => $product->id,
                         'title' => $product->title,
                         'slug' => $product->slug,
-                        'price' => $cartItem['price'],
+                        'price' => $product->getPriceForOptions($cartItem['option_ids']),
                         'currency' => $product->currency->symbol,
                         'quantity' => $cartItem['quantity'],
                         'option_ids' => $cartItem['option_ids'],

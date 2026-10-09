@@ -119,6 +119,20 @@ test('a vendor is not paid twice for the same period', function () {
     expect(Payout::count())->toBe(1);
 });
 
+test('an order placed exactly at a period boundary is paid out only once', function () {
+    $stripe = fakeStripe(['POST /v1/transfers' => ['id' => 'tr_test_1', 'object' => 'transfer']]);
+    $vendor = createPayableVendor();
+    createVendorOrder($vendor, StatusEnum::PAID, 50, '2026-09-01 00:00:00');
+
+    $this->artisan('pay:vendors')->assertSuccessful();
+
+    $this->travelTo('2026-11-09 12:00:00');
+    $this->artisan('pay:vendors')->assertSuccessful();
+
+    expect((float) Payout::sum('amount'))->toBe(50.0)
+        ->and($stripe->requests)->toHaveCount(1);
+});
+
 test('vendors without an active stripe account are skipped', function () {
     $stripe = fakeStripe([]);
     $vendor = createPayableVendor(stripeActive: false);

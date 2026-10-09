@@ -45,7 +45,8 @@ final class PayoutService
             $vendorSubtotal = (float) Order::query()
                 ->where('vendor_user_id', $vendor->id)
                 ->where('status', StatusEnum::PAID->value)
-                ->whereBetween('created_at', [$startingFrom, $until])
+                ->where('created_at', '>=', $startingFrom)
+                ->where('created_at', '<', $until)
                 ->sum('vendor_subtotal');
 
             if ($vendorSubtotal <= 0) {

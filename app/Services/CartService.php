@@ -219,9 +219,12 @@ final class CartService
         $cartItems = $this->getCartItemsFromCookies();
 
         foreach ($cartItems as $cartItem) {
+            $optionIds = $cartItem['option_ids'];
+            ksort($optionIds);
+
             $existingCartItem = CartItem::where('user_id', $userId)
                 ->where('product_id', $cartItem['product_id'])
-                ->where('variation_type_option_ids', json_encode($cartItem['option_ids']))
+                ->whereJsonContains('variation_type_option_ids', $optionIds)
                 ->first();
 
             if ($existingCartItem) {

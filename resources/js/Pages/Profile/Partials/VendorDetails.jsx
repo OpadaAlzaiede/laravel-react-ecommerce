@@ -22,12 +22,12 @@ export default function VendorDetails({ className }) {
         processing,
         recentlySuccessful,
     } = useForm({
-        store_name: user.vendor?.store_name || user.name.toLowerCase().replace(/\s+/g, '-'),
+        store_name: user.vendor?.store_name || user.name,
         store_address: user.vendor?.store_address,
     });
 
     const onStoreNameChange = (ev) => {
-        setData('store_name', ev.target.value.toLowerCase().replace(/\s+/g, '-'));
+        setData('store_name', ev.target.value);
     };
 
     const becomeVendor = (ev) => {

@@ -33,7 +33,7 @@ export default function Show({ product, variationOptions }) {
     const isOutOfStock = computedProduct.quantity <= 0;
 
     useEffect(() => {
-        for(let type of product.variationTypes) {
+        for(let type of product.variationTypes.filter(type => type.options.length > 0)) {
             const selectedOptionId = variationOptions[type.id];
             chooseOption(
                 type.id,

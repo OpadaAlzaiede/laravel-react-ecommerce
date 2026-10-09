@@ -22,6 +22,7 @@ final class CompleteOptionSelection implements ValidationRule
         $optionIdsByType = $this->product->variationTypes()
             ->with('options:id,variation_type_id')
             ->get()
+            ->filter(static fn (VariationType $type): bool => $type->options->isNotEmpty())
             ->mapWithKeys(static fn (VariationType $type): array => [$type->id => $type->options->modelKeys()]);
 
         $selectsEveryType = count($value) === $optionIdsByType->count();

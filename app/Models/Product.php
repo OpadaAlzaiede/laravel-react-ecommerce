@@ -212,12 +212,13 @@ class Product extends Model implements HasMedia
     }
 
     /**
-     * @return array<int, int|null>
+     * @return array<int, int>
      */
     public function getFirstOptionsMap(): array
     {
         return $this->variationTypes
-            ->mapWithKeys(static fn (VariationType $type): array => [$type->id => $type->options[0]?->id])
+            ->filter(static fn (VariationType $type): bool => $type->options->isNotEmpty())
+            ->mapWithKeys(static fn (VariationType $type): array => [$type->id => $type->options->first()->id])
             ->toArray();
     }
 }

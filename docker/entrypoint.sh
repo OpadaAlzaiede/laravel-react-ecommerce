@@ -13,8 +13,8 @@ if [ -n "$MYSQL_SSL_CA_PEM" ]; then
 fi
 
 php artisan optimize
-php artisan demo:prepare
-
 chown -R www-data:www-data storage bootstrap/cache
+
+(php artisan demo:prepare && chown -R www-data:www-data storage) &
 
 exec "$@"

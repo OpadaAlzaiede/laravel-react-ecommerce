@@ -43,6 +43,25 @@ test('a complete option selection is added at its variation price', function () 
         ->and((float) cartCookieItems($response)[0]['price'])->toBe(220.0);
 });
 
+test('logged in users can add, merge, update and remove an item with several options', function () {
+    [$product, $storage, $color, , $large, $black] = createPhoneWithStorageAndColor();
+    $optionIds = [$storage->id => $large->id, $color->id => $black->id];
+    $this->actingAs(App\Models\User::factory()->create());
+
+    $this->post(route('cart.store', $product), ['option_ids' => $optionIds, 'quantity' => 1])->assertSessionHasNoErrors();
+    $this->post(route('cart.store', $product), ['option_ids' => $optionIds, 'quantity' => 2])->assertSessionHasNoErrors();
+
+    $cartItem = App\Models\CartItem::sole();
+    expect($cartItem->quantity)->toBe(3)
+        ->and((float) $cartItem->price)->toBe(220.0);
+
+    $this->put(route('cart.update', $product), ['option_ids' => $optionIds, 'quantity' => 5])->assertSessionHasNoErrors();
+    expect($cartItem->fresh()->quantity)->toBe(5);
+
+    $this->delete(route('cart.destroy', $product), ['option_ids' => $optionIds])->assertSessionHasNoErrors();
+    expect(App\Models\CartItem::count())->toBe(0);
+});
+
 test('a partial option selection is rejected', function () {
     [$product, $storage, , , $large] = createPhoneWithStorageAndColor();
 

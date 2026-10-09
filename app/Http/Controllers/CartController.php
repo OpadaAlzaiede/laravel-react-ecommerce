@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CheckoutException;
 use App\Exceptions\InsufficientStockException;
 use App\Http\Requests\Cart\CheckoutRequest;
 use App\Http\Requests\Cart\DestroyRequest;
@@ -12,14 +13,16 @@ use App\Http\Requests\Cart\UpdateRequest;
 use App\Models\Product;
 use App\Services\CartService;
 use App\Services\CheckoutService;
-use Exception;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 final class CartController extends Controller
 {
+    private const CHECKOUT_FAILED_MESSAGE = 'We could not start the payment. Please try again.';
+
     public function __construct(
         private readonly CartService $cartService,
         private readonly CheckoutService $checkoutService,
@@ -66,10 +69,12 @@ final class CartController extends Controller
     {
         try {
             $checkoutUrl = $this->checkoutService->checkout($request->user(), $request->toDto());
-        } catch (Exception $exception) {
+        } catch (CheckoutException|InsufficientStockException $exception) {
+            return back()->with('error', $exception->getMessage());
+        } catch (Throwable $exception) {
             $this->logger->error($exception->getMessage(), ['exception' => $exception]);
 
-            return back()->with('error', $exception->getMessage() ?: 'Something went wrong.');
+            return back()->with('error', self::CHECKOUT_FAILED_MESSAGE);
         }
 
         return redirect()->away($checkoutUrl);

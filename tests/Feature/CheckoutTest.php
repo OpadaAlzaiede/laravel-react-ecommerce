@@ -142,14 +142,14 @@ test('checking out a vendor that is not in the cart shows an error', function ()
     expect(Order::count())->toBe(0);
 });
 
-test('orders are rolled back when stripe fails', function () {
+test('orders are rolled back when stripe fails and the internal error is not shown', function () {
     $this->gateway->shouldFail = true;
 
     $this->actingAs($this->customer)
         ->from(route('cart.index'))
         ->post(route('cart.checkout'))
         ->assertRedirect(route('cart.index'))
-        ->assertSessionHas('error', 'Stripe is unavailable');
+        ->assertSessionHas('error', 'We could not start the payment. Please try again.');
 
     expect(Order::count())->toBe(0)
         ->and(OrderItem::count())->toBe(0);

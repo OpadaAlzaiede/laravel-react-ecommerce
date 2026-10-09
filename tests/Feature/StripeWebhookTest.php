@@ -146,6 +146,25 @@ test('an updated charge splits fees between stripe, the platform and the vendor 
     Mail::assertSent(CheckoutCompletedMail::class, fn (CheckoutCompletedMail $mail) => $mail->hasTo($customer->email));
 });
 
+test('order emails are sent only the first time a charge is updated', function () {
+    Mail::fake();
+
+    $customer = User::factory()->create();
+    $vendor = createWebhookVendor();
+    $phoneOrder = createWebhookOrder($customer, $vendor, 100, ['payment_intent' => 'pi_test_1']);
+    createWebhookOrder($customer, $vendor, 50, ['payment_intent' => 'pi_test_1']);
+
+    $this->gateway->balanceTransaction = new BalanceTransactionDto(amount: 15000, stripeFee: 465);
+    $this->gateway->event = stripeEvent('charge.updated', ['balance_transaction' => 'txn_test_1', 'payment_intent' => 'pi_test_1']);
+
+    postWebhook()->assertOk();
+    postWebhook()->assertOk();
+
+    Mail::assertSent(NewOrderMail::class, 2);
+    Mail::assertSent(CheckoutCompletedMail::class, 1);
+    expect($phoneOrder->fresh()->vendor_subtotal)->toEqual(87.21);
+});
+
 test('an updated charge without matching orders is acknowledged without sending emails', function () {
     Mail::fake();
 

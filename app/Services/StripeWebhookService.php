@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Contracts\Payments\WebhookGateway;
+use App\DTOs\Payments\BalanceTransactionDto;
 use App\Enums\Orders\StatusEnum;
 use App\Mail\CheckoutCompletedMail;
 use App\Mail\NewOrderMail;
@@ -49,31 +50,59 @@ final class StripeWebhookService
 
     private function handleChargeUpdated(StripeObject $charge): void
     {
-        $orders = Order::query()
-            ->where('payment_intent', $charge['payment_intent'])
-            ->get();
+        $paymentIntent = $charge['payment_intent'];
 
-        if ($orders->isEmpty()) {
-            $this->logger->info('No orders found for Stripe payment intent '.$charge['payment_intent']);
+        if (! Order::query()->where('payment_intent', $paymentIntent)->exists()) {
+            $this->logger->info('No orders found for Stripe payment intent '.$paymentIntent);
 
             return;
         }
 
         $balanceTransaction = $this->webhookGateway->retrieveBalanceTransaction($charge['balance_transaction']);
+
+        $newlyCalculatedOrders = $this->db->transaction(function () use ($paymentIntent, $balanceTransaction): Collection {
+            $orders = Order::query()
+                ->where('payment_intent', $paymentIntent)
+                ->lockForUpdate()
+                ->get();
+
+            $newlyCalculatedOrders = $orders
+                ->filter(static fn (Order $order): bool => $order->vendor_subtotal === null)
+                ->values();
+
+            $orders->each(fn (Order $order) => $this->applyFees($order, $balanceTransaction));
+
+            return $newlyCalculatedOrders;
+        });
+
+        $this->sendOrderEmails($newlyCalculatedOrders);
+    }
+
+    private function applyFees(Order $order, BalanceTransactionDto $balanceTransaction): void
+    {
+        $vendorShare = $order->total_price / $balanceTransaction->amount;
         $platformFeePercent = $this->config->get('app.platform_fee_percent');
 
+        $order->online_payment_commission = $vendorShare * $balanceTransaction->stripeFee;
+        $order->website_commission = ($order->total_price - $order->online_payment_commission) / 100 * $platformFeePercent;
+        $order->vendor_subtotal = $order->total_price - $order->online_payment_commission - $order->website_commission;
+        $order->save();
+    }
+
+    /**
+     * @param  Collection<int, Order>  $orders
+     */
+    private function sendOrderEmails(Collection $orders): void
+    {
+        if ($orders->isEmpty()) {
+            return;
+        }
+
         foreach ($orders as $order) {
-            $vendorShare = $order->total_price / $balanceTransaction->amount;
-
-            $order->online_payment_commission = $vendorShare * $balanceTransaction->stripeFee;
-            $order->website_commission = ($order->total_price - $order->online_payment_commission) / 100 * $platformFeePercent;
-            $order->vendor_subtotal = $order->total_price - $order->online_payment_commission - $order->website_commission;
-            $order->save();
-
             $this->mailer->to($order->vendorUser)->send(new NewOrderMail($order));
         }
 
-        $this->mailer->to($orders[0]->user)->send(new CheckoutCompletedMail($orders));
+        $this->mailer->to($orders->first()->user)->send(new CheckoutCompletedMail($orders));
     }
 
     private function handleCheckoutSessionCompleted(StripeObject $session): void

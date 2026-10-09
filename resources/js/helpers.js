@@ -49,3 +49,9 @@ export const priceAndStockForOptions = (product, selectedOptionIds) => {
         quantity: variation.quantity ?? Number.POSITIVE_INFINITY,
     };
 }
+
+const priceFormatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+export const formatPrice = (amount, currencySymbol = '') => {
+    return `${currencySymbol ?? ''}${priceFormatter.format(Number(amount) || 0)}`;
+}

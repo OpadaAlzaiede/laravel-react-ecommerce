@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {Link, router, useForm} from "@inertiajs/react";
 import TextInput from "@/Components/Core/TextInput";
 import { productRoute } from "@/helpers";
+import { formatPrice } from '@/helpers';
 
 export default function CartItem({item}) {
 
@@ -72,7 +73,7 @@ export default function CartItem({item}) {
                                 Save for later
                             </button>
                             <div className="font-bold text-lg">
-                                {item.currency}{item.quantity * item.price}
+                                {formatPrice(item.quantity * item.price, item.currency)}
                             </div>
                         </div>
                     </div>

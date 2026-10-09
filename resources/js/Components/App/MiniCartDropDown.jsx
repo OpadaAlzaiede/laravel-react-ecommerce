@@ -1,4 +1,4 @@
-import { productRoute } from '@/helpers';
+import { productRoute, formatPrice } from '@/helpers';
 import { Link, usePage } from '@inertiajs/react';
 import React from 'react';
 
@@ -40,14 +40,14 @@ export default function MiniCartDropDown() {
                                         Quantity: {item.quantity}
                                     </div>
                                     <div>
-                                        Price: {item.currency}{item.quantity * item.price}
+                                        Price: {formatPrice(item.quantity * item.price, item.currency)}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-                <span className="text-lg">Subtotal: {currency} {totalPrice}</span>
+                <span className="text-lg">Subtotal: {formatPrice(totalPrice, currency)}</span>
                 <div className="card-actions">
                     <Link href={route('cart.index')} className="btn btn-primary btn-block">View cart</Link>
                 </div>

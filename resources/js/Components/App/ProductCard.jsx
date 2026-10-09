@@ -1,6 +1,7 @@
 // Components/App/ProductCard.jsx
 import { Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
+import { formatPrice } from '@/helpers';
 
 export default function ProductCard({ product, priority = false }) {
     const [isWishlisted, setIsWishlisted] = useState(false);
@@ -81,7 +82,7 @@ export default function ProductCard({ product, priority = false }) {
                 <p className="text-sm text-gray-500 mt-1">by {product.vendor.store_name}</p>
                 <div className="mt-3 flex items-center justify-between">
                     <span className="text-xl font-bold text-gray-900 dark:text-white">
-                        {product.price} {product.currency.symbol}
+                        {formatPrice(product.price, product.currency.symbol)}
                     </span>
                     <button
                         onClick={addToCart}

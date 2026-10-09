@@ -1,6 +1,7 @@
 import { Head, Link } from "@inertiajs/react";
 import  { CheckCircleIcon } from '@heroicons/react/24/solid';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { formatPrice } from '@/helpers';
 
 export default function Success({orders}) {
     return (
@@ -56,7 +57,7 @@ export default function Success({orders}) {
                                 Total
                             </div>
                             <div>
-                                {order.total_price}
+                                {formatPrice(order.total_price)}
                             </div>
                         </div>
                         <div className="flex justify-between mb-3">

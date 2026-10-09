@@ -2,7 +2,7 @@ import { React, useEffect, useMemo, useState } from 'react';
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import Carousel from '@/Components/Core/Carousel';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { priceAndStockForOptions } from '@/helpers';
+import { priceAndStockForOptions, formatPrice } from '@/helpers';
 
 export default function Show({ product, variationOptions }) {
 
@@ -184,7 +184,7 @@ export default function Show({ product, variationOptions }) {
                         <h1 className='text-2xl mb-8'>{product.title}</h1>
                         <div>
                             <div className='text-3xl font-semibold'>
-                                {product.currency.symbol}{computedProduct.price}
+                                {formatPrice(computedProduct.price, product.currency.symbol)}
                             </div>
                         </div>
                         {renderProductVariationTypes()}

@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import { CalendarIcon, HomeIcon, TruckIcon, CurrencyDollarIcon, UserIcon } from "@heroicons/react/24/outline";
 import { useEffect } from "react";
+import { formatPrice } from '@/helpers';
 
 export default function Show({ order }) {
     const { id, total_price, status, created_at, vendorUser, orderItems } = order;
@@ -129,10 +130,10 @@ export default function Show({ order }) {
                                         <div className="flex flex-col items-end justify-between text-right">
                                             <div>
                                                 <p className="text-sm text-gray-900 dark:text-white">
-                                                    {item.quantity} × {item.price}
+                                                    {item.quantity} × {formatPrice(item.price)}
                                                 </p>
                                                 <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                                                    {(item.quantity * item.price).toFixed(2)}
+                                                    {formatPrice(item.quantity * item.price)}
                                                 </p>
                                             </div>
                                         </div>
@@ -147,7 +148,7 @@ export default function Show({ order }) {
                                 Total
                             </span>
                             <span className="text-lg font-bold text-indigo-600 dark:text-indigo-400">
-                                {total_price}
+                                {formatPrice(total_price)}
                             </span>
                         </div>
                     </div>

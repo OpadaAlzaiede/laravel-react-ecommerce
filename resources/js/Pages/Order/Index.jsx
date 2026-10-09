@@ -3,6 +3,7 @@ import { Head, Link, router, usePage } from "@inertiajs/react";
 import { CreditCardIcon, MagnifyingGlassIcon, CalendarIcon } from "@heroicons/react/24/outline";
 import Pagination from "@/Components/Core/Pagination";
 import { useState, useEffect } from "react";
+import { formatPrice } from '@/helpers';
 
 export default function Index({ orders, filters }) {
     const { flash } = usePage().props; // For success/error messages
@@ -184,7 +185,7 @@ export default function Index({ orders, filters }) {
                                                 {order.vendor}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
-                                                {order.total_price} {order.currency}
+                                                {formatPrice(order.total_price, order.currency)}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span

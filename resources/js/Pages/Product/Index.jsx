@@ -39,7 +39,7 @@ export default function Index({ products, filters }) {
                             All Products
                         </h1>
                         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                            Browse {products.total} products from our suppliers.
+                            Browse {products.meta.total} products from our suppliers.
                         </p>
                     </div>
 

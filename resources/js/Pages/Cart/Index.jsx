@@ -3,6 +3,7 @@ import PrimaryButton from "@/Components/Core/PrimaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import {CreditCardIcon} from "@heroicons/react/24/outline";
+import { formatPrice } from '@/helpers';
 
 export default function Index({ csrf_token, cartItems, totalQuantity, totalPrice, currency }) {
 
@@ -49,7 +50,7 @@ export default function Index({ csrf_token, cartItems, totalQuantity, totalPrice
                 <div className="card bg-white dark:bg-gray-800 lg:min-w-[260px] order-1 lg:order-2">
                     <div className="card-body">
                         Subtotal ({totalQuantity} items): &nbsp;
-                        <span className="font-bold">{currency}{totalPrice}</span>
+                        <span className="font-bold">{formatPrice(totalPrice, currency)}</span>
                         <form action={route('cart.checkout')} method="post">
                             <input type="hidden" name="_token" value={csrf_token} />
                             <PrimaryButton className="rounded-full">

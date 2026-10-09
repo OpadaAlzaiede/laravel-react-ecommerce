@@ -8,6 +8,7 @@ use App\DTOs\Common\SearchDto;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 final class VendorDirectoryService
@@ -19,13 +20,20 @@ final class VendorDirectoryService
         return User::query()
             ->with('vendor')
             ->withCount('products')
-            ->whereHas('vendor')
+            ->whereHas('vendor', static fn (Builder $query): Builder => $query->approved())
             ->orderByDesc('products_count')
             ->paginate(self::PER_PAGE);
     }
 
+    /**
+     * @throws ModelNotFoundException<User>
+     */
     public function loadWithProducts(User $vendor, SearchDto $filters): User
     {
+        if (! $vendor->vendor()->approved()->exists()) {
+            throw (new ModelNotFoundException)->setModel(User::class, [$vendor->id]);
+        }
+
         return $vendor->load([
             'vendor',
             'products' => static fn (HasMany $query): HasMany => $query

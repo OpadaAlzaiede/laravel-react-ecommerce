@@ -21,6 +21,11 @@ class Vendor extends Model
         'cover_image',
     ];
 
+    public function scopeApproved(Builder $query): Builder
+    {
+        return $query->where('status', VendorStatusEnum::APPROVED->value);
+    }
+
     public function scopeEligibleForPayout(Builder $query): Builder
     {
         return $query->where('status', VendorStatusEnum::APPROVED)

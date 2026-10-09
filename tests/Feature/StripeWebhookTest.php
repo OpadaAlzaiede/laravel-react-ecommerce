@@ -146,6 +146,17 @@ test('an updated charge splits fees between stripe, the platform and the vendor 
     Mail::assertSent(CheckoutCompletedMail::class, fn (CheckoutCompletedMail $mail) => $mail->hasTo($customer->email));
 });
 
+test('an updated charge without matching orders is acknowledged without sending emails', function () {
+    Mail::fake();
+
+    $this->gateway->balanceTransaction = new BalanceTransactionDto(amount: 15000, stripeFee: 465);
+    $this->gateway->event = stripeEvent('charge.updated', ['balance_transaction' => 'txn_test_1', 'payment_intent' => 'pi_unknown']);
+
+    postWebhook()->assertOk();
+
+    Mail::assertNothingSent();
+});
+
 test('unknown webhook events are acknowledged', function () {
     $this->gateway->event = stripeEvent('customer.created', ['id' => 'cus_test_1']);
 

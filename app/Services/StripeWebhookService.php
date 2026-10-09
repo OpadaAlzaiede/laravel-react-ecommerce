@@ -49,12 +49,18 @@ final class StripeWebhookService
 
     private function handleChargeUpdated(StripeObject $charge): void
     {
-        $balanceTransaction = $this->webhookGateway->retrieveBalanceTransaction($charge['balance_transaction']);
-        $platformFeePercent = $this->config->get('app.platform_fee_percent');
-
         $orders = Order::query()
             ->where('payment_intent', $charge['payment_intent'])
             ->get();
+
+        if ($orders->isEmpty()) {
+            $this->logger->info('No orders found for Stripe payment intent '.$charge['payment_intent']);
+
+            return;
+        }
+
+        $balanceTransaction = $this->webhookGateway->retrieveBalanceTransaction($charge['balance_transaction']);
+        $platformFeePercent = $this->config->get('app.platform_fee_percent');
 
         foreach ($orders as $order) {
             $vendorShare = $order->total_price / $balanceTransaction->amount;

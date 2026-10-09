@@ -9,10 +9,10 @@ use App\Exceptions\InsufficientStockException;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\VariationTypeOption;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 final class CartService
@@ -86,81 +86,75 @@ final class CartService
      */
     public function getCartItems(): array
     {
-        try {
-
-            if (is_null($this->cachedCartItems)) {
-
-                if (Auth::check()) {
-                    $cartItems = $this->getCartItemsFromDatabase();
-                } else {
-                    $cartItems = $this->getCartItemsFromCookies();
-                }
-
-                $productIds = collect($cartItems)->map(fn ($item) => $item['product_id']);
-                $products = Product::with('user.vendor', 'currency', 'variations')
-                    ->whereIn('id', $productIds)
-                    ->forWebsite()
-                    ->get()
-                    ->keyBy('id');
-
-                $cartItemData = [];
-
-                foreach ($cartItems as $cartItem) {
-                    $product = data_get($products, $cartItem['product_id']);
-                    if (! $product) {
-                        continue;
-                    }
-
-                    $optionInfo = [];
-                    $options = VariationTypeOption::with('variationType')
-                        ->whereIn('id', $cartItem['option_ids'])
-                        ->get()
-                        ->keyBy('id');
-
-                    $imageUrl = null;
-
-                    foreach ($cartItem['option_ids'] as $optionId) {
-                        $option = data_get($options, $optionId);
-                        if (! $imageUrl) {
-                            $imageUrl = $option->getFirstMediaUrl('images', 'small');
-                        }
-                        $optionInfo[] = [
-                            'id' => $option->id,
-                            'name' => $option->name,
-                            'type' => [
-                                'id' => $option->variationType->id,
-                                'name' => $option->variationType->name,
-                            ],
-                        ];
-                    }
-
-                    $cartItemData[] = [
-                        'id' => $cartItem['id'],
-                        'product_id' => $product->id,
-                        'title' => $product->title,
-                        'slug' => $product->slug,
-                        'price' => $product->getPriceForOptions($cartItem['option_ids']),
-                        'currency' => $product->currency->symbol,
-                        'quantity' => $cartItem['quantity'],
-                        'option_ids' => $cartItem['option_ids'],
-                        'options' => $optionInfo,
-                        'image' => $imageUrl ?: $product->getFirstImageUrl('images', 'small'),
-                        'user' => [
-                            'id' => $product->created_by,
-                            'name' => $product->user->vendor->store_name,
-                        ],
-                    ];
-                }
-
-                $this->cachedCartItems = $cartItemData;
-            }
-
+        if ($this->cachedCartItems !== null) {
             return $this->cachedCartItems;
-        } catch (\Exception $e) {
-            Log::error($e->getMessage().PHP_EOL.$e->getTraceAsString());
         }
 
-        return [];
+        $cartItems = Auth::check() ? $this->getCartItemsFromDatabase() : $this->getCartItemsFromCookies();
+
+        $products = Product::with('user.vendor', 'currency', 'variations')
+            ->whereIn('id', array_column($cartItems, 'product_id'))
+            ->forWebsite()
+            ->get()
+            ->keyBy('id');
+
+        $options = VariationTypeOption::with('variationType')
+            ->whereIn('id', collect($cartItems)->flatMap(static fn (array $cartItem): array => array_values($cartItem['option_ids'])))
+            ->get()
+            ->keyBy('id');
+
+        $cartItemData = [];
+
+        foreach ($cartItems as $cartItem) {
+            $product = $products->get($cartItem['product_id']);
+            $cartItemOptions = collect($cartItem['option_ids'])->map(static fn (int|string $optionId): ?VariationTypeOption => $options->get((int) $optionId));
+
+            if ($product === null || $cartItemOptions->contains(null)) {
+                continue;
+            }
+
+            $cartItemData[] = [
+                'id' => $cartItem['id'],
+                'product_id' => $product->id,
+                'title' => $product->title,
+                'slug' => $product->slug,
+                'price' => $product->getPriceForOptions($cartItem['option_ids']),
+                'currency' => $product->currency->symbol,
+                'quantity' => $cartItem['quantity'],
+                'option_ids' => $cartItem['option_ids'],
+                'options' => $cartItemOptions->map(static fn (VariationTypeOption $option): array => [
+                    'id' => $option->id,
+                    'name' => $option->name,
+                    'type' => [
+                        'id' => $option->variationType->id,
+                        'name' => $option->variationType->name,
+                    ],
+                ])->values()->all(),
+                'image' => $this->imageFor($product, $cartItemOptions),
+                'user' => [
+                    'id' => $product->created_by,
+                    'name' => $product->user->vendor?->store_name ?? $product->user->name,
+                ],
+            ];
+        }
+
+        return $this->cachedCartItems = $cartItemData;
+    }
+
+    /**
+     * @param  Collection<int, VariationTypeOption>  $options
+     */
+    private function imageFor(Product $product, Collection $options): string
+    {
+        foreach ($options as $option) {
+            $imageUrl = $option->getFirstMediaUrl('images', 'small');
+
+            if ($imageUrl !== '') {
+                return $imageUrl;
+            }
+        }
+
+        return $product->getFirstImageUrl('images', 'small');
     }
 
     public function getTotalQuantity(): int

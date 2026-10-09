@@ -10,7 +10,7 @@ return [
         'account' => [
             'refresh' => 'stripe-connect.refresh',
             'return' => 'stripe-connect.return',
-            'complete' => 'home',
+            'complete' => 'profile.edit',
         ],
     ],
 

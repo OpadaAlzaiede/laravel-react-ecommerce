@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/stripe/success', [StripeController::class, 'success'])->name('stripe.success');
         Route::get('/stripe/failure', [StripeController::class, 'failure'])->name('stripe.failure');
         Route::post('/stripe/connect', [StripeConnectController::class, 'connect'])->name('stripe.connect')
-            ->middleware(['role:'.RoleEnum::USER->value]);
+            ->middleware(['role:'.RoleEnum::VENDOR->value]);
 
         Route::post('become-vendor', [VendorController::class, 'store'])->name('vendor.store');
 

@@ -7,11 +7,16 @@ use Stripe\ApiRequestor;
 use Stripe\StripeClient;
 use Tests\Support\FakeStripeHttpClient;
 
-function createConnectCustomer(array $attributes = []): User
+function createConnectUser(RoleEnum $role, array $attributes = []): User
 {
-    Role::findOrCreate(RoleEnum::USER->value);
+    Role::findOrCreate($role->value);
 
-    return User::factory()->create($attributes)->assignRole(RoleEnum::USER->value);
+    return User::factory()->create($attributes)->assignRole($role->value);
+}
+
+function createConnectVendor(array $attributes = []): User
+{
+    return createConnectUser(RoleEnum::VENDOR, $attributes);
 }
 
 beforeEach(function () {
@@ -30,15 +35,15 @@ afterEach(function () {
 });
 
 test('connecting creates an express account and redirects to stripe onboarding', function () {
-    $customer = createConnectCustomer();
+    $vendor = createConnectVendor();
 
-    $this->actingAs($customer)
+    $this->actingAs($vendor)
         ->post(route('stripe.connect'))
         ->assertRedirect('https://connect.stripe.test/onboarding');
 
     $accountLinkRequest = $this->stripe->requests[1];
 
-    expect($customer->fresh()->stripe_account_id)->toBe('acct_test_1')
+    expect($vendor->fresh()->stripe_account_id)->toBe('acct_test_1')
         ->and($this->stripe->requests[0]['params'])->toBe(['type' => 'express'])
         ->and($accountLinkRequest['endpoint'])->toBe('POST /v1/account_links')
         ->and($accountLinkRequest['params']['return_url'])->toBe(route('stripe-connect.return'))
@@ -46,9 +51,9 @@ test('connecting creates an express account and redirects to stripe onboarding',
 });
 
 test('connecting an active account does not start onboarding again', function () {
-    $customer = createConnectCustomer(['stripe_account_id' => 'acct_test_1', 'stripe_account_active' => true]);
+    $vendor = createConnectVendor(['stripe_account_id' => 'acct_test_1', 'stripe_account_active' => true]);
 
-    $this->actingAs($customer)
+    $this->actingAs($vendor)
         ->from(route('profile.edit'))
         ->post(route('stripe.connect'))
         ->assertRedirect(route('profile.edit'))
@@ -58,20 +63,20 @@ test('connecting an active account does not start onboarding again', function ()
 });
 
 test('returning from onboarding stores whether the account is active', function () {
-    $customer = createConnectCustomer(['stripe_account_id' => 'acct_test_1']);
+    $vendor = createConnectVendor(['stripe_account_id' => 'acct_test_1']);
 
-    $this->actingAs($customer)
+    $this->actingAs($vendor)
         ->get(route('stripe-connect.return'))
-        ->assertRedirect('/');
+        ->assertRedirect(route('profile.edit'));
 
-    expect((bool) $customer->fresh()->stripe_account_active)->toBeTrue()
+    expect((bool) $vendor->fresh()->stripe_account_active)->toBeTrue()
         ->and($this->stripe->endpoints())->toBe(['GET /v1/accounts/acct_test_1']);
 });
 
 test('refreshing onboarding redirects to a new onboarding link', function () {
-    $customer = createConnectCustomer(['stripe_account_id' => 'acct_test_1']);
+    $vendor = createConnectVendor(['stripe_account_id' => 'acct_test_1']);
 
-    $this->actingAs($customer)
+    $this->actingAs($vendor)
         ->get(route('stripe-connect.refresh'))
         ->assertRedirect('https://connect.stripe.test/onboarding');
 });
@@ -79,3 +84,11 @@ test('refreshing onboarding redirects to a new onboarding link', function () {
 test('guests are sent to login from the onboarding return and refresh pages', function (string $routeName) {
     $this->get(route($routeName))->assertRedirect(route('login'));
 })->with(['stripe-connect.return', 'stripe-connect.refresh']);
+
+test('approved vendors can connect to stripe but customers cannot', function () {
+    $this->actingAs(createConnectUser(RoleEnum::USER))
+        ->post(route('stripe.connect'))
+        ->assertForbidden();
+
+    expect($this->stripe->requests)->toBe([]);
+});

@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vendor extends Model
 {
+    public $incrementing = false;
+
     protected $primaryKey = 'user_id';
 
     protected $fillable = [

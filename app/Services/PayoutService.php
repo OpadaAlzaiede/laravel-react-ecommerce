@@ -17,6 +17,8 @@ final class PayoutService
 {
     private const FIRST_PAYOUT_YEAR = 1980;
 
+    private const CENTS_PER_UNIT = 100;
+
     public function __construct(
         private readonly ConnectionInterface $db,
         private readonly Config $config,
@@ -57,9 +59,14 @@ final class PayoutService
                 'until' => $until,
             ]);
 
-            $vendor->user->transfer((int) $vendorSubtotal, $this->config->get('app.currency'));
+            $vendor->user->transfer($this->toCents($vendorSubtotal), $this->config->get('app.currency'));
 
             return $payout;
         });
+    }
+
+    private function toCents(float $amount): int
+    {
+        return (int) round($amount * self::CENTS_PER_UNIT);
     }
 }

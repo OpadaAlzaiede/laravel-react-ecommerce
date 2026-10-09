@@ -80,6 +80,22 @@ test('vendors are paid for paid orders up to the start of last month', function 
         ->and($stripe->requests[0]['params']['currency'])->toBe(config('app.currency'));
 });
 
+test('the transfer amount is sent to stripe in cents', function (array $subtotals, int $expectedCents) {
+    $stripe = fakeStripe(['POST /v1/transfers' => ['id' => 'tr_test_1', 'object' => 'transfer']]);
+    $vendor = createPayableVendor();
+
+    foreach ($subtotals as $subtotal) {
+        createVendorOrder($vendor, StatusEnum::PAID, $subtotal, '2026-08-15 10:00:00');
+    }
+
+    $this->artisan('pay:vendors')->assertSuccessful();
+
+    expect($stripe->requests[0]['params']['amount'])->toBe($expectedCents);
+})->with([
+    'several orders' => [[87.21, 43.60], 13081],
+    'amount that float truncation would round down' => [[19.99], 1999],
+]);
+
 test('a vendor is not paid twice for the same period', function () {
     fakeStripe(['POST /v1/transfers' => ['id' => 'tr_test_1', 'object' => 'transfer']]);
     $vendor = createPayableVendor();

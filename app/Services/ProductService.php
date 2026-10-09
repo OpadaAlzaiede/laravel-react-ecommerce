@@ -6,9 +6,11 @@ namespace App\Services;
 
 use App\DTOs\Products\ProductFilterDto;
 use App\Enums\Products\ProductSortEnum;
+use App\Enums\Products\ProductStatusEnum;
 use App\Models\Product;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class ProductService
 {
@@ -32,8 +34,15 @@ final class ProductService
             ->withQueryString();
     }
 
+    /**
+     * @throws ModelNotFoundException<Product>
+     */
     public function loadForDisplay(Product $product): Product
     {
+        if ($product->status !== ProductStatusEnum::PUBLISHED->value) {
+            throw (new ModelNotFoundException)->setModel(Product::class, [$product->id]);
+        }
+
         return $product->load([
             'department',
             'category',

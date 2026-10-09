@@ -37,7 +37,7 @@ final class HomeService
                 ->limit(self::FEATURED_PRODUCTS_LIMIT)
                 ->get(),
             categories: Category::query()
-                ->withCount('products')
+                ->withCount(['products' => static fn (Builder $query): Builder => $query->forWebsite()])
                 ->orderByDesc('products_count')
                 ->limit(self::CATEGORIES_LIMIT)
                 ->get(),

@@ -19,7 +19,7 @@ final class VendorDirectoryService
     {
         return User::query()
             ->with('vendor')
-            ->withCount('products')
+            ->withCount(['products' => static fn (Builder $query): Builder => $query->forWebsite()])
             ->whereHas('vendor', static fn (Builder $query): Builder => $query->approved())
             ->orderByDesc('products_count')
             ->paginate(self::PER_PAGE);
@@ -37,6 +37,7 @@ final class VendorDirectoryService
         return $vendor->load([
             'vendor',
             'products' => static fn (HasMany $query): HasMany => $query
+                ->forWebsite()
                 ->when($filters->search, static fn (Builder $query, string $search): Builder => $query
                     ->where('title', 'like', "%{$search}%")),
             'products.category',

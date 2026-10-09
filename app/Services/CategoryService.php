@@ -17,7 +17,7 @@ final class CategoryService
     public function paginateByProductCount(): LengthAwarePaginator
     {
         return Category::query()
-            ->withCount('products')
+            ->withCount(['products' => static fn (Builder $query): Builder => $query->forWebsite()])
             ->orderByDesc('products_count')
             ->paginate(self::PER_PAGE);
     }
@@ -26,6 +26,7 @@ final class CategoryService
     {
         return $category->load([
             'products' => static fn (HasMany $query): HasMany => $query
+                ->forWebsite()
                 ->when($filters->search, static fn (Builder $query, string $search): Builder => $query
                     ->where('title', 'like', "%{$search}%")),
             'products.user.vendor',

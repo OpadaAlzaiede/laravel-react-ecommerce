@@ -27,6 +27,7 @@ final class CategoryService
         return $category->load([
             'products' => static fn (HasMany $query): HasMany => $query
                 ->forWebsite()
+                ->withListingData()
                 ->when($filters->search, static fn (Builder $query, string $search): Builder => $query
                     ->where('title', 'like', "%{$search}%")),
             'products.user.vendor',

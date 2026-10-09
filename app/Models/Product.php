@@ -74,6 +74,19 @@ class Product extends Model implements HasMedia
         return $query->published();
     }
 
+    public function scopeWithListingData(Builder $query): Builder
+    {
+        return $query->with([
+            'department',
+            'currency',
+            'user.vendor',
+            'media',
+            'variations',
+            'variationTypes.options',
+            'options.media',
+        ]);
+    }
+
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);

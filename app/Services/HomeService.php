@@ -21,8 +21,6 @@ final class HomeService
 
     private const CATEGORIES_LIMIT = 8;
 
-    private const PRODUCT_RELATIONS = ['department', 'currency', 'user', 'user.vendor'];
-
     public function getHomePage(): HomePageDto
     {
         return new HomePageDto(
@@ -52,7 +50,7 @@ final class HomeService
     private function websiteProducts(): Builder
     {
         return Product::query()
-            ->with(self::PRODUCT_RELATIONS)
+            ->withListingData()
             ->forWebsite();
     }
 }

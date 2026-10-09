@@ -38,6 +38,7 @@ final class VendorDirectoryService
             'vendor',
             'products' => static fn (HasMany $query): HasMany => $query
                 ->forWebsite()
+                ->withListingData()
                 ->when($filters->search, static fn (Builder $query, string $search): Builder => $query
                     ->where('title', 'like', "%{$search}%")),
             'products.category',

@@ -19,7 +19,7 @@ final class ProductService
     public function paginateForWebsite(ProductFilterDto $filters): LengthAwarePaginator
     {
         $query = Product::query()
-            ->with(['department', 'currency', 'user', 'user.vendor'])
+            ->withListingData()
             ->when($filters->search, static fn (Builder $query, string $search): Builder => $query
                 ->where('title', 'like', "%{$search}%"))
             ->when($filters->vendor, static fn (Builder $query, string $vendor): Builder => $query

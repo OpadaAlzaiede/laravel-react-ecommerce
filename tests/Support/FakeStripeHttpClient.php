@@ -11,7 +11,7 @@ use Stripe\Util\CaseInsensitiveArray;
 final class FakeStripeHttpClient implements ClientInterface
 {
     /**
-     * @var array<int, array{endpoint: string, params: mixed}>
+     * @var array<int, array{endpoint: string, params: mixed, headers: array<int, string>}>
      */
     public array $requests = [];
 
@@ -23,7 +23,7 @@ final class FakeStripeHttpClient implements ClientInterface
     public function request($method, $absUrl, $headers, $params, $hasFile, $apiMode = 'v1', $maxNetworkRetries = null)
     {
         $endpoint = strtoupper($method).' '.parse_url($absUrl, PHP_URL_PATH);
-        $this->requests[] = ['endpoint' => $endpoint, 'params' => $params];
+        $this->requests[] = ['endpoint' => $endpoint, 'params' => $params, 'headers' => $headers];
 
         if (! array_key_exists($endpoint, $this->responses)) {
             throw new RuntimeException("Unexpected Stripe request: {$endpoint}");
@@ -38,5 +38,18 @@ final class FakeStripeHttpClient implements ClientInterface
     public function endpoints(): array
     {
         return array_column($this->requests, 'endpoint');
+    }
+
+    public function header(int $requestIndex, string $name): ?string
+    {
+        foreach ($this->requests[$requestIndex]['headers'] as $header) {
+            [$headerName, $value] = array_map('trim', explode(':', $header, 2));
+
+            if (strcasecmp($headerName, $name) === 0) {
+                return $value;
+            }
+        }
+
+        return null;
     }
 }

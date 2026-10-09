@@ -64,13 +64,13 @@ trait Payable
         return $link->url;
     }
 
-    public function transfer(int $amount, string $currency): Transfer
+    public function transfer(int $amount, string $currency, ?string $idempotencyKey = null): Transfer
     {
         return static::$stripe->transfers->create([
             'amount' => $amount,
             'currency' => $currency,
             'destination' => $this->getStripeAccountId(),
-        ]);
+        ], array_filter(['idempotency_key' => $idempotencyKey]));
     }
 
     public function getAccountBalance(): Balance

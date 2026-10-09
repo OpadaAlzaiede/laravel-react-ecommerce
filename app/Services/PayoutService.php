@@ -19,6 +19,8 @@ final class PayoutService
 
     private const CENTS_PER_UNIT = 100;
 
+    private const IDEMPOTENCY_DATE_FORMAT = 'YmdHis';
+
     public function __construct(
         private readonly ConnectionInterface $db,
         private readonly Config $config,
@@ -35,10 +37,14 @@ final class PayoutService
     public function payVendor(Vendor $vendor, CarbonImmutable $now): ?Payout
     {
         return $this->db->transaction(function () use ($vendor, $now): ?Payout {
-            $startingFrom = Payout::query()
+            $lastPayoutUntil = Payout::query()
                 ->where('vendor_id', $vendor->id)
                 ->orderByDesc('until')
-                ->value('until') ?? $now->year(self::FIRST_PAYOUT_YEAR)->startOfYear();
+                ->value('until');
+
+            $startingFrom = $lastPayoutUntil === null
+                ? $now->year(self::FIRST_PAYOUT_YEAR)->startOfYear()
+                : CarbonImmutable::parse($lastPayoutUntil);
 
             $until = $now->subMonthNoOverflow()->startOfMonth();
 
@@ -60,7 +66,11 @@ final class PayoutService
                 'until' => $until,
             ]);
 
-            $transfer = $vendor->user->transfer($this->toCents($vendorSubtotal), $this->config->get('app.currency'));
+            $transfer = $vendor->user->transfer(
+                $this->toCents($vendorSubtotal),
+                $this->config->get('app.currency'),
+                $this->idempotencyKey($vendor, $startingFrom, $until),
+            );
 
             $payout->stripe_transfer_id = $transfer->id;
             $payout->save();
@@ -72,5 +82,15 @@ final class PayoutService
     private function toCents(float $amount): int
     {
         return (int) round($amount * self::CENTS_PER_UNIT);
+    }
+
+    private function idempotencyKey(Vendor $vendor, CarbonImmutable $startingFrom, CarbonImmutable $until): string
+    {
+        return sprintf(
+            'payout-%d-%s-%s',
+            $vendor->id,
+            $startingFrom->format(self::IDEMPOTENCY_DATE_FORMAT),
+            $until->format(self::IDEMPOTENCY_DATE_FORMAT),
+        );
     }
 }

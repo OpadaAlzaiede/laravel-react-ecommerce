@@ -133,6 +133,20 @@ test('an order placed exactly at a period boundary is paid out only once', funct
         ->and($stripe->requests)->toHaveCount(1);
 });
 
+test('retrying a payout for the same period reuses the stripe idempotency key', function () {
+    $stripe = fakeStripe(['POST /v1/transfers' => ['id' => 'tr_test_1', 'object' => 'transfer']]);
+    $vendor = createPayableVendor();
+    createVendorOrder($vendor, StatusEnum::PAID, 87.21, '2026-08-15 10:00:00');
+
+    $this->artisan('pay:vendors')->assertSuccessful();
+    Payout::query()->delete();
+    $this->artisan('pay:vendors')->assertSuccessful();
+
+    expect($stripe->requests)->toHaveCount(2)
+        ->and($stripe->header(0, 'Idempotency-Key'))->toBe("payout-{$vendor->id}-19800101000000-20260901000000")
+        ->and($stripe->header(1, 'Idempotency-Key'))->toBe($stripe->header(0, 'Idempotency-Key'));
+});
+
 test('vendors without an active stripe account are skipped', function () {
     $stripe = fakeStripe([]);
     $vendor = createPayableVendor(stripeActive: false);

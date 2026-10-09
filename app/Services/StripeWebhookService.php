@@ -13,6 +13,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Mail\Mailer;
+use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Psr\Log\LoggerInterface;
 use Stripe\Event;
@@ -29,6 +30,7 @@ final class StripeWebhookService
         private readonly Mailer $mailer,
         private readonly Config $config,
         private readonly LoggerInterface $logger,
+        private readonly ConnectionInterface $db,
     ) {}
 
     public function constructEvent(string $payload, string $signature): Event
@@ -70,20 +72,24 @@ final class StripeWebhookService
 
     private function handleCheckoutSessionCompleted(StripeObject $session): void
     {
-        $orders = Order::query()
-            ->with('orderItem.product')
-            ->where('stripe_session_id', $session['id'])
-            ->get();
+        $this->db->transaction(function () use ($session): void {
+            $orders = Order::query()
+                ->with('orderItem.product')
+                ->where('stripe_session_id', $session['id'])
+                ->where('status', StatusEnum::DRAFT->value)
+                ->lockForUpdate()
+                ->get();
 
-        foreach ($orders as $order) {
-            $order->payment_intent = $session['payment_intent'];
-            $order->status = StatusEnum::PAID->value;
-            $order->save();
+            foreach ($orders as $order) {
+                $order->payment_intent = $session['payment_intent'];
+                $order->status = StatusEnum::PAID->value;
+                $order->save();
 
-            $order->orderItem->each(fn (OrderItem $orderItem) => $this->decreaseStock($orderItem));
-        }
+                $order->orderItem->each(fn (OrderItem $orderItem) => $this->decreaseStock($orderItem));
+            }
 
-        $this->removePurchasedItemsFromCart($orders);
+            $this->removePurchasedItemsFromCart($orders);
+        });
     }
 
     private function decreaseStock(OrderItem $orderItem): void

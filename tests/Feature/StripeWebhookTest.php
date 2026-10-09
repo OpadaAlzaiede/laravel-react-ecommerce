@@ -104,6 +104,23 @@ test('a completed checkout marks orders paid, reduces stock and clears purchased
         ->and(CartItem::pluck('product_id')->all())->toBe([$shirt->id]);
 });
 
+test('a completed checkout delivered twice only reduces stock once', function () {
+    $customer = User::factory()->create();
+    $vendor = createWebhookVendor();
+    $phone = createProduct(['created_by' => $vendor->id, 'quantity' => 10]);
+
+    $order = createWebhookOrder($customer, $vendor, 300, ['stripe_session_id' => 'cs_test_1']);
+    OrderItem::create(['order_id' => $order->id, 'product_id' => $phone->id, 'price' => 100, 'quantity' => 3, 'variation_type_option_ids' => []]);
+
+    $this->gateway->event = stripeEvent('checkout.session.completed', ['id' => 'cs_test_1', 'payment_intent' => 'pi_test_1']);
+
+    postWebhook()->assertOk();
+    postWebhook()->assertOk();
+
+    expect($phone->fresh()->quantity)->toBe(7)
+        ->and($order->fresh()->status)->toBe(StatusEnum::PAID->value);
+});
+
 test('an updated charge splits fees between stripe, the platform and the vendor and sends emails', function () {
     Mail::fake();
 

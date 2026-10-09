@@ -64,6 +64,20 @@ test('customers can filter their orders by date range', function () {
         );
 });
 
+test('orders placed during the end date are included', function () {
+    $customer = User::factory()->create();
+    $lateOnEndDate = createCustomerOrder($customer, StatusEnum::PAID, '2025-01-31 18:45:00');
+    createCustomerOrder($customer, StatusEnum::PAID, '2025-02-01 00:00:00');
+
+    $this->actingAs($customer)
+        ->get(route('orders.index', ['start_date' => '2025-01-01', 'end_date' => '2025-01-31']))
+        ->assertOk()
+        ->assertInertia(fn (Assert $page) => $page
+            ->has('orders.data', 1)
+            ->where('orders.data.0.id', $lateOnEndDate->id)
+        );
+});
+
 test('a date range needs both dates to apply', function () {
     $customer = User::factory()->create();
     createCustomerOrder($customer, StatusEnum::PAID, '2025-01-05 10:00:00');

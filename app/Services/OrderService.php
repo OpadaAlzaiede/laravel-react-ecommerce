@@ -29,8 +29,8 @@ final class OrderService
                 ->where('status', $status->value))
             ->when($filters->hasDateRange(), static fn (Builder $query): Builder => $query
                 ->whereBetween('created_at', [
-                    $filters->startDate->toDateString(),
-                    $filters->endDate->toDateString(),
+                    $filters->startDate->startOfDay(),
+                    $filters->endDate->endOfDay(),
                 ]))
             ->orderByDesc('created_at')
             ->paginate()

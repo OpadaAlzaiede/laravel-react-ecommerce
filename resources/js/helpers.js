@@ -32,3 +32,20 @@ export const productFiltersChanged = (current, serverFilters = {}) => {
         (key) => (current[key] || defaultProductFilters[key]) !== productFilterValue(serverFilters, key)
     );
 }
+
+export const priceAndStockForOptions = (product, selectedOptionIds) => {
+    const wantedOptionIds = [...selectedOptionIds].sort();
+
+    const variation = product.variations.find((candidate) =>
+        arraysAreEqual([...candidate.variation_type_option_ids].sort(), wantedOptionIds)
+    );
+
+    if (!variation) {
+        return { price: product.price, quantity: product.quantity };
+    }
+
+    return {
+        price: variation.price ?? product.price,
+        quantity: variation.quantity ?? Number.POSITIVE_INFINITY,
+    };
+}

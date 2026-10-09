@@ -2,7 +2,7 @@ import { React, useEffect, useMemo, useState } from 'react';
 import { Head, useForm, usePage, router } from '@inertiajs/react';
 import Carousel from '@/Components/Core/Carousel';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { arraysAreEqual } from '@/helpers';
+import { priceAndStockForOptions } from '@/helpers';
 
 export default function Show({ product, variationOptions }) {
 
@@ -27,24 +27,10 @@ export default function Show({ product, variationOptions }) {
     }, [product, selectedOptions]);
 
     const computedProduct = useMemo(() => {
-        const selectedOptionIds = Object.values(selectedOptions).map(op => op.id).sort();
-
-        for(let variation of product.variations) {
-            const optionIds = variation.variation_type_option_ids.sort();
-
-            if(arraysAreEqual(selectedOptionIds, optionIds)) {
-                return {
-                    'price': variation.price,
-                    'quantity': variation.quantity === null ? Number.MAX_VALUE : variation.quantity,
-                };
-            }
-        }
-
-        return {
-            'price': product.price,
-            'quantity': product.quantity,
-        };
+        return priceAndStockForOptions(product, Object.values(selectedOptions).map(op => op.id));
     }, [product, selectedOptions]);
+
+    const isOutOfStock = computedProduct.quantity <= 0;
 
     useEffect(() => {
         for(let type of product.variationTypes) {
@@ -166,14 +152,14 @@ export default function Show({ product, variationOptions }) {
     const renderAddToCartButton = () => {
         return (
             <div className='mb-8 flex gap-4'>
-                <select value={data?.quantity} onChange={onQuantityChange} className='select select-bordered w-full'>
+                <select value={data?.quantity} onChange={onQuantityChange} disabled={isOutOfStock} className='select select-bordered w-full'>
                     {Array.from({
-                        length: Math.min(10, computedProduct.quantity),
+                        length: Math.max(1, Math.min(10, computedProduct.quantity)),
                     }).map((el, i) => (
                         <option key={i + 1} value={i + 1}>Quantity: {i + 1}</option>
                     ))}
                 </select>
-                <button onClick={addToCart} className='btn btn-primary'>Add to cart</button>
+                <button onClick={addToCart} disabled={isOutOfStock} className='btn btn-primary'>Add to cart</button>
             </div>
         )
     };
@@ -202,7 +188,12 @@ export default function Show({ product, variationOptions }) {
                             </div>
                         </div>
                         {renderProductVariationTypes()}
-                        {computedProduct.quantity != undefined && computedProduct.quantity < 10 &&
+                        {isOutOfStock &&
+                            <div className='text-error my-4'>
+                                <span>Out of stock</span>
+                            </div>
+                        }
+                        {!isOutOfStock && computedProduct.quantity < 10 &&
                             <div className='text-error my-4'>
                                 <span>Only {computedProduct.quantity} left in stock</span>
                             </div>

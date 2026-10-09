@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\DTOs\Cart\CartItemDto;
+use App\Exceptions\InsufficientStockException;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\VariationTypeOption;
@@ -30,19 +31,42 @@ final class CartService
         $optionIds = $item->optionIds ?: $product->getFirstOptionsMap();
         $price = (float) $product->getPriceForOptions($optionIds);
 
+        $this->ensureInStock($product, $optionIds, $this->quantityInCart($product->id, $optionIds) + $item->quantity);
+
         if (Auth::check()) {
             $this->saveItemToDatabase($product->id, $item->quantity, $price, $optionIds);
         } else {
             $this->saveItemToCookies($product->id, $item->quantity, $price, $optionIds);
         }
+
+        $this->cachedCartItems = null;
     }
 
     public function updateItemInCart(Product $product, CartItemDto $item): void
     {
+        $this->ensureInStock($product, $item->optionIds, $item->quantity);
+
         if (Auth::check()) {
             $this->updateItemQuantityInDatabase($product->id, $item->quantity, $item->optionIds);
         } else {
             $this->updateItemQuantityInCookies($product->id, $item->quantity, $item->optionIds);
+        }
+
+        $this->cachedCartItems = null;
+    }
+
+    /**
+     * @param  array<int, int>  $optionIds
+     *
+     * @throws InsufficientStockException
+     */
+    public function ensureInStock(Product $product, array $optionIds, int $quantity): void
+    {
+        $product->loadMissing('variations');
+        $available = $product->getStockForOptions($optionIds);
+
+        if ($available !== null && $quantity > $available) {
+            throw InsufficientStockException::forProduct($product, $available);
         }
     }
 
@@ -53,6 +77,8 @@ final class CartService
         } else {
             $this->removeItemFromCookies($product->id, $item->optionIds);
         }
+
+        $this->cachedCartItems = null;
     }
 
     /**
@@ -176,6 +202,24 @@ final class CartService
             ->toArray();
     }
 
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    private function quantityInCart(int $productId, array $optionIds): int
+    {
+        $wantedOptionIds = array_values($optionIds);
+        sort($wantedOptionIds);
+
+        return (int) collect($this->getCartItems())
+            ->filter(static function (array $cartItem) use ($productId, $wantedOptionIds): bool {
+                $cartOptionIds = array_values($cartItem['option_ids']);
+                sort($cartOptionIds);
+
+                return $cartItem['product_id'] === $productId && $cartOptionIds == $wantedOptionIds;
+            })
+            ->sum('quantity');
+    }
+
     public function moveCartItemsToDatabase(int $userId): void
     {
         $cartItems = $this->getCartItemsFromCookies();
@@ -203,6 +247,8 @@ final class CartService
         }
 
         Cookie::queue(self::COOKIE_NAME, '', -1);
+
+        $this->cachedCartItems = null;
     }
 
     /**

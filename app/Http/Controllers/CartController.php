@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\InsufficientStockException;
 use App\Http\Requests\Cart\CheckoutRequest;
 use App\Http\Requests\Cart\DestroyRequest;
 use App\Http\Requests\Cart\StoreRequest;
@@ -34,14 +35,22 @@ final class CartController extends Controller
 
     public function store(StoreRequest $request, Product $product): RedirectResponse
     {
-        $this->cartService->addItemToCart($product, $request->toDto());
+        try {
+            $this->cartService->addItemToCart($product, $request->toDto());
+        } catch (InsufficientStockException $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
 
         return back()->with('success', 'Product added to cart successfully!');
     }
 
     public function update(UpdateRequest $request, Product $product): RedirectResponse
     {
-        $this->cartService->updateItemInCart($product, $request->toDto());
+        try {
+            $this->cartService->updateItemInCart($product, $request->toDto());
+        } catch (InsufficientStockException $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
 
         return back()->with('success', 'Quantity updated successfully!');
     }

@@ -10,6 +10,7 @@ use App\Enums\Orders\StatusEnum;
 use App\Exceptions\CheckoutException;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Routing\UrlGenerator;
@@ -28,6 +29,8 @@ final class CheckoutService
     public function checkout(User $customer, CheckoutDto $checkout): string
     {
         $vendorGroups = $this->vendorGroupsToCheckout($checkout->vendorId);
+
+        $this->ensureItemsInStock($vendorGroups);
 
         return $this->db->transaction(function () use ($customer, $vendorGroups): string {
             $orders = [];
@@ -55,6 +58,24 @@ final class CheckoutService
 
             return $session->url;
         });
+    }
+
+    /**
+     * @param  array<int, array<string, mixed>>  $vendorGroups
+     */
+    private function ensureItemsInStock(array $vendorGroups): void
+    {
+        $cartItems = collect($vendorGroups)->flatMap(static fn (array $vendorGroup): array => $vendorGroup['items']);
+
+        $products = Product::query()
+            ->with('variations')
+            ->whereIn('id', $cartItems->pluck('product_id'))
+            ->get()
+            ->keyBy('id');
+
+        foreach ($cartItems as $cartItem) {
+            $this->cartService->ensureInStock($products[$cartItem['product_id']], $cartItem['option_ids'], $cartItem['quantity']);
+        }
     }
 
     /**

@@ -121,19 +121,35 @@ class Product extends Model implements HasMedia
      */
     public function getPriceForOptions(array $optionIds = []): float
     {
+        return (float) ($this->variationForOptions($optionIds)?->price ?? $this->price);
+    }
+
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    public function getStockForOptions(array $optionIds = []): ?int
+    {
+        if ($optionIds === []) {
+            return $this->quantity;
+        }
+
+        return $this->variationForOptions($optionIds)?->quantity;
+    }
+
+    /**
+     * @param  array<int, int>  $optionIds
+     */
+    public function variationForOptions(array $optionIds): ?ProductVariation
+    {
         $optionIds = array_values($optionIds);
         sort($optionIds);
 
-        foreach ($this->variations as $variation) {
+        return $this->variations->first(static function (ProductVariation $variation) use ($optionIds): bool {
             $variationOptionIds = $variation->variation_type_option_ids;
             sort($variationOptionIds);
 
-            if ($optionIds == $variationOptionIds) {
-                return (float) ($variation->price ?? $this->price);
-            }
-        }
-
-        return (float) $this->price;
+            return $optionIds == $variationOptionIds;
+        });
     }
 
     public function getPriceForFirstOption(): float

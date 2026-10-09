@@ -18,6 +18,8 @@ use Illuminate\Database\ConnectionInterface;
 
 final class CheckoutService
 {
+    private const CENTS_PER_UNIT = 100;
+
     public function __construct(
         private readonly CartService $cartService,
         private readonly CheckoutGateway $checkoutGateway,
@@ -133,12 +135,15 @@ final class CheckoutService
                 'currency' => $this->config->get('app.currency'),
                 'product_data' => [
                     'name' => $cartItem['title'],
-                    'images' => [$cartItem['image']],
                 ],
-                'unit_amount' => $cartItem['price'] * 100,
+                'unit_amount' => (int) round($cartItem['price'] * self::CENTS_PER_UNIT),
             ],
             'quantity' => $cartItem['quantity'],
         ];
+
+        if ($cartItem['image'] !== '') {
+            $lineItem['price_data']['product_data']['images'] = [$this->url->to($cartItem['image'])];
+        }
 
         $description = collect($cartItem['options'])
             ->map(static fn (array $option): string => $option['type']['name'].': '.$option['name'])

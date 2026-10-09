@@ -11,6 +11,8 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Vendor;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 final class FakeCheckoutGateway implements CheckoutGateway
 {
@@ -109,6 +111,26 @@ test('checkout charges the current price, not the price when the item was added'
         ->and($lineItems['Plaid Shirt']['price_data']['unit_amount'])->toEqual(3000)
         ->and((float) Order::where('vendor_user_id', $this->techVendor->id)->value('total_price'))->toBe(300.0)
         ->and((float) OrderItem::where('product_id', $this->shirt->id)->value('price'))->toBe(30.0);
+});
+
+test('line items sent to stripe use whole cents and absolute image urls', function () {
+    Storage::fake('public');
+    config(['filesystems.disks.public.url' => '/storage']);
+    $this->shirt->addMedia(UploadedFile::fake()->image('shirt.jpg'))->toMediaCollection('images');
+    $this->shirt->update(['price' => 19.99]);
+
+    $this->actingAs($this->customer)
+        ->post(route('cart.checkout'))
+        ->assertRedirect('https://checkout.stripe.test/cs_test_123');
+
+    $lineItems = collect($this->gateway->calls[0]['lineItems'])->keyBy('price_data.product_data.name');
+    $shirt = $lineItems['Plaid Shirt']['price_data'];
+    $phone = $lineItems['Galaxy Phone']['price_data'];
+
+    expect($shirt['unit_amount'])->toBe(1999)
+        ->and($shirt['product_data']['images'])->toHaveCount(1)
+        ->and($shirt['product_data']['images'][0])->toStartWith('http')
+        ->and($phone['product_data'])->not->toHaveKey('images');
 });
 
 test('the cart page shows the current price', function () {

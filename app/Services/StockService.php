@@ -37,7 +37,7 @@ final class StockService
             ->decrement('quantity', $quantity);
 
         if ($reserved === 0) {
-            $available = (int) $stockRow->newQuery()->whereKey($stockRow->getKey())->value('quantity');
+            $available = (int) $stockRow->newQuery()->whereKey($stockRow->getKey())->lockForUpdate()->value('quantity');
 
             throw InsufficientStockException::forProduct($product, max(0, $available));
         }

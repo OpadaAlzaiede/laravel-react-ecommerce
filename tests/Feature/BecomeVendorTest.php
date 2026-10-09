@@ -53,23 +53,40 @@ test('a rejected vendor who reapplies goes back to pending', function () {
     expect(Vendor::find($user->id)->status)->toBe(VendorStatusEnum::PENDING->value);
 });
 
-test('a store name must be lowercase with dashes and unique', function () {
+test('a store name with symbols or markup is rejected', function (string $storeName) {
+    $this->actingAs(User::factory()->create())
+        ->post(route('vendor.store'), ['store_name' => $storeName])
+        ->assertSessionHasErrors(['store_name' => 'The store name may only contain letters, numbers, spaces and & \' . -']);
+})->with([
+    'exclamation mark' => ['My Store!'],
+    'html' => ['<b>Store</b>'],
+    'starting with a symbol' => ['-Store'],
+]);
+
+test('a store name must be unique', function () {
     $owner = User::factory()->create();
     Vendor::create([
         'user_id' => $owner->id,
         'status' => VendorStatusEnum::APPROVED->value,
-        'store_name' => 'taken-store',
+        'store_name' => 'Taken Store',
     ]);
 
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->post(route('vendor.store'), ['store_name' => 'My Store!'])
-        ->assertSessionHasErrors(['store_name' => 'The store name must be alphanumeric and dashes only.']);
-
-    $this->actingAs($user)
-        ->post(route('vendor.store'), ['store_name' => 'taken-store'])
+        ->post(route('vendor.store'), ['store_name' => 'Taken Store'])
         ->assertSessionHasErrors('store_name');
 
     expect(Vendor::find($user->id))->toBeNull();
 });
+
+test('readable store names like the demo stores are accepted', function (string $storeName) {
+    $this->actingAs(User::factory()->create())
+        ->post(route('vendor.store'), ['store_name' => $storeName])
+        ->assertSessionHasNoErrors();
+})->with([
+    'with ampersand' => ['Nova Tech & Home'],
+    'with spaces' => ['Maison Market'],
+    'with accents and apostrophe' => ["Café d'Été"],
+    'slug style' => ['my-store-2'],
+]);

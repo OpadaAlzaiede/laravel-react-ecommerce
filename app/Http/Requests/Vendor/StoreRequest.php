@@ -10,6 +10,10 @@ use Illuminate\Validation\Rule;
 
 final class StoreRequest extends FormRequest
 {
+    private const STORE_NAME_PATTERN = "/^[\\pL\\pN][\\pL\\pN &'.-]*$/u";
+
+    private const STORE_NAME_MAX_LENGTH = 100;
+
     public function authorize(): bool
     {
         return true;
@@ -21,7 +25,13 @@ final class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'store_name' => ['required', 'string', 'regex:/^[a-z0-9-]+$/', Rule::unique('vendors', 'store_name')->ignore($this->user()->id, 'user_id')],
+            'store_name' => [
+                'required',
+                'string',
+                'max:'.self::STORE_NAME_MAX_LENGTH,
+                'regex:'.self::STORE_NAME_PATTERN,
+                Rule::unique('vendors', 'store_name')->ignore($this->user()->id, 'user_id'),
+            ],
             'store_address' => ['nullable', 'string'],
         ];
     }
@@ -32,7 +42,7 @@ final class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'store_name.regex' => 'The store name must be alphanumeric and dashes only.',
+            'store_name.regex' => 'The store name may only contain letters, numbers, spaces and & \' . -',
         ];
     }
 

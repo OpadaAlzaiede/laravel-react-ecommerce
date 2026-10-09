@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits;
 
 use App\Enums\Stripe\LinkType;
@@ -18,15 +20,15 @@ trait Payable
 
     protected Account $stripe_connect_account;
 
-    protected static function bootPayable()
+    protected static function bootPayable(): void
     {
         static::$stripe = App::make(StripeConnect::class);
     }
 
     /**
-     * Create a new Stripe Connect account for this model
+     * @param  array<string, mixed>  $details
      */
-    public function createStripeAccount(array $details): self
+    public function createStripeAccount(array $details): static
     {
         $this->stripe_connect_account = static::$stripe->accounts->create($details);
 
@@ -35,44 +37,35 @@ trait Payable
         return $this;
     }
 
-    /**
-     * Get the latest details about this account from Stripe
-     */
     public function retrieveStripeAccount(): Account
     {
         return $this->stripe_connect_account = static::$stripe->accounts->retrieve($this->getStripeAccountId());
     }
 
-    public function getStripeAccountId()
+    public function getStripeAccountId(): ?string
     {
         return $this->{$this->getStripeAccountIdColumn()};
     }
 
-    public function isStripeAccountActive()
+    public function isStripeAccountActive(): bool
     {
-        return $this->{$this->getStripeAccountStatusColumn()};
+        return (bool) $this->{$this->getStripeAccountStatusColumn()};
     }
 
-    /**
-     * Get the redirect URL needed to take this account through Stripe's onboarding flow
-     */
     public function getStripeAccountLink(LinkType $type = LinkType::Onboarding): string
     {
-        $link = static::$stripe->accountLinks->create(
-            [
-                'account' => $this->getStripeAccountId(),
-                'refresh_url' => URL::route(Config::get('stripe_connect.routes.account.refresh')),
-                'return_url' => URL::route(Config::get('stripe_connect.routes.account.return')),
-                'type' => $type->value,
-            ]
-        );
+        $link = static::$stripe->accountLinks->create([
+            'account' => $this->getStripeAccountId(),
+            'refresh_url' => URL::route(Config::get('stripe_connect.routes.account.refresh')),
+            'return_url' => URL::route(Config::get('stripe_connect.routes.account.return')),
+            'type' => $type->value,
+        ]);
 
         return $link->url;
     }
 
-    public function transfer($amount, $currency): Transfer
+    public function transfer(int $amount, string $currency): Transfer
     {
-        // TODO: capture this in the database, which may allow us to do a reversal later
         return static::$stripe->transfers->create([
             'amount' => $amount,
             'currency' => $currency,
@@ -87,26 +80,26 @@ trait Payable
         ]);
     }
 
-    public function setStripeAccountStatus($status)
+    public function setStripeAccountStatus(bool $status): static
     {
         $this->{$this->getStripeAccountStatusColumn()} = $status;
 
         return $this;
     }
 
-    protected function getStripeAccountIdColumn()
+    protected function getStripeAccountIdColumn(): string
     {
         return Config::get('stripe_connect.payable.account_id_column');
     }
 
-    protected function setStripeAccountId($id)
+    protected function setStripeAccountId(string $id): static
     {
         $this->{$this->getStripeAccountIdColumn()} = $id;
 
         return $this;
     }
 
-    protected function getStripeAccountStatusColumn()
+    protected function getStripeAccountStatusColumn(): string
     {
         return Config::get('stripe_connect.payable.account_status_column');
     }

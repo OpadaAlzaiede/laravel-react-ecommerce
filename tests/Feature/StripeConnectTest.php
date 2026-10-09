@@ -4,33 +4,8 @@ use App\Enums\Roles\RoleEnum;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Stripe\ApiRequestor;
-use Stripe\HttpClient\ClientInterface;
 use Stripe\StripeClient;
-use Stripe\Util\CaseInsensitiveArray;
-
-final class FakeStripeHttpClient implements ClientInterface
-{
-    public array $requests = [];
-
-    public function __construct(private array $responses) {}
-
-    public function request($method, $absUrl, $headers, $params, $hasFile, $apiMode = 'v1', $maxNetworkRetries = null)
-    {
-        $endpoint = strtoupper($method).' '.parse_url($absUrl, PHP_URL_PATH);
-        $this->requests[] = ['endpoint' => $endpoint, 'params' => $params];
-
-        if (! array_key_exists($endpoint, $this->responses)) {
-            throw new RuntimeException("Unexpected Stripe request: {$endpoint}");
-        }
-
-        return [json_encode($this->responses[$endpoint]), 200, new CaseInsensitiveArray([])];
-    }
-
-    public function endpoints(): array
-    {
-        return array_column($this->requests, 'endpoint');
-    }
-}
+use Tests\Support\FakeStripeHttpClient;
 
 function createConnectCustomer(array $attributes = []): User
 {

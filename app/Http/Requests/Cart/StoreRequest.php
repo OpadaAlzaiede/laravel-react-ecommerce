@@ -4,15 +4,20 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Cart;
 
+use App\Rules\CompleteOptionSelection;
+
 final class StoreRequest extends CartItemRequest
 {
     /**
-     * @return array<string, array<int, string>>
+     * @return array<string, array<int, mixed>>
      */
     public function rules(): array
     {
+        $rules = parent::rules();
+
         return [
-            ...parent::rules(),
+            ...$rules,
+            'option_ids' => [...$rules['option_ids'], new CompleteOptionSelection($this->route('product'))],
             'quantity' => ['required', 'integer', 'min:1'],
         ];
     }

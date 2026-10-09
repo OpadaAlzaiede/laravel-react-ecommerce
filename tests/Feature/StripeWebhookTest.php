@@ -81,7 +81,7 @@ test('webhooks with an invalid signature are rejected', function () {
         ->assertSee('Invalid payload');
 });
 
-test('a completed checkout marks orders paid, reduces stock and clears purchased cart items', function () {
+test('a completed checkout marks orders paid and clears purchased cart items without touching reserved stock', function () {
     $customer = User::factory()->create();
     $vendor = createWebhookVendor();
     $phone = createProduct(['created_by' => $vendor->id, 'quantity' => 10]);
@@ -100,11 +100,11 @@ test('a completed checkout marks orders paid, reduces stock and clears purchased
     expect($order->fresh())
         ->status->toBe(StatusEnum::PAID->value)
         ->payment_intent->toBe('pi_test_1')
-        ->and($phone->fresh()->quantity)->toBe(7)
+        ->and($phone->fresh()->quantity)->toBe(10)
         ->and(CartItem::pluck('product_id')->all())->toBe([$shirt->id]);
 });
 
-test('a completed checkout delivered twice only reduces stock once', function () {
+test('a completed checkout delivered twice keeps the order paid and stock unchanged', function () {
     $customer = User::factory()->create();
     $vendor = createWebhookVendor();
     $phone = createProduct(['created_by' => $vendor->id, 'quantity' => 10]);
@@ -115,6 +115,39 @@ test('a completed checkout delivered twice only reduces stock once', function ()
     $this->gateway->event = stripeEvent('checkout.session.completed', ['id' => 'cs_test_1', 'payment_intent' => 'pi_test_1']);
 
     postWebhook()->assertOk();
+    postWebhook()->assertOk();
+
+    expect($phone->fresh()->quantity)->toBe(10)
+        ->and($order->fresh()->status)->toBe(StatusEnum::PAID->value);
+});
+
+test('an expired checkout cancels the draft order and gives the reserved stock back', function () {
+    $customer = User::factory()->create();
+    $vendor = createWebhookVendor();
+    $phone = createProduct(['created_by' => $vendor->id, 'quantity' => 7]);
+
+    $order = createWebhookOrder($customer, $vendor, 300, ['stripe_session_id' => 'cs_test_1']);
+    OrderItem::create(['order_id' => $order->id, 'product_id' => $phone->id, 'price' => 100, 'quantity' => 3, 'variation_type_option_ids' => []]);
+
+    $this->gateway->event = stripeEvent('checkout.session.expired', ['id' => 'cs_test_1']);
+
+    postWebhook()->assertOk();
+    postWebhook()->assertOk();
+
+    expect($phone->fresh()->quantity)->toBe(10)
+        ->and($order->fresh()->status)->toBe(StatusEnum::CANCELLED->value);
+});
+
+test('an expired checkout does not touch orders that were already paid', function () {
+    $customer = User::factory()->create();
+    $vendor = createWebhookVendor();
+    $phone = createProduct(['created_by' => $vendor->id, 'quantity' => 7]);
+
+    $order = createWebhookOrder($customer, $vendor, 300, ['stripe_session_id' => 'cs_test_1', 'status' => StatusEnum::PAID->value]);
+    OrderItem::create(['order_id' => $order->id, 'product_id' => $phone->id, 'price' => 100, 'quantity' => 3, 'variation_type_option_ids' => []]);
+
+    $this->gateway->event = stripeEvent('checkout.session.expired', ['id' => 'cs_test_1']);
+
     postWebhook()->assertOk();
 
     expect($phone->fresh()->quantity)->toBe(7)

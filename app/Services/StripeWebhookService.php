@@ -11,7 +11,6 @@ use App\Mail\CheckoutCompletedMail;
 use App\Mail\NewOrderMail;
 use App\Models\CartItem;
 use App\Models\Order;
-use App\Models\OrderItem;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Database\ConnectionInterface;
@@ -26,8 +25,11 @@ final class StripeWebhookService
 
     private const CHECKOUT_SESSION_COMPLETED = 'checkout.session.completed';
 
+    private const CHECKOUT_SESSION_EXPIRED = 'checkout.session.expired';
+
     public function __construct(
         private readonly WebhookGateway $webhookGateway,
+        private readonly StockService $stockService,
         private readonly Mailer $mailer,
         private readonly Config $config,
         private readonly LoggerInterface $logger,
@@ -44,6 +46,7 @@ final class StripeWebhookService
         match ($event->type) {
             self::CHARGE_UPDATED => $this->handleChargeUpdated($event->data->object),
             self::CHECKOUT_SESSION_COMPLETED => $this->handleCheckoutSessionCompleted($event->data->object),
+            self::CHECKOUT_SESSION_EXPIRED => $this->handleCheckoutSessionExpired($event->data->object),
             default => $this->logger->info('Received unknown Stripe event type '.$event->type),
         };
     }
@@ -109,7 +112,7 @@ final class StripeWebhookService
     {
         $this->db->transaction(function () use ($session): void {
             $orders = Order::query()
-                ->with('orderItem.product')
+                ->with('orderItem')
                 ->where('stripe_session_id', $session['id'])
                 ->where('status', StatusEnum::DRAFT->value)
                 ->lockForUpdate()
@@ -119,38 +122,17 @@ final class StripeWebhookService
                 $order->payment_intent = $session['payment_intent'];
                 $order->status = StatusEnum::PAID->value;
                 $order->save();
-
-                $order->orderItem->each(fn (OrderItem $orderItem) => $this->decreaseStock($orderItem));
             }
 
             $this->removePurchasedItemsFromCart($orders);
         });
     }
 
-    private function decreaseStock(OrderItem $orderItem): void
+    private function handleCheckoutSessionExpired(StripeObject $session): void
     {
-        $product = $orderItem->product;
-        $optionIds = $orderItem->variation_type_option_ids;
-
-        if (! $optionIds) {
-            if ($product->quantity !== null) {
-                $product->quantity -= $orderItem->quantity;
-                $product->save();
-            }
-
-            return;
-        }
-
-        sort($optionIds);
-
-        $variation = $product->variations()
-            ->whereJsonContains('variation_type_option_ids', $optionIds)
-            ->first();
-
-        if ($variation !== null && $variation->quantity !== null) {
-            $variation->quantity -= $orderItem->quantity;
-            $variation->save();
-        }
+        $this->stockService->cancelDraftOrders(
+            Order::query()->where('stripe_session_id', $session['id']),
+        );
     }
 
     /**

@@ -57,6 +57,7 @@ class AppServiceProvider extends ServiceProvider
         ]);
 
         Schedule::command('pay:vendors')->monthlyOn(1, '00:00')->withoutOverlapping();
+        Schedule::command('orders:release-stale-reservations')->everyFifteenMinutes()->withoutOverlapping();
 
         Vite::prefetch(concurrency: 3);
     }

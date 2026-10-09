@@ -22,6 +22,7 @@ final class CheckoutService
 
     public function __construct(
         private readonly CartService $cartService,
+        private readonly StockService $stockService,
         private readonly CheckoutGateway $checkoutGateway,
         private readonly ConnectionInterface $db,
         private readonly UrlGenerator $url,
@@ -32,9 +33,9 @@ final class CheckoutService
     {
         $vendorGroups = $this->vendorGroupsToCheckout($checkout->vendorId);
 
-        $this->ensureItemsInStock($vendorGroups);
-
         return $this->db->transaction(function () use ($customer, $vendorGroups): string {
+            $this->reserveStock($vendorGroups);
+
             $orders = [];
             $lineItems = [];
 
@@ -65,7 +66,7 @@ final class CheckoutService
     /**
      * @param  array<int, array<string, mixed>>  $vendorGroups
      */
-    private function ensureItemsInStock(array $vendorGroups): void
+    private function reserveStock(array $vendorGroups): void
     {
         $cartItems = collect($vendorGroups)->flatMap(static fn (array $vendorGroup): array => $vendorGroup['items']);
 
@@ -76,7 +77,7 @@ final class CheckoutService
             ->keyBy('id');
 
         foreach ($cartItems as $cartItem) {
-            $this->cartService->ensureInStock($products[$cartItem['product_id']], $cartItem['option_ids'], $cartItem['quantity']);
+            $this->stockService->reserve($products[$cartItem['product_id']], $cartItem['option_ids'], $cartItem['quantity']);
         }
     }
 

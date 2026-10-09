@@ -59,7 +59,10 @@ final class PayoutService
                 'until' => $until,
             ]);
 
-            $vendor->user->transfer($this->toCents($vendorSubtotal), $this->config->get('app.currency'));
+            $transfer = $vendor->user->transfer($this->toCents($vendorSubtotal), $this->config->get('app.currency'));
+
+            $payout->stripe_transfer_id = $transfer->id;
+            $payout->save();
 
             return $payout;
         });

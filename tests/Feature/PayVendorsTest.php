@@ -96,6 +96,16 @@ test('the transfer amount is sent to stripe in cents', function (array $subtotal
     'amount that float truncation would round down' => [[19.99], 1999],
 ]);
 
+test('the stripe transfer id is stored on the payout', function () {
+    fakeStripe(['POST /v1/transfers' => ['id' => 'tr_test_42', 'object' => 'transfer']]);
+    $vendor = createPayableVendor();
+    createVendorOrder($vendor, StatusEnum::PAID, 87.21, '2026-08-15 10:00:00');
+
+    $this->artisan('pay:vendors')->assertSuccessful();
+
+    expect(Payout::sole()->stripe_transfer_id)->toBe('tr_test_42');
+});
+
 test('a vendor is not paid twice for the same period', function () {
     fakeStripe(['POST /v1/transfers' => ['id' => 'tr_test_1', 'object' => 'transfer']]);
     $vendor = createPayableVendor();

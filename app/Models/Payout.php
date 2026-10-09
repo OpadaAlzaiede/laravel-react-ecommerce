@@ -11,6 +11,7 @@ class Payout extends Model
     protected $fillable = [
         'vendor_id',
         'amount',
+        'stripe_transfer_id',
         'starting_from',
         'until',
     ];

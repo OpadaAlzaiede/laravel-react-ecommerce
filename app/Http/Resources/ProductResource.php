@@ -33,7 +33,7 @@ class ProductResource extends JsonResource
                 ];
             }),
             'user' => UserResource::make($this->whenLoaded('user')),
-            'vendor' => $this->whenLoaded('user.vendor'),
+            'vendor' => $this->whenLoaded('user', fn () => VendorResource::make($this->user->vendor)),
             'currency' => CurrencyResource::make($this->whenLoaded('currency')),
             'department' => DepartmentResource::make($this->whenLoaded('department')),
             'category' => CategoryResource::make($this->whenLoaded('category')),

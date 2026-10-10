@@ -9,8 +9,7 @@
 <p align="center">
   <a href="https://tradely-ub17.onrender.com"><strong>Live demo</strong></a> ·
   <a href="#demo-accounts">Demo accounts</a> ·
-  <a href="#getting-started">Run it locally</a> ·
-  <a href="#architecture">Architecture</a>
+  <a href="#getting-started">Run it locally</a>
 </p>
 
 <p align="center">
@@ -32,7 +31,6 @@
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Tech stack](#tech-stack)
-- [Architecture](#architecture)
 - [Engineering highlights](#engineering-highlights)
 - [Getting started](#getting-started)
 - [Testing](#testing)
@@ -90,46 +88,6 @@
 | Tests | Pest 3 on a MySQL test database, `node:test` for frontend helpers |
 | Code style | Laravel Pint (`composer lint`) |
 | Hosting | Docker on Render |
-
-## Architecture
-
-Every storefront request follows the same layered path, and anything that talks to Stripe sits behind a small gateway interface so it can be faked in tests:
-
-```mermaid
-flowchart LR
-    Browser["Browser<br/>React + Inertia"] --> Routes["Routes + middleware<br/>auth · role · policy"]
-    Routes --> Requests["FormRequest<br/>validates → DTO"]
-    Requests --> Controllers["Thin controller"]
-    Controllers --> Services["Services<br/>Cart · Checkout · Stock · Order · Payout"]
-    Services --> Models["Eloquent models"] --> DB[("MySQL")]
-    Services --> Gateways["CheckoutGateway<br/>WebhookGateway"] --> Stripe(("Stripe"))
-    Stripe -. webhooks .-> Webhook["/stripe/webhook"] --> Services
-    Panels["Filament panels<br/>admin · vendor"] --> Models
-    Controllers -. "Inertia page + props" .-> Browser
-```
-
-Checkout is split into a synchronous half (reserve stock, create draft orders, open a Stripe session, all in one transaction) and an asynchronous half driven by Stripe webhooks:
-
-```mermaid
-sequenceDiagram
-    actor Customer
-    participant App as Tradely
-    participant DB as MySQL
-    participant Stripe
-    Customer->>App: POST /cart/checkout
-    App->>DB: reserve stock (UPDATE … WHERE quantity >= n)
-    App->>DB: draft order per vendor
-    App->>Stripe: create Checkout Session (expires in 30 min)
-    App-->>Customer: redirect to Stripe
-    Customer->>Stripe: pays
-    Stripe-)App: checkout.session.completed
-    App->>DB: orders draft → paid, clear cart
-    Stripe-)App: charge.updated
-    App->>DB: fee split: Stripe fee, platform fee, vendor share
-    App-)Customer: confirmation emails
-    Stripe-)App: checkout.session.expired (if abandoned)
-    App->>DB: cancel drafts, give stock back
-```
 
 ## Engineering highlights
 

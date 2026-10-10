@@ -31,7 +31,6 @@
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Tech stack](#tech-stack)
-- [Engineering highlights](#engineering-highlights)
 - [Getting started](#getting-started)
 - [Testing](#testing)
 - [Deployment](#deployment)
@@ -88,15 +87,6 @@
 | Tests | Pest 3 on a MySQL test database, `node:test` for frontend helpers |
 | Code style | Laravel Pint (`composer lint`) |
 | Hosting | Docker on Render |
-
-## Engineering highlights
-
-- **No overselling under concurrency.** Stock is taken with a single conditional `UPDATE … SET quantity = quantity - n WHERE quantity >= n` inside the checkout transaction, so two customers can never both buy the last units. A `CHECK (quantity >= 0)` constraint backs it up in MySQL, and a dedicated concurrency test suite reproduces the race with two real database connections.
-- **Idempotent webhooks.** Each Stripe event only acts on orders still in the right state, under row locks, so duplicate deliveries do nothing: stock is never reduced twice and emails are sent once.
-- **Correct money handling.** Payout transfers are sent in cents with rounding, each payout period is half-open so an order is never paid twice, and every transfer carries an idempotency key and is recorded with its Stripe transfer id.
-- **Thin controllers.** All business logic lives in services; controllers receive validated DTOs from FormRequests. Stripe is accessed through `CheckoutGateway` / `WebhookGateway` interfaces with fakes in tests.
-- **Security.** Order ownership via policies, vendor-scoped back office queries, product descriptions sanitized before they are rendered as HTML, no global mass-assignment unguarding, webhook signature verification.
-- **Performance.** Product listings eager-load everything a product card needs, so the home page uses the same number of queries for 2 or 2,000 products.
 
 ## Getting started
 
